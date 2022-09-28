@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathquiz/model/quiz_data.dart';
-import 'package:mathquiz/widgets/option_button.dart';
+import 'package:mathquiz/widgets/custom_button.dart';
 
 class Options extends StatelessWidget {
   final Function optionSelected;
@@ -23,7 +23,7 @@ class Options extends StatelessWidget {
               mainAxisExtent: 70),
           itemBuilder: (_, index) {
             List<String> list = ['A', 'B', 'C', 'D'];
-            return OptionButton(
+            return CustomButton(
                 optionType: list[index],
                 optionSelected: optionSelected,
                 option: quizData.options[index]);
