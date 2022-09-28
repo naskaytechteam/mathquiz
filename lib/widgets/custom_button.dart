@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class OptionButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final String optionType;
   final int option;
   final Function optionSelected;
 
-  const OptionButton(
+  const CustomButton(
       {required this.optionType,
       required this.optionSelected,
       required this.option,
