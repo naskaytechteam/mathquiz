@@ -31,7 +31,7 @@ class DbHelper {
 
   Future<List<QuizData>> readData()async{
     Database db=await database;
-    List<Map<String,Object?>>map=await db.query('quiztemp');
+    List<Map<String,Object?>>map=await db.query('questemp');
     List<QuizData>qData= QuizDataParser.quizDataList(map);
     return qData;
   }
