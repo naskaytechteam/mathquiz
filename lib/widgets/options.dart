@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import '/model/quiz_data.dart';
+import '../model/ques_tenp.dart';
 import '/widgets/custom_button.dart';
 
 class Options extends StatelessWidget {
   final Function optionSelected;
-  final QuizData quizData;
-  const Options({required this.optionSelected,required this.quizData,Key? key}) : super(key: key);
+  final QuesTemp quizData;
+
+  const Options(
+      {required this.optionSelected, required this.quizData, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

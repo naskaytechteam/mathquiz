@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import '/model/quiz_data.dart';
+import '/model/ques_tenp.dart';
 import '/parsers/quiz_data_parser.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,10 +29,10 @@ class DbHelper {
     return await openDatabase(path,version: 1);
   }
 
-  Future<List<QuizData>> readData()async{
+  Future<List<QuesTemp>> readData()async{
     Database db=await database;
     List<Map<String,Object?>>map=await db.query('questemp');
-    List<QuizData>qData= QuizDataParser.quizDataList(map);
+    List<QuesTemp>qData= QuizDataParser.quizDataList(map);
     return qData;
   }
 }

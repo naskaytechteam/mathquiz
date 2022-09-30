@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mathquiz/widgets/options.dart';
-import '/model/quiz_data.dart';
+import '../model/ques_tenp.dart';
+import '/widgets/options.dart';
 import '/provider/quiz_provider.dart';
 import 'package:provider/provider.dart';
 import '/widgets/quiz_screen_app_bar.dart';
@@ -21,8 +21,8 @@ class _QuizScreenState extends State<QuizScreen> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    List<QuizData> quesList = Provider.of<QuizProvider>(context).quizData;
-    QuizData? quiz;
+    List<QuesTemp> quesList = Provider.of<QuizProvider>(context).quizData;
+    QuesTemp? quiz;
 
     if (quesList.isNotEmpty) {
       quiz = quesList[_index];
@@ -104,9 +104,9 @@ Ques 4. Kirti bookstore sold books worth Rs 10000 in the first week of June
             much was the sale for two weeks together? In which week was
             the sale greater and by how much ?                                   FORMULA :-> VI+V2....... (we should avoid questions like these)
 
-Ques 5. In an election, the successful candidate registered 593839 votes
-            and his nearest rival secured 248374 votes . By what margin did
-            the successful candidate win the election ?                          FORMULA :-> V1-V2 (V1 should be greater than V2) (It is a named/real life problem so will need to differentiate between those)
+Ques 5. In an election, the successful candidate registered 593839 votes and his
+           nearest rival secured 248374 votes . By what margin
+           did the successful candidate win the election ?                          FORMULA :-> V1-V2 (V1 should be greater than V2) (It is a named/real life problem so will need to differentiate between those)
 
 Ques 6. A book exhibition was held for four days in a school. The number
           of ticket sold at te counter on the first, second, third and final

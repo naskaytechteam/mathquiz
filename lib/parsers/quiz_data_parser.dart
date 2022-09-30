@@ -1,12 +1,12 @@
-import '../model/quiz_data.dart';
+import '../model/ques_tenp.dart';
 
 class QuizDataParser {
-  static QuizData _data(Map<String, Object?> map) {
-    return QuizData(map['ques'] as String, map['formula'] as String,
-        map['totalValues'] as int, map['quesType'] as String);
+  static QuesTemp _data(Map<String, Object?> map) {
+    return QuesTemp(map['ques'] as String, map['formula'] as String,
+        map['valuePlaceholder'] as int, map['quesType'] as int);
   }
 
-  static List<QuizData> quizDataList(List<Map<String, Object?>> l) {
+  static List<QuesTemp> quizDataList(List<Map<String, Object?>> l) {
     return l.map((e) => _data(e)).toList();
   }
 }
