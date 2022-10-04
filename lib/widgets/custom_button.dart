@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String optionType;
-  final int option;
+  final num option;
   final Function optionSelected;
 
   const CustomButton(
