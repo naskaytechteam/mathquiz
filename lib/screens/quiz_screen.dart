@@ -21,51 +21,47 @@ class _QuizScreenState extends State<QuizScreen> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    List<QuesTemp> quesList = Provider.of<QuizProvider>(context).quizData;
-    QuesTemp? quiz;
-
-    if (quesList.isNotEmpty) {
-      quiz = quesList[_index];
-    }
+    QuesTemp? quesTemp =
+        Provider.of<QuizProvider>(context).getQuestionTemp(_index);
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: quesList.isNotEmpty
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _gap(
-                    height * 0.06,
-                  ),
-                  const QuizScreenAppBar(),
-                  _gap(
-                    height * 0.06,
-                  ),
-                  Text('Question ${_index + 1}'),
-                  _gap(height * 0.02),
-                  _question(height, width, quiz!.ques.toString()),
-                  _gap(height * 0.03),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Card(
-                        color: Colors.transparent,
-                        elevation: 0,
-                        child: Image.asset('assets/background1.png',
-                            width: width, fit: BoxFit.fitHeight)),
-                  ),
-                  _gap(height * 0.02),
-                  Options(optionSelected: _optionSelected, quizData: quiz)
-                ],
-              )
-            : const CircularProgressIndicator(),
-      ),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: quesTemp != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _gap(
+                      height * 0.06,
+                    ),
+                    const QuizScreenAppBar(),
+                    _gap(
+                      height * 0.06,
+                    ),
+                    Text('Question ${_index + 1}'),
+                    _gap(height * 0.02),
+                    _question(height, width, quesTemp.ques),
+                    _gap(height * 0.03),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Card(
+                          color: Colors.transparent,
+                          elevation: 0,
+                          child: Image.asset('assets/background1.png',
+                              width: width, fit: BoxFit.fitHeight)),
+                    ),
+                    _gap(height * 0.02),
+                    Options(optionSelected: _optionSelected, quizData: quesTemp)
+                  ],
+                )
+              : const Center(child: CircularProgressIndicator())),
     );
   }
 
   void _optionSelected(int optionText) {
     QuizProvider quizProvider =
         Provider.of<QuizProvider>(context, listen: false);
+
     if (_index < quizProvider.quizData.length - 1) {
       setState(() {
         _index++;
@@ -88,6 +84,7 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 }
+
 /*
 
 Ques 1. Find the difference between the greatest and the least 5-digit
@@ -130,7 +127,7 @@ Ques 10.  Three boys step off together from the same spot. Their steps
 
 Ques 11.  The length , breath and height of a room are 825 cm ,675cm and 450 cm
             respectively. Find the longest tape which can measure the three        FORMULA :-> (HCF question)
-            dimensions of the room exactly
+            dimensions of the roo m exactly
 
 Ques 12.   Determine the smallest 3 digit number which is exactly divisible       FORMULA :->
               by 6,8,12
@@ -175,6 +172,7 @@ Ques 21.    A room is 4 m long and 3 m 50 cm wide. How many square meters
 Ques 22.   In a year, Seema earn Rs 150000 and saves Rs 50000 Find the
             ratio of money that Seema earns to the money she saves :-> 12.1       (ration question )--
 
-Ques 23.  The weight of 72 books is 9kg . What is the weight of 40 such books     FORMULA :->
+Ques 23.  The weight of 72 books is 9kg. What is the weight of 40 such books     FORMULA :->
 
  */
+
