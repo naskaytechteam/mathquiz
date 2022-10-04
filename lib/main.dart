@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathquiz/provider/time_provider.dart';
 import '/screens/ques_screen.dart';
 import '/provider/quiz_provider.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<QuizProvider>.value(value: QuizProvider())
+      ChangeNotifierProvider<QuizProvider>.value(value: QuizProvider()),
+      ChangeNotifierProvider<TimeProvider>.value(value: TimeProvider())
     ],
     child: const MyApp(),
   ));

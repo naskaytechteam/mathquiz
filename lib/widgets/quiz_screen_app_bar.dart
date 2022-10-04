@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '/provider/time_provider.dart';
+import 'package:provider/provider.dart';
 
 class QuizScreenAppBar extends StatelessWidget {
   const QuizScreenAppBar({Key? key}) : super(key: key);
@@ -34,11 +36,15 @@ class QuizScreenAppBar extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 border: Border.all(color: Colors.grey.shade200, width: 4)),
-            child: const Text(
-              '4:09',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            child: Consumer<TimeProvider>(
+              builder: (BuildContext context, value, Widget? child) {
+                return Text(
+                  value.duration.getTime(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                );
+              },
             ),
-          )
+          ),
         ],
       ),
     );
