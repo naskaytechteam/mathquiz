@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '/screens/ques_screen.dart';
 import '/provider/quiz_provider.dart';
-import '/screens/quiz_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const Scaffold(
-        body: QuizScreen(),
+        body: QuesScreen(),
       ),
     );
   }
