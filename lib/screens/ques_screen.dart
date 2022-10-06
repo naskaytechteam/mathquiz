@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '/provider/quiz_provider.dart';
 import '/screens/quiz_screen.dart';
 import '/widgets/ques_screen_app_bar.dart';
-import '/widgets/ques_type.dart';
+import '/widgets/ques_types.dart';
 
 class QuesScreen extends StatefulWidget {
   const QuesScreen({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class QuesScreen extends StatefulWidget {
 }
 
 class _QuesScreenState extends State<QuesScreen> {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,7 +37,7 @@ class _QuesScreenState extends State<QuesScreen> {
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                 )),
             _gap(height * 0.05),
-            QuesType(quesTypeSelected: quesTypeSelected),
+            QuesTypes(onQuesTypeSelected: quesTypeSelected),
           ],
         ),
       ),

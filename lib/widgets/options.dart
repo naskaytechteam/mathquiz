@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../model/ques_tenp.dart';
+import '../model/question_template.dart';
 import '/widgets/custom_button.dart';
 
 class Options extends StatelessWidget {
   final Function optionSelected;
-  final QuesTemp quizData;
+  final QuestionTemplate quizData;
 
   const Options(
       {required this.optionSelected, required this.quizData, Key? key})
@@ -27,6 +27,7 @@ class Options extends StatelessWidget {
           itemBuilder: (_, index) {
             List<String> list = ['1', '2', '3', '4'];
             return CustomButton(
+              quesTemp: quizData,
                 optionType: list[index],
                 optionSelected: optionSelected,
                 option: quizData.options[index]);

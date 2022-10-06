@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mathquiz/provider/time_provider.dart';
-import '../model/ques_tenp.dart';
+import '../model/question_template.dart';
 import '/widgets/options.dart';
 import '/provider/quiz_provider.dart';
 import 'package:provider/provider.dart';
