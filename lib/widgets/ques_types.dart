@@ -1,10 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mathquiz/provider/quiz_provider.dart';
 
-class QuesType extends StatelessWidget {
-  final Function quesTypeSelected;
+class QuesTypes extends StatelessWidget {
+  final Function onQuesTypeSelected;
 
-  const QuesType({required this.quesTypeSelected, Key? key}) : super(key: key);
+  const QuesTypes({required this.onQuesTypeSelected, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +30,18 @@ class QuesType extends StatelessWidget {
             crossAxisCount: 2, crossAxisSpacing: 15, mainAxisSpacing: 15),
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
-          return quesType(
+          //build_____Item
+          return _buildQuestiontypeItem(
               height, width, index, colorList[index], QUESTYPE.values[index]);
         },
       ),
     );
   }
 
-  Widget quesType(
+  Widget _buildQuestiontypeItem(
       double height, double width, int index, Color color, QUESTYPE questype) {
     return InkWell(
-      onTap: () => quesTypeSelected(questype),
+      onTap: () => onQuesTypeSelected(questype),
       child: SizedBox(
         height: height * 0.2,
         width: width * 0.2,
@@ -78,9 +80,9 @@ class QuesType extends StatelessWidget {
 
   Widget quesTypeName(int index, double height, double width) {
     return SizedBox(
-      height: height * 0.05,
+      height: height * 0.045,
       width: width,
-      child: Text(
+      child: AutoSizeText(
         QUESTYPE.values[index].name,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
