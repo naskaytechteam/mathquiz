@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:mathquiz/provider/time_provider.dart';
 import '../model/ques_tenp.dart';
 import '/widgets/options.dart';
 import '/provider/quiz_provider.dart';
@@ -17,55 +18,111 @@ class _QuizScreenState extends State<QuizScreen> {
   int _index = 0;
 
   @override
+  void initState() {
+    Provider.of<TimeProvider>(context, listen: false).startTime();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    QuesTemp? quesTemp =
-        Provider.of<QuizProvider>(context).getQuestionTemp(_index);
+    QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
+
+    QuestionTemplate? quesTemp = provider.getQuestionTemplateForIndex(_index);
 
     return Scaffold(
-      body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-          child: quesTemp != null
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _gap(
-                      height * 0.06,
-                    ),
-                    const QuizScreenAppBar(),
-                    _gap(
-                      height * 0.06,
-                    ),
-                    Text('Question ${_index + 1}'),
-                    _gap(height * 0.02),
-                    _question(height, width, quesTemp.ques),
-                    _gap(height * 0.03),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Card(
-                          color: Colors.transparent,
-                          elevation: 0,
-                          child: Image.asset('assets/background1.png',
-                              width: width, fit: BoxFit.fitHeight)),
-                    ),
-                    _gap(height * 0.02),
-                    Options(optionSelected: _optionSelected, quizData: quesTemp)
-                  ],
-                )
-              : const Center(child: CircularProgressIndicator())),
+      body: Selector<TimeProvider, bool>(
+        selector: (_, value) {
+          return value.isTimeFinished;
+        },
+        builder: (BuildContext context, value, Widget? child) {
+          if (value) {
+            return SizedBox(
+              child: Center(
+                child: Text(
+                    'Your score is ${provider.score} out of ${provider.quesTemplateList.length}',
+                    style: const TextStyle(fontSize: 40)),
+              ),
+            );
+          }
+          return Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+              child: quesTemp != null
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _gap(
+                          height * 0.06,
+                        ),
+                        const QuizScreenAppBar(),
+                        _gap(
+                          height * 0.06,
+                        ),
+                        Text('Question ${_index + 1}'),
+                        _gap(height * 0.02),
+                        _question(height, width, quesTemp.ques),
+                        _gap(height * 0.03),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Card(
+                              color: Colors.transparent,
+                              elevation: 0,
+                              child: Image.asset('assets/background1.png',
+                                  width: width, fit: BoxFit.fitHeight)),
+                        ),
+                        _gap(height * 0.02),
+                        Options(
+                            optionSelected: _optionSelected, quizData: quesTemp)
+                      ],
+                    )
+                  : const Center(
+                      child: Text(
+                      'No Questions found ',
+                      style: TextStyle(fontSize: 30),
+                    )));
+        },
+      ),
     );
   }
 
-  void _optionSelected(int optionText) {
+  void _optionSelected(int selectedOption, int answer) {
     QuizProvider quizProvider =
         Provider.of<QuizProvider>(context, listen: false);
+    _checkAnswer(selectedOption, answer, quizProvider);
+    _increaseIndex(quizProvider);
+  }
 
-    if (_index < quizProvider.quizData.length - 1) {
+  void _increaseIndex(QuizProvider quizProvider) {
+    if (_index < quizProvider.quesTemplateList.length - 1) {
       setState(() {
         _index++;
       });
+      return;
+    }
+    _showDialogBox(quizProvider);
+  }
+  void _showDialogBox(QuizProvider quizProvider){
+    showDialog(
+        context: context,
+        builder: (_) {
+          return Dialog(
+              child: Container(
+                  height: 200,
+                  width: 200,
+                  color: Colors.red,
+                  child: Text(
+                    'Your score is ${quizProvider.score} out of ${quizProvider.quesTemplateList.length}',
+                    style: const TextStyle(fontSize: 40),
+                  )));
+        });
+  }
+
+  void _checkAnswer(int selectedOption, int answer, QuizProvider quizProvider) {
+    if (selectedOption == answer) {
+      quizProvider.increaseScore();
+      return;
     }
   }
 
@@ -93,9 +150,6 @@ Ques 1. Find the difference between the greatest and the least 5-digit
 Ques 2. To stitch a shirt 2m 15cm cloth is needed. Out of 40m cloth, how
           many shirts can be stitched and how much cloth will remain ?            FORMULA :-> V3/V1.V2
 
-Ques 3. Find the difference between the greatest and the least 5-digit
-        number that can be written using the digits 6,2,7,4,3 each only once.     FORMULA :-> (ascending and descending order)
-
 Ques 4. Kirti bookstore sold books worth Rs 10000 in the first week of June
             and books worth Rs 20000 in the second week of the month. How
             much was the sale for two weeks together? In which week was
@@ -113,8 +167,8 @@ Ques 6. A book exhibition was held for four days in a school. The number
 Ques 7.   A number is divisible by both 5 and 12 . By which other number
             will that number be always divisible ? :-> 3.4                        FORMULA :-> --------------
 
-Ques 8.   A number is divisible  by 12 . By what other numbers will
-          that number be divisible ?                                              FORMULA :->  we have to take List<int> for this
+stQues 8.   A number is divisible  by 12 . By what other numbers will
+              that number be divisible ?                                              FORMULA :->  we have to take List<int> for this
 
 Ques 9.   Renu purchases two bags of fertiliser of weights 75kg and 69 kg .
               find the maximum value of weight which can measure the weight
@@ -175,4 +229,3 @@ Ques 22.   In a year, Seema earn Rs 150000 and saves Rs 50000 Find the
 Ques 23.  The weight of 72 books is 9kg. What is the weight of 40 such books     FORMULA :->
 
  */
-
