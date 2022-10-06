@@ -39,7 +39,7 @@ class QuizScreenAppBar extends StatelessWidget {
             child: Consumer<TimeProvider>(
               builder: (BuildContext context, value, Widget? child) {
                 return Text(
-                  value.duration.getTime(),
+                  value.duration.changeTimeintoString(),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 );
               },
