@@ -2,97 +2,136 @@ import 'package:flutter/foundation.dart';
 import 'package:function_tree/function_tree.dart';
 import '/model/util.dart';
 import '/database/db_helper.dart';
-import '/model/ques_tenp.dart';
+import '/model/question_template.dart';
 import 'dart:math';
 
-enum QUESTYPE { lcm, hcf, simple, friction,ratio , add }
+enum QUESTYPE { lcm, hcf, simple, fraction, ratio,ascendingdescendingdifference  ,}
 
-class QuizProvider extends ChangeNotifier {
-  List<QuesTemp> _quizData = [];
+class QuizProvider with ChangeNotifier {
+  List<QuestionTemplate> _quesTemplateList = [];
   final Random _random = Random();
-  late int _index;
+  int? _index;
+  int _score = 0;
 
-  List<QuesTemp> get quizData => [..._quizData];
+  int get score => _score;
+
+  List<QuestionTemplate> get quesTemplateList => [..._quesTemplateList];
 
   Future<void> getQuesType(QUESTYPE questype) async {
     DbHelper dbHelper = DbHelper();
-    _quizData = await dbHelper.readData(questype);
+    _quesTemplateList = await dbHelper.readData(questype);
   }
 
-  QuesTemp? getQuestionTemp(int index) {
-    QuesTemp? quesTemp;
+  QuestionTemplate? getQuestionTemplateForIndex(int index) {
     _index = index;
-    if (index < _quizData.length) {
-      _findQuestionType(quizData[_index]);
-      quesTemp = quizData[_index];
+    if (quesTemplateList.isEmpty) {
+      return null;
     }
-    return quesTemp;
+    _checkQuestionType(quesTemplateList[_index!]);
+
+    return quesTemplateList[_index!];
   }
 
-  void _findQuestionType(QuesTemp quesTemp) {
+  void increaseScore() {
+    _score++;
+  }
+
+  void _checkQuestionType(QuestionTemplate quesTemp) {
     switch (quesTemp.quesType) {
       case 0:
         _lcmQues(quesTemp);
-        return;
+        break;
       case 1:
         _hcfQuestion(quesTemp);
-        return;
-      case 2:
-        simpleQuestion(quesTemp);
-        return;
+        break;
+      case 2: //this is good than that
+        _simpleQuestion(_index!);
+        break;
       case 3:
-        return;
+        fraction(quesTemp);
+        break;
       case 4:
-        fric(quesTemp);
-        return;
+        _ratioQuestion(quesTemp);
+        break;
       case 5:
-        return;
+        _ascendingdescendingQues(quesTemp);
+
+        break;
     }
   }
+  void _ascendingdescendingQues(QuestionTemplate quesTemp){
+    _changeValuePlaceholder(quesTemp);
+    _makeascendingdescendingOQuesFormula(quesTemp);
+    _makeAnswer(quesTemp);
 
-  void fric(QuesTemp quesTemp) {
+  }
+  void _makeascendingdescendingOQuesFormula(QuestionTemplate quesTemp){
+    int asc=_ascendingOrder(quesTemp);
+    int des=_descendingOrder(quesTemp);
+    quesTemp.formula=quesTemp.formula.replaceAll('ascending', asc.toString());
+    quesTemp.formula=quesTemp.formula.replaceAll('descending', des.toString());
+  }
+  int _ascendingOrder(QuestionTemplate quesTemp){
+    StringBuffer stringBuffer=StringBuffer();
+    for(int a=0;a<quesTemp.valuePlaceholders;a++){
+      for(int b=a+1;b<quesTemp.valuePlaceholders;b++){
+        if(quesTemp.randomValues[a]>quesTemp.randomValues[b]){
+          int firstValue=quesTemp.randomValues[a];
+          quesTemp.randomValues[a]=quesTemp.randomValues[b];
+          quesTemp.randomValues[b]=firstValue;
+        }
+      }
+      stringBuffer.write(quesTemp.randomValues[a]);
+    }
+    return int.parse(stringBuffer.toString());
+  }
+
+  int _descendingOrder(QuestionTemplate quesTemp){
+    StringBuffer stringBuffer=StringBuffer();
+    for(int a=0;a<quesTemp.valuePlaceholders;a++){
+      for(int b=a+1;b<quesTemp.valuePlaceholders;b++){
+        if(quesTemp.randomValues[a]<quesTemp.randomValues[b]){
+          int firstValue=quesTemp.randomValues[a];
+          quesTemp.randomValues[a]=quesTemp.randomValues[b];
+          quesTemp.randomValues[b]=firstValue;
+        }
+      }
+      stringBuffer.write(quesTemp.randomValues[a]);
+    }
+    return int.parse(stringBuffer.toString());
+  }
+
+  void fraction(QuestionTemplate quesTemp) {
     quesTemp.options.add(1);
     quesTemp.options.add(1);
     quesTemp.options.add(1);
     quesTemp.options.add(1);
   }
 
-  void _ratioQuestion(QuesTemp quesTemp) {
-    for (int a = 1; a <= quesTemp.valuePlaceholders; a++) {
-      int randomValue = _random.nextInt(100);
-      quesTemp.randomValues.add(randomValue);
-      quesTemp.ques = quesTemp.ques.replaceAll('V$a', randomValue.toString());
-    }
+  void _ratioQuestion(QuestionTemplate quesTemp) {
+    _changeValuePlaceholder(quesTemp);
     _makeRatioAnswer(quesTemp);
   }
 
-  void _makeRatioAnswer(QuesTemp quesTemp) {
+  void _makeRatioAnswer(QuestionTemplate quesTemp) {
     String ratio =
         Util.ratio(quesTemp.randomValues[0], quesTemp.randomValues[1]);
+    quesTemp.formula=quesTemp.formula.replaceAll('ratio',ratio.toString());
+    _makeAnswer(quesTemp);
   }
 
-  void _hcf(QuesTemp data) {
+  void _hcf(QuestionTemplate data) {
     int hcf = Util.hcf(data.randomValues[0], data.randomValues[1]);
-    String formula = data.formula.replaceAll('hcf', hcf.toString());
-    int answer = formula.interpret().toInt();
-    makeOptions(data, answer);
+    data.formula = data.formula.replaceAll('hcf', hcf.toString());
+    _makeAnswer(data);
   }
 
-  void _lcmQues(QuesTemp quesTemp) {
-    for (int a = 1; a <= quesTemp.valuePlaceholders; a++) {
-      int randomValue = _random.nextInt(100);
-      while (randomValue == 0) {
-        randomValue = _random.nextInt(100);
-      }
-      quesTemp.randomValues.add(randomValue);
-      quesTemp.ques = quesTemp.ques.replaceAll('V$a', randomValue.toString());
-    }
-
+  void _lcmQues(QuestionTemplate quesTemp) {
+    _changeValuePlaceholder(quesTemp);
     _makeLcmAnswer(quesTemp);
   }
 
-//todo IntegerDivisionByZeroException can we occurred
-  void _makeLcmAnswer(QuesTemp quesTemp) {
+  void _makeLcmAnswer(QuestionTemplate quesTemp) {
     int? lcm;
     if (quesTemp.valuePlaceholders == 3) {
       int firstLcm =
@@ -101,86 +140,112 @@ class QuizProvider extends ChangeNotifier {
     } else if (quesTemp.valuePlaceholders == 2) {
       lcm = Util.lcm(quesTemp.randomValues[0], quesTemp.randomValues[1]);
     }
-    quesTemp.answer = lcm.toString().interpret().toInt();
-    makeOptions(quesTemp, quesTemp.answer!);
+    quesTemp.formula = quesTemp.formula.replaceAll('lcm', lcm.toString());
+    _makeAnswer(quesTemp);
   }
 
-  void simpleQuestion(QuesTemp quesTemp) {
-    bool isNameQuestion = isContainName(quesTemp.ques);
-    if (isNameQuestion) {
-      wordProblemQuestion(quesTemp); //changeValueForPositive()
+  void _simpleQuestion(int index) {
+    QuestionTemplate quesTemp = _quesTemplateList[index];
+    bool isQuestionContainsName = _isContainName(quesTemp.ques);
+    if (isQuestionContainsName) {
+      _questionContainsName(quesTemp);
       return;
     }
-    changeValuePlaceholder(quesTemp);
+    _changeValuePlaceholder(quesTemp);
+    _makeAnswer(quesTemp);
   }
 
-  void wordProblemQuestion(QuesTemp quesTemp) {
-    bool isValuePositive = getValueType(quesTemp);
-    if (!isValuePositive) {
-      skipQuestion();
+  void _startLoopforMakeAnswerPostitive(QuestionTemplate quesTemp) {
+    bool isAnswerPositive = _getAnswerType(quesTemp);
+
+    for (int a = 0; a < 5; a++) {
+      if (isAnswerPositive) {
+        _changeValuePlaceholder(quesTemp);
+        _makeAnswer(quesTemp);
+        return;
+      }
+      if (a == 4) {
+        _removeQues(quesTemp);
+        break;
+      }
+      isAnswerPositive = _getAnswerType(quesTemp);
+    }
+  }
+
+  void _questionContainsName(QuestionTemplate quesTemp) {
+    bool isAnswerPositive = _getAnswerType(quesTemp);
+    if (!isAnswerPositive) {
+      _startLoopforMakeAnswerPostitive(quesTemp);
       return;
     }
-    changeValuePlaceholder(quesTemp);
+    _changeValuePlaceholder(quesTemp);
+    _makeAnswer(quesTemp);
   }
 
-  void skipQuestion() {
-    if (_index < _quizData.length - 1) {
-      _index++;
-      getQuestionTemp(_index);
+  void _removeQues(QuestionTemplate quesTemp) {
+    _quesTemplateList.remove(quesTemp);
+    if (_index! >= quesTemplateList.length) {
+      _index = _index! - 1;
       return;
     }
-    _index--;
+    _simpleQuestion(_index!);
   }
 
-  bool getValueType(QuesTemp quesTemp) {
-    String ques = quesTemp.ques;
+  bool _getAnswerType(QuestionTemplate quesTemp) {
     String formula = quesTemp.formula;
+    quesTemp.randomValues = [];
     for (int arr = 1; arr <= quesTemp.valuePlaceholders; arr++) {
       int randomValue = _random.nextInt(100);
       quesTemp.randomValues.add(randomValue);
       formula = formula.replaceAll('V$arr', randomValue.toString());
     }
-    num answer = formula.interpret();
-    bool isAnswerPositive = answer > 0;
-    if (isAnswerPositive) {
-      quesTemp.ques = ques;
-    }
-    return isAnswerPositive;
+    int answer = formula.interpret().toInt();
+    return answer > 0;
   }
 
-  void changeValuePlaceholder(QuesTemp quesTemp) {
+  void _changeValuePlaceholder(QuestionTemplate quesTemp) {
     for (int arr = 1; arr <= quesTemp.valuePlaceholders; arr++) {
-      changeQuesValuePlaceholder(quesTemp, arr);
-      changeFormulaValuePlaceholder(quesTemp, arr);
+      if (quesTemp.randomValues.length < quesTemp.valuePlaceholders) {
+        _makeRandomValue(quesTemp);
+      }
+      _changeQuesValuePlaceholder(quesTemp, arr);
+      _changeFormulaValuePlaceholder(quesTemp, arr);
     }
-    makeAnswer(quesTemp);
+    // _makeAnswer(quesTemp);
   }
 
-  void changeFormulaValuePlaceholder(QuesTemp quesTemp, int index) {
+  void _makeRandomValue(QuestionTemplate quesType) {
+    int randomValue = _random.nextInt(100);
+    quesType.randomValues.add(randomValue);
+  }
+
+  void _changeFormulaValuePlaceholder(QuestionTemplate quesTemp, int index) {
     quesTemp.formula = quesTemp.formula
         .replaceAll('V$index', (quesTemp.randomValues[index - 1]).toString());
   }
 
-  void changeQuesValuePlaceholder(QuesTemp quesTemp, int index) {
-    int randomValue = _random.nextInt(100);
-    quesTemp.randomValues.add(randomValue);
-    quesTemp.ques = quesTemp.ques.replaceAll('V$index', randomValue.toString());
+  void _changeQuesValuePlaceholder(QuestionTemplate quesTemp, int index) {
+    quesTemp.ques = quesTemp.ques
+        .replaceAll('V$index', quesTemp.randomValues[index - 1].toString());
   }
 
-  void makeAnswer(QuesTemp quesTemp) {
+  void _makeAnswer(QuestionTemplate quesTemp) {
     int answer = quesTemp.formula.interpret().toInt();
-    makeOptions(quesTemp, answer);
+    quesTemp.answer = answer;
+    _makeOptions(quesTemp);
   }
 
-  void makeOptions(QuesTemp quesTemp, int answer) {
+  void _makeOptions(QuestionTemplate quesTemp) {
+    int answer = quesTemp.answer!;
+
     quesTemp.options.add(answer);
     quesTemp.options.add(answer - 5);
     quesTemp.options.add(answer + 5);
     quesTemp.options.add(answer - 3);
-    swipeOptions(quesTemp.options);
+    _swipeOptions(quesTemp.options);
   }
 
-  void swipeOptions(List<num> options) {
+  void _swipeOptions(List<num> options) {
     for (int a = 0; a < 2; a++) {
       int randomValue = _random.nextInt(options.length);
       num value = options[a];
@@ -189,7 +254,7 @@ class QuizProvider extends ChangeNotifier {
     }
   }
 
-  bool isContainName(String ques) {
+  bool _isContainName(String ques) {
     List<String> names = [
       ' she ',
       ' he ',
@@ -201,114 +266,8 @@ class QuizProvider extends ChangeNotifier {
     return iterable.isNotEmpty;
   }
 
-  // void _simpleQuestion(QuesTemp data) {
-  //   // There should be 2 checks either questions has a name placeholder or questions has a pronoun
-  //   if (isNameContain(data.ques)) {
-  //     bool isValuePositive = _wordProblemQues(data);
-  //     if (!isValuePositive) {
-  //       bool a = _quizData.remove(data);
-  //       print('is ques removed ${a}');
-  //       if (_index < _quizData.length) {
-  //         // _index++;
-  //         getQuestionTemp(_index);
-  //         // return;
-  //       }
-  //     }
-  //   }
-  //   addRandomValue(data);
-  // }
-
-  // void addRandomValue(QuesTemp quesTemp) {
-  //   for (int a = 0; a < quesTemp.valuePlaceholders; a++) {
-  //     int randomValue = _random.nextInt(100);
-  //     quesTemp.randomValues.add(randomValue);
-  //     quesTemp.ques =
-  //         quesTemp.ques.replaceAll('V${a + 1}', randomValue.toString());
-  //   }
-  //   _addOptions(quesTemp);
-  // }
-
-  bool _isValueNegative(QuesTemp data) {
-    String formula = data.formula;
-    String ques = data.ques;
-    for (int sec = 0; sec < data.valuePlaceholders; sec++) {
-      int randomValue = _random.nextInt(100);
-      data.randomValues.add(randomValue);
-      ques = ques.replaceAll('V${sec + 1}', randomValue.toString());
-      formula = formula.replaceAll('V${sec + 1}', randomValue.toString());
-    }
-    int answer = formula.interpret().toInt();
-    bool checkAnswer = answer > 0;
-    if (checkAnswer) {
-      data.ques = ques;
-      data.answer = answer;
-    }
-    return checkAnswer;
-  }
-
-  bool _wordProblemQues(QuesTemp data) {
-    bool checkAnswer = _isValueNegative(data);
-    if (checkAnswer) {
-      return true;
-    } else {
-      for (int a = 0; a < 5; a++) {
-        data.randomValues = [];
-        checkAnswer = _isValueNegative(data);
-        print('is value Positive $checkAnswer');
-        if (checkAnswer) {
-          break;
-        }
-      }
-      return checkAnswer;
-    }
-  }
-
-  void _hcfQuestion(QuesTemp data) {
-    for (int a = 0; a < data.valuePlaceholders; a++) {
-      int value = _random.nextInt(100);
-      data.randomValues.add(value);
-      data.ques = data.ques.replaceAll('V${a + 1}', value.toString());
-    }
+  void _hcfQuestion(QuestionTemplate data) {
+    _changeValuePlaceholder(data);
     _hcf(data);
   }
-
-// void _addOptions(QuesTemp data) {
-//   for (int a = 1; a <= data.valuePlaceholders; a++) {
-//     data.formula =
-//         data.formula.replaceAll('V$a', (data.randomValues[a - 1]).toString());
-//   }
-//   int ans = data.formula.interpret().toInt();
-//   _makeOptions(data, ans);
-// }
-
-// void _makeOptions(QuesTemp data, int answer) {
-//   data.answer = answer;
-//   data.options.add(answer);
-//   data.options.add(answer + 5);
-//   data.options.add(answer - 5);
-//   data.options.add(answer - 10);
-//   _swipeOption(data);
-// }
-
-// void _swipeOption(QuesTemp data) {
-//   for (int a = 0; a < 2; a++) {
-//     int firstRandomValue = _random.nextInt(4);
-//     int getFirst = data.options[a];
-//     data.options[a] = data.options[firstRandomValue];
-//     data.options[firstRandomValue] = getFirst;
-//   }
-//   // notifyListeners();
-// }
-
-// bool isNameContain(String name) {
-//   List<String> names = [
-//     ' she ',
-//     ' he ',
-//     ' his ',
-//     ' her ',
-//     ' him ',
-//   ];
-//   Iterable iterable = names.where((element) => name.contains(element));
-//   return iterable.isNotEmpty;
-// }
 }
