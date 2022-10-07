@@ -47,7 +47,7 @@ class _QuesScreenState extends State<QuesScreen> {
   void quesTypeSelected(QUESTYPE questype) async {
     NavigatorState navigatorState = Navigator.of(context);
     QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
-    await provider.readData(questype);
+    await provider.readDataFromDatabase(questype);
     if(provider.quesTemplateList.isEmpty){
       showDialogBox();
       return;
