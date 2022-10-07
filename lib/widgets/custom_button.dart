@@ -5,13 +5,13 @@ import '../model/question_template.dart';
 class CustomButton extends StatelessWidget {
   final String optionType;
   final num option;
-  final Function optionSelected;
+  final Function(num option,num answer) onOptionSelected;
   final QuestionTemplate quesTemp;
 
 
   const CustomButton(
       {required this.optionType,
-      required this.optionSelected,
+      required this.onOptionSelected,
       required this.option,
         required this.quesTemp,
       Key? key})
@@ -24,7 +24,7 @@ class CustomButton extends StatelessWidget {
     double width = size.width;
 
     return InkWell(
-      onTap: ()=>optionSelected(option,quesTemp.answer),
+      onTap: ()=>onOptionSelected(option,quesTemp.answer!),
       child: Align(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: width * 0.02),

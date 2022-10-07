@@ -46,13 +46,22 @@ class _QuesScreenState extends State<QuesScreen> {
 
   void quesTypeSelected(QUESTYPE questype) async {
     NavigatorState navigatorState = Navigator.of(context);
-    QuizProvider quesType = Provider.of<QuizProvider>(context, listen: false);
-    await quesType.getQuesType(questype);
+    QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
+    await provider.readData(questype);
+    if(provider.quesTemplateList.isEmpty){
+      showDialogBox();
+      return;
+    }
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return const QuizScreen();
     }));
   }
 
+  void showDialogBox(){
+    showDialog(context: context, builder: (_){
+      return const AlertDialog(content: Text('No question found'),);
+    });
+  }
   Widget _gap(double height) {
     return SizedBox(
       height: height,

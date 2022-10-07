@@ -2,10 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mathquiz/provider/quiz_provider.dart';
 
+//Rename this class
 class QuesTypes extends StatelessWidget {
-  final Function onQuesTypeSelected;
+  final Function(QUESTYPE questype) onQuesTypeSelected;
 
-  const QuesTypes({required this.onQuesTypeSelected, Key? key}) : super(key: key);
+  const QuesTypes({required this.onQuesTypeSelected, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +23,7 @@ class QuesTypes extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    return SizedBox(
-      height: height * 0.63,
-      width: width,
+    return Expanded(
       child: GridView.builder(
         padding: EdgeInsets.zero,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -31,14 +31,14 @@ class QuesTypes extends StatelessWidget {
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
           //build_____Item
-          return _buildQuestiontypeItem(
+          return _buildQuestionTypeItem(
               height, width, index, colorList[index], QUESTYPE.values[index]);
         },
       ),
     );
   }
 
-  Widget _buildQuestiontypeItem(
+  Widget _buildQuestionTypeItem(
       double height, double width, int index, Color color, QUESTYPE questype) {
     return InkWell(
       onTap: () => onQuesTypeSelected(questype),
@@ -59,7 +59,7 @@ class QuesTypes extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            quesTypeName(index, height, width),
+            quesTypeName(questype, height, width),
             Container(
               height: height * 0.01,
               width: width * 0.3,
@@ -78,12 +78,12 @@ class QuesTypes extends StatelessWidget {
     );
   }
 
-  Widget quesTypeName(int index, double height, double width) {
+  Widget quesTypeName(QUESTYPE quesType, double height, double width) {
     return SizedBox(
       height: height * 0.045,
       width: width,
       child: AutoSizeText(
-        QUESTYPE.values[index].name,
+        quesType.name,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),

@@ -3,11 +3,11 @@ import '../model/question_template.dart';
 import '/widgets/custom_button.dart';
 
 class Options extends StatelessWidget {
-  final Function optionSelected;
+  final Function(num option,num answer) onOptionSelected;
   final QuestionTemplate quizData;
 
   const Options(
-      {required this.optionSelected, required this.quizData, Key? key})
+      {required this.onOptionSelected, required this.quizData, Key? key})
       : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class Options extends StatelessWidget {
             return CustomButton(
               quesTemp: quizData,
                 optionType: list[index],
-                optionSelected: optionSelected,
+                onOptionSelected: onOptionSelected,
                 option: quizData.options[index]);
           }),
     );
