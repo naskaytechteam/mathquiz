@@ -5,8 +5,16 @@ import '/database/db_helper.dart';
 import '/model/question_template.dart';
 import 'dart:math';
 
-enum QUESTYPE { lcm, hcf, simple, fraction, ratio,ascendingdescendingdifference  ,}
-
+enum QUESTYPE {
+  lcm,
+  hcf,
+  simple,
+  fraction,
+  ratio,
+  ascendingdescendingdifference,
+}
+//We can make this class as Singleton instead of changeNotifier
+//Now that it is a changeNotifier we can take advantage of that to notify a change such as being out of templates.
 class QuizProvider with ChangeNotifier {
   List<QuestionTemplate> _quesTemplateList = [];
   final Random _random = Random();
@@ -17,18 +25,22 @@ class QuizProvider with ChangeNotifier {
 
   List<QuestionTemplate> get quesTemplateList => [..._quesTemplateList];
 
-  Future<void> getQuesType(QUESTYPE questype) async {
+  Future<void> readDataFromDatabase(QUESTYPE questype) async {
     DbHelper dbHelper = DbHelper();
     _quesTemplateList = await dbHelper.readData(questype);
+    _resetScore();
+  }
+
+  void _resetScore() {
+    _score = 0;
   }
 
   QuestionTemplate? getQuestionTemplateForIndex(int index) {
     _index = index;
-    if (quesTemplateList.isEmpty) {
+    _checkQuestionType(quesTemplateList[_index!]);
+    if (index >= quesTemplateList.length) {
       return null;
     }
-    _checkQuestionType(quesTemplateList[_index!]);
-
     return quesTemplateList[_index!];
   }
 
@@ -45,7 +57,7 @@ class QuizProvider with ChangeNotifier {
         _hcfQuestion(quesTemp);
         break;
       case 2: //this is good than that
-        _simpleQuestion(_index!);
+        _simpleQuestion(quesTemp);
         break;
       case 3:
         fraction(quesTemp);
@@ -55,30 +67,32 @@ class QuizProvider with ChangeNotifier {
         break;
       case 5:
         _ascendingdescendingQues(quesTemp);
-
         break;
     }
   }
-  void _ascendingdescendingQues(QuestionTemplate quesTemp){
+
+  void _ascendingdescendingQues(QuestionTemplate quesTemp) {
     _changeValuePlaceholder(quesTemp);
     _makeascendingdescendingOQuesFormula(quesTemp);
     _makeAnswer(quesTemp);
+  }
 
+  void _makeascendingdescendingOQuesFormula(QuestionTemplate quesTemp) {
+    int asc = _ascendingOrder(quesTemp);
+    int des = _descendingOrder(quesTemp);
+    quesTemp.formula = quesTemp.formula.replaceAll('ascending', asc.toString());
+    quesTemp.formula =
+        quesTemp.formula.replaceAll('descending', des.toString());
   }
-  void _makeascendingdescendingOQuesFormula(QuestionTemplate quesTemp){
-    int asc=_ascendingOrder(quesTemp);
-    int des=_descendingOrder(quesTemp);
-    quesTemp.formula=quesTemp.formula.replaceAll('ascending', asc.toString());
-    quesTemp.formula=quesTemp.formula.replaceAll('descending', des.toString());
-  }
-  int _ascendingOrder(QuestionTemplate quesTemp){
-    StringBuffer stringBuffer=StringBuffer();
-    for(int a=0;a<quesTemp.valuePlaceholders;a++){
-      for(int b=a+1;b<quesTemp.valuePlaceholders;b++){
-        if(quesTemp.randomValues[a]>quesTemp.randomValues[b]){
-          int firstValue=quesTemp.randomValues[a];
-          quesTemp.randomValues[a]=quesTemp.randomValues[b];
-          quesTemp.randomValues[b]=firstValue;
+
+  int _ascendingOrder(QuestionTemplate quesTemp) {
+    StringBuffer stringBuffer = StringBuffer();
+    for (int a = 0; a < quesTemp.valuePlaceholdersCount; a++) {
+      for (int b = a + 1; b < quesTemp.valuePlaceholdersCount; b++) {
+        if (quesTemp.randomValues[a] > quesTemp.randomValues[b]) {
+          int firstValue = quesTemp.randomValues[a];
+          quesTemp.randomValues[a] = quesTemp.randomValues[b];
+          quesTemp.randomValues[b] = firstValue;
         }
       }
       stringBuffer.write(quesTemp.randomValues[a]);
@@ -86,14 +100,14 @@ class QuizProvider with ChangeNotifier {
     return int.parse(stringBuffer.toString());
   }
 
-  int _descendingOrder(QuestionTemplate quesTemp){
-    StringBuffer stringBuffer=StringBuffer();
-    for(int a=0;a<quesTemp.valuePlaceholders;a++){
-      for(int b=a+1;b<quesTemp.valuePlaceholders;b++){
-        if(quesTemp.randomValues[a]<quesTemp.randomValues[b]){
-          int firstValue=quesTemp.randomValues[a];
-          quesTemp.randomValues[a]=quesTemp.randomValues[b];
-          quesTemp.randomValues[b]=firstValue;
+  int _descendingOrder(QuestionTemplate quesTemp) {
+    StringBuffer stringBuffer = StringBuffer();
+    for (int a = 0; a < quesTemp.valuePlaceholdersCount; a++) {
+      for (int b = a + 1; b < quesTemp.valuePlaceholdersCount; b++) {
+        if (quesTemp.randomValues[a] < quesTemp.randomValues[b]) {
+          int firstValue = quesTemp.randomValues[a];
+          quesTemp.randomValues[a] = quesTemp.randomValues[b];
+          quesTemp.randomValues[b] = firstValue;
         }
       }
       stringBuffer.write(quesTemp.randomValues[a]);
@@ -116,7 +130,7 @@ class QuizProvider with ChangeNotifier {
   void _makeRatioAnswer(QuestionTemplate quesTemp) {
     String ratio =
         Util.ratio(quesTemp.randomValues[0], quesTemp.randomValues[1]);
-    quesTemp.formula=quesTemp.formula.replaceAll('ratio',ratio.toString());
+    quesTemp.formula = quesTemp.formula.replaceAll('ratio', ratio.toString());
     _makeAnswer(quesTemp);
   }
 
@@ -133,21 +147,19 @@ class QuizProvider with ChangeNotifier {
 
   void _makeLcmAnswer(QuestionTemplate quesTemp) {
     int? lcm;
-    if (quesTemp.valuePlaceholders == 3) {
+    if (quesTemp.valuePlaceholdersCount == 3) {
       int firstLcm =
           Util.lcm(quesTemp.randomValues[0], quesTemp.randomValues[1]);
       lcm = Util.lcm(firstLcm, quesTemp.randomValues[2]);
-    } else if (quesTemp.valuePlaceholders == 2) {
+    } else if (quesTemp.valuePlaceholdersCount == 2) {
       lcm = Util.lcm(quesTemp.randomValues[0], quesTemp.randomValues[1]);
     }
     quesTemp.formula = quesTemp.formula.replaceAll('lcm', lcm.toString());
     _makeAnswer(quesTemp);
   }
 
-  void _simpleQuestion(int index) {
-    QuestionTemplate quesTemp = _quesTemplateList[index];
-    bool isQuestionContainsName = _isContainName(quesTemp.ques);
-    if (isQuestionContainsName) {
+  void _simpleQuestion(QuestionTemplate quesTemp) {
+    if (_isContainName(quesTemp.ques)) {
       _questionContainsName(quesTemp);
       return;
     }
@@ -155,27 +167,26 @@ class QuizProvider with ChangeNotifier {
     _makeAnswer(quesTemp);
   }
 
-  void _startLoopforMakeAnswerPostitive(QuestionTemplate quesTemp) {
-    bool isAnswerPositive = _getAnswerType(quesTemp);
-
-    for (int a = 0; a < 5; a++) {
+  void _makeAnswerPositive(QuestionTemplate quesTemp) {
+    bool isAnswerPositive = _isAnswerPositive(quesTemp);
+    int totalLoop = 5;
+    for (int a = 1; a <= totalLoop; a++) {
       if (isAnswerPositive) {
         _changeValuePlaceholder(quesTemp);
         _makeAnswer(quesTemp);
         return;
       }
-      if (a == 4) {
+      if (a == totalLoop) {
         _removeQues(quesTemp);
         break;
       }
-      isAnswerPositive = _getAnswerType(quesTemp);
+      isAnswerPositive = _isAnswerPositive(quesTemp);
     }
   }
 
   void _questionContainsName(QuestionTemplate quesTemp) {
-    bool isAnswerPositive = _getAnswerType(quesTemp);
-    if (!isAnswerPositive) {
-      _startLoopforMakeAnswerPostitive(quesTemp);
+    if (!_isAnswerPositive(quesTemp)) {
+      _makeAnswerPositive(quesTemp);
       return;
     }
     _changeValuePlaceholder(quesTemp);
@@ -185,16 +196,15 @@ class QuizProvider with ChangeNotifier {
   void _removeQues(QuestionTemplate quesTemp) {
     _quesTemplateList.remove(quesTemp);
     if (_index! >= quesTemplateList.length) {
-      _index = _index! - 1;
       return;
     }
-    _simpleQuestion(_index!);
+    _simpleQuestion(quesTemplateList[_index!]);
   }
 
-  bool _getAnswerType(QuestionTemplate quesTemp) {
+  bool _isAnswerPositive(QuestionTemplate quesTemp) {
     String formula = quesTemp.formula;
     quesTemp.randomValues = [];
-    for (int arr = 1; arr <= quesTemp.valuePlaceholders; arr++) {
+    for (int arr = 1; arr <= quesTemp.valuePlaceholdersCount; arr++) {
       int randomValue = _random.nextInt(100);
       quesTemp.randomValues.add(randomValue);
       formula = formula.replaceAll('V$arr', randomValue.toString());
@@ -204,14 +214,13 @@ class QuizProvider with ChangeNotifier {
   }
 
   void _changeValuePlaceholder(QuestionTemplate quesTemp) {
-    for (int arr = 1; arr <= quesTemp.valuePlaceholders; arr++) {
-      if (quesTemp.randomValues.length < quesTemp.valuePlaceholders) {
+    for (int arr = 1; arr <= quesTemp.valuePlaceholdersCount; arr++) {
+      if (quesTemp.randomValues.length < quesTemp.valuePlaceholdersCount) {
         _makeRandomValue(quesTemp);
       }
       _changeQuesValuePlaceholder(quesTemp, arr);
       _changeFormulaValuePlaceholder(quesTemp, arr);
     }
-    // _makeAnswer(quesTemp);
   }
 
   void _makeRandomValue(QuestionTemplate quesType) {
@@ -236,7 +245,7 @@ class QuizProvider with ChangeNotifier {
   }
 
   void _makeOptions(QuestionTemplate quesTemp) {
-    int answer = quesTemp.answer!;
+    num answer = quesTemp.answer!;
 
     quesTemp.options.add(answer);
     quesTemp.options.add(answer - 5);
