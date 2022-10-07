@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mathquiz/provider/time_provider.dart';
+import '/provider/time_provider.dart';
+import '/screens/score_screen.dart';
 import '../model/question_template.dart';
 import '/widgets/options.dart';
 import '/provider/quiz_provider.dart';
@@ -28,9 +29,13 @@ class _QuizScreenState extends State<QuizScreen> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
 
+    QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
     QuestionTemplate? quesTemp = provider.getQuestionTemplateForIndex(_index);
+
+    if (_index >= provider.quesTemplateList.length) {
+      return const ScoreScreen();
+    }
 
     return Scaffold(
       body: Selector<TimeProvider, bool>(
@@ -39,55 +44,42 @@ class _QuizScreenState extends State<QuizScreen> {
         },
         builder: (BuildContext context, value, Widget? child) {
           if (value) {
-            return SizedBox(
-              child: Center(
-                child: Text(
-                    'Your score is ${provider.score} out of ${provider.quesTemplateList.length}',
-                    style: const TextStyle(fontSize: 40)),
-              ),
-            );
+            return const ScoreScreen();
           }
           return Padding(
               padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-              child: quesTemp != null
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _gap(
-                          height * 0.06,
-                        ),
-                        const QuizScreenAppBar(),
-                        _gap(
-                          height * 0.06,
-                        ),
-                        Text('Question ${_index + 1}'),
-                        _gap(height * 0.02),
-                        _question(height, width, quesTemp.ques),
-                        _gap(height * 0.03),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Card(
-                              color: Colors.transparent,
-                              elevation: 0,
-                              child: Image.asset('assets/background1.png',
-                                  width: width, fit: BoxFit.fitHeight)),
-                        ),
-                        _gap(height * 0.02),
-                        Options(
-                            optionSelected: _optionSelected, quizData: quesTemp)
-                      ],
-                    )
-                  : const Center(
-                      child: Text(
-                      'No Questions found ',
-                      style: TextStyle(fontSize: 30),
-                    )));
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _gap(
+                    height * 0.06,
+                  ),
+                  const QuizScreenAppBar(),
+                  _gap(
+                    height * 0.06,
+                  ),
+                  Text('Question ${_index + 1}'),
+                  _gap(height * 0.02),
+                  _question(height, width, quesTemp!.ques),
+                  _gap(height * 0.03),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Card(
+                        color: Colors.transparent,
+                        elevation: 0,
+                        child: Image.asset('assets/background1.png',
+                            width: width, fit: BoxFit.fitHeight)),
+                  ),
+                  _gap(height * 0.02),
+                  Options(onOptionSelected: _onOptionSelected, quizData: quesTemp)
+                ],
+              ));
         },
       ),
     );
   }
 
-  void _optionSelected(int selectedOption, int answer) {
+  void _onOptionSelected(num selectedOption, num answer) {
     QuizProvider quizProvider =
         Provider.of<QuizProvider>(context, listen: false);
     _checkAnswer(selectedOption, answer, quizProvider);
@@ -101,28 +93,18 @@ class _QuizScreenState extends State<QuizScreen> {
       });
       return;
     }
-    _showDialogBox(quizProvider);
-  }
-  void _showDialogBox(QuizProvider quizProvider){
-    showDialog(
-        context: context,
-        builder: (_) {
-          return Dialog(
-              child: Container(
-                  height: 200,
-                  width: 200,
-                  color: Colors.red,
-                  child: Text(
-                    'Your score is ${quizProvider.score} out of ${quizProvider.quesTemplateList.length}',
-                    style: const TextStyle(fontSize: 40),
-                  )));
-        });
+    showScore();
   }
 
-  void _checkAnswer(int selectedOption, int answer, QuizProvider quizProvider) {
+  void showScore() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+      return const ScoreScreen();
+    }));
+  }
+
+  void _checkAnswer(num selectedOption, num answer, QuizProvider quizProvider) {
     if (selectedOption == answer) {
       quizProvider.increaseScore();
-      return;
     }
   }
 
