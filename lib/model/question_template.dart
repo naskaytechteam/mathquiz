@@ -1,13 +1,13 @@
 class QuestionTemplate {
   String ques;
-  int valuePlaceholders;
+  int valuePlaceholdersCount;
   String formula;
-  List<int> options = [];
+  List<num> options = [];
   List<int> randomValues = [];
-  int? answer;
+  num? answer;
   int quesType;
 
-  QuestionTemplate(this.ques, this.formula, this.valuePlaceholders, this.quesType);
+  QuestionTemplate(this.ques, this.formula, this.valuePlaceholdersCount, this.quesType);
 
   factory QuestionTemplate.fromMap(Map<String, Object?> map) {
     return QuestionTemplate(map['ques'] as String, map['formula'] as String,
