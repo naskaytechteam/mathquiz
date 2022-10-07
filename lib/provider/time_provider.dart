@@ -18,6 +18,7 @@ class TimeProvider extends ChangeNotifier {
     if(timer!=null){
       timer!.cancel();
       duration=const Duration(minutes: 1);
+      isTimeFinished=false;
     }
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _decreaseOneSecond();
