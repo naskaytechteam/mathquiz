@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '/widgets/ques_score_details.dart';
+import 'ques_score_details.dart';
 import 'package:provider/provider.dart';
-import '../provider/quiz_provider.dart';
+import '../../provider/quiz_provider.dart';
 
 class ScoreDetails extends StatelessWidget {
   final int currentQuestionIndex;

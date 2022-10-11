@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/widgets/score_details.dart';
-import '/widgets/your_point.dart';
+import '../widgets/scorescreenwidgets/score_details.dart';
+import '../widgets/scorescreenwidgets/your_point.dart';
 
 class ScoreScreen extends StatelessWidget {
   final int currentQuestionIndex;

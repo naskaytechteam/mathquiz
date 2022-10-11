@@ -4,9 +4,9 @@ import '/screens/score_screen.dart';
 import 'package:provider/provider.dart';
 import '../model/question_template.dart';
 import '../provider/quiz_provider.dart';
-import '/widgets/options.dart';
-import '/widgets/current_ques_list.dart';
-import '../widgets/app_bar.dart';
+import '../widgets/quesscreenswidgets/options.dart';
+import '../widgets/quesscreenswidgets/current_ques_list.dart';
+import '../widgets/quesscreenswidgets/app_bar.dart';
 
 class QuesScreen extends StatefulWidget {
   final String quizType;

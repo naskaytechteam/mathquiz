@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '/screens/ques_screen.dart';
 import 'package:provider/provider.dart';
 import '/provider/quiz_provider.dart';
-import '/widgets/ques_screen_app_bar.dart';
-import '/widgets/ques_names.dart';
+import '../widgets/questypesscreenwidgets/ques_screen_app_bar.dart';
+import '../widgets/questypesscreenwidgets/ques_names.dart';
 
 class QuesTypeScreen extends StatefulWidget {
   const QuesTypeScreen({Key? key}) : super(key: key);
