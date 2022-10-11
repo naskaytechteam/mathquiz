@@ -1,24 +1,40 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mathquiz/provider/quiz_provider.dart';
+import 'package:mathquiz/widgets/custom_animation.dart';
 
-//Rename this class
-class QuesTypes extends StatelessWidget {
+class QuesNames extends StatefulWidget {
   final Function(QUESTYPE questype) onQuesTypeSelected;
 
-  const QuesTypes({required this.onQuesTypeSelected, Key? key})
+  const QuesNames({required this.onQuesTypeSelected, Key? key})
       : super(key: key);
 
   @override
+  State<QuesNames> createState() => _QuesNamesState();
+}
+
+class _QuesNamesState extends State<QuesNames>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation<double> widthAnimation;
+
+  @override
+  void initState() {
+    animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    widthAnimation = Tween<double>(begin: 0, end: 100).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.decelerate));
+    animationController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<Color> colorList = [
-      Colors.yellow,
-      Colors.purpleAccent,
-      Colors.blue,
-      Colors.grey.shade200,
-      Colors.orange,
-      Colors.green
-    ];
+    Random random = Random();
 
     Size size = MediaQuery.of(context).size;
     double height = size.height;
@@ -30,9 +46,13 @@ class QuesTypes extends StatelessWidget {
             crossAxisCount: 2, crossAxisSpacing: 15, mainAxisSpacing: 15),
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
-          //build_____Item
-          return _buildQuestionTypeItem(
-              height, width, index, colorList[index], QUESTYPE.values[index]);
+
+          int randomValueForColor = random.nextInt(Colors.primaries.length);
+
+          return CustomAnimation(
+              addTime: 800 * index,
+              child: _buildQuestionTypeItem(height, width, index,
+                  Colors.primaries[randomValueForColor], QUESTYPE.values[index]));
         },
       ),
     );
@@ -40,8 +60,9 @@ class QuesTypes extends StatelessWidget {
 
   Widget _buildQuestionTypeItem(
       double height, double width, int index, Color color, QUESTYPE questype) {
+    animationController.forward();
     return InkWell(
-      onTap: () => onQuesTypeSelected(questype),
+      onTap: () => widget.onQuesTypeSelected(questype),
       child: SizedBox(
         height: height * 0.2,
         width: width * 0.2,
@@ -59,7 +80,7 @@ class QuesTypes extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            quesTypeName(questype, height, width),
+            _buildQuestionName(questype, height, width),
             Container(
               height: height * 0.01,
               width: width * 0.3,
@@ -68,7 +89,7 @@ class QuesTypes extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Container(
                     height: height * 0.01,
-                    width: width * 0.1 * index,
+                    width: widthAnimation.value,
                     color: color),
               ),
             ),
@@ -78,14 +99,15 @@ class QuesTypes extends StatelessWidget {
     );
   }
 
-  Widget quesTypeName(QUESTYPE quesType, double height, double width) {
+  Widget _buildQuestionName(QUESTYPE quesType, double height, double width) {
     return SizedBox(
       height: height * 0.045,
       width: width,
       child: AutoSizeText(
         quesType.name,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
