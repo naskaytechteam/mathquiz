@@ -27,7 +27,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme:const TextTheme(
+          headline1: TextStyle(fontFamily: 'Inconsolata')
+        )
       ),
+
       home: const Scaffold(
         body: QuesTypeScreen(),
       ),
