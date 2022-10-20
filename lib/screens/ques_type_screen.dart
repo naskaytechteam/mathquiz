@@ -29,6 +29,7 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
     double width = size.width;
 
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
         body: NotificationListener(
             onNotification: _handleScrollNotification,
             child: Stack(
@@ -70,8 +71,8 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
         _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
         _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
         _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
-        _eightImagePositionFromTop -= v.scrollDelta! / 1.1;
-        _nineImagePositionFromTop -= v.scrollDelta! / 1.2;
+        _eightImagePositionFromTop -= v.scrollDelta! / 1;
+        _nineImagePositionFromTop -= v.scrollDelta! / 1;
       });
     }
     return true;
