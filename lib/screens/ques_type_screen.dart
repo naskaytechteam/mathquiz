@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/questypesscreenwidgets/ques_names.dart';
+import 'package:mathquiz/widgets/questypesscreenwidgets/ques_type_name.dart';
 import '/screens/ques_screen.dart';
 import 'package:provider/provider.dart';
 import '/provider/quiz_provider.dart';
@@ -12,15 +12,15 @@ class QuesTypeScreen extends StatefulWidget {
 }
 
 class _QuesTypeScreenState extends State<QuesTypeScreen> {
-  double firstImagePositionFromTop = 0,
-      secondImagePositionFromTop = 0,
-      thirdImagePositionFromTop = 0,
-      forthImagePositionFromTop = 0,
-      fifthImagePositionFromTop = 0,
-      sixImagePositionFromTop = 0,
-      sevenImagePositionFromTop = 0,
-      eightImagePositionFromTop = 0,
-      nineImagePositionFromTop = 0;
+  double _firstImagePositionFromTop = 0,
+      _secondImagePositionFromTop = 0,
+      _thirdImagePositionFromTop = 0,
+      _forthImagePositionFromTop = 0,
+      _fifthImagePositionFromTop = 0,
+      _sixImagePositionFromTop = 0,
+      _sevenImagePositionFromTop = 0,
+      _eightImagePositionFromTop = 0,
+      _nineImagePositionFromTop = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -30,33 +30,18 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
 
     return Scaffold(
         body: NotificationListener(
-            onNotification: (v) {
-              if (v is ScrollUpdateNotification) {
-                setState(() {
-                  firstImagePositionFromTop -= v.scrollDelta! / 1.9;
-                  secondImagePositionFromTop -= v.scrollDelta! / 1.8;
-                  thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
-                  forthImagePositionFromTop -= v.scrollDelta! / 1.6;
-                  fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
-                  sixImagePositionFromTop -= v.scrollDelta! / 1.4;
-                  sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
-                  eightImagePositionFromTop -= v.scrollDelta! / 1.1;
-                  nineImagePositionFromTop -= v.scrollDelta! / 1.2;
-                });
-              }
-              return true;
-            },
+            onNotification: _handleScrollNotification,
             child: Stack(
               children: [
-                _buildParallaxImages(1, firstImagePositionFromTop, height),
-                _buildParallaxImages(2, secondImagePositionFromTop, height),
-                _buildParallaxImages(3, thirdImagePositionFromTop, height),
-                _buildParallaxImages(4, forthImagePositionFromTop, height),
-                _buildParallaxImages(5, fifthImagePositionFromTop, height),
-                _buildParallaxImages(6, sixImagePositionFromTop, height),
-                _buildParallaxImages(7, sevenImagePositionFromTop, height),
-                _buildParallaxImages(8, eightImagePositionFromTop, height),
-                _buildParallaxImages(9, nineImagePositionFromTop, height),
+                _buildParallaxImages(1, _firstImagePositionFromTop, height),
+                _buildParallaxImages(2, _secondImagePositionFromTop, height),
+                _buildParallaxImages(3, _thirdImagePositionFromTop, height),
+                _buildParallaxImages(4, _forthImagePositionFromTop, height),
+                _buildParallaxImages(5, _fifthImagePositionFromTop, height),
+                _buildParallaxImages(6, _sixImagePositionFromTop, height),
+                _buildParallaxImages(7, _sevenImagePositionFromTop, height),
+                _buildParallaxImages(8, _eightImagePositionFromTop, height),
+                _buildParallaxImages(9, _nineImagePositionFromTop, height),
                 SingleChildScrollView(
                   child: Column(
                     children: [
@@ -65,20 +50,31 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
                         width: width,
                       ),
                       for (int a = 0; a < QUESTYPE.values.length; a++)
-                        Container(
-                          width: width,
-                          color: const Color.fromRGBO(54, 58, 102, 1),
-                          child: QuesNames(
-                            color: Colors.primaries[a],
-                            onQuesTypeSelected: _onQuesTypeSelected,
+                        QuesTypeName(
                             questype: QUESTYPE.values[a],
-                          ),
-                        )
+                            onQuesTypeSelected: _onQuesTypeSelected)
                     ],
                   ),
                 )
               ],
             )));
+  }
+
+  bool _handleScrollNotification(Object v) {
+    if (v is ScrollUpdateNotification) {
+      setState(() {
+        _firstImagePositionFromTop -= v.scrollDelta! / 1.9;
+        _secondImagePositionFromTop -= v.scrollDelta! / 1.8;
+        _thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
+        _forthImagePositionFromTop -= v.scrollDelta! / 1.6;
+        _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
+        _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
+        _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
+        _eightImagePositionFromTop -= v.scrollDelta! / 1.1;
+        _nineImagePositionFromTop -= v.scrollDelta! / 1.2;
+      });
+    }
+    return true;
   }
 
   Widget _buildParallaxImages(int image, double top, double height) {
@@ -104,7 +100,6 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
       _showDialogBox();
       return;
     }
-
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return QuesScreen(
         quizType: questype.name,
@@ -121,10 +116,4 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
           );
         });
   }
-
-  // Widget _gap(double height) {
-  //   return SizedBox(
-  //     height: height,
-  //   );
-  // }
 }
