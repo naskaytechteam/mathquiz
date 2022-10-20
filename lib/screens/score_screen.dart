@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:mathquiz/provider/quiz_provider.dart';
+import '/provider/quiz_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
@@ -135,7 +135,7 @@ class ScoreScreen extends StatelessWidget {
     );
   }
 
-  void addAllWidgets(
+  void _makePdfDesign(
       BuildContext context, double height, List<pdf.Widget> list) {
     QuizProvider quizProvider =
         Provider.of<QuizProvider>(context, listen: false);
@@ -162,15 +162,15 @@ class ScoreScreen extends StatelessWidget {
 
   void _generatePdf(BuildContext context, double height, double width) {
     List<pdf.Widget> list = [];
-    addAllWidgets(context, height, list);
+    _makePdfDesign(context, height, list);
     pdf.Document document = pdf.Document();
     document.addPage(pdf.MultiPage(build: (_) {
       return list;
     }));
-    saveFile(document, context);
+    _saveFile(document, context);
   }
 
-  void saveFile(pdf.Document document, BuildContext context) async {
+  void _saveFile(pdf.Document document, BuildContext context) async {
     Directory? directory = await getExternalStorageDirectory();
     File file = File('${directory!.path}/QuizQuestions.pdf');
     file.writeAsBytes(await document.save())
@@ -182,27 +182,4 @@ class ScoreScreen extends StatelessWidget {
         const SnackBar(content: Text('pdf Generated Successfully')));
   }
 
-  pdf.Widget text(String ques, int index, num answer) {
-    return pdf.RichText(
-        text: pdf.TextSpan(
-            text: 'Ques ${index + 1} :-> ',
-            style: const pdf.TextStyle(
-              fontSize: 25,
-            ),
-            children: [
-          pdf.TextSpan(
-              text: '$ques \n',
-              style: const pdf.TextStyle(
-                fontSize: 20,
-              )),
-          pdf.TextSpan(
-              text: 'Ans :-> ',
-              style: const pdf.TextStyle(color: PdfColors.green),
-              children: [
-                pdf.TextSpan(
-                    text: answer.toString(),
-                    style: const pdf.TextStyle(color: PdfColors.black))
-              ])
-        ]));
-  }
 }
