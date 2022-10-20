@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Appbar extends StatelessWidget with PreferredSizeWidget {
-  const Appbar({Key? key}) : super(key: key);
+  final String title;
+  const Appbar({this.title='Live Quiz',Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class Appbar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: true,
       elevation: 0,
       backgroundColor: Colors.transparent,
-      title: const Text(
-        'Live Quiz',
+      title:  Text(
+        title,
         style: TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
