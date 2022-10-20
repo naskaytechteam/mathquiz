@@ -41,6 +41,11 @@ dependencies:
   function_tree: ^0.8.13
   flutter_svg: ^1.1.5
   auto_size_text: ^3.0.0
+  pdf: ^3.8.3
+  permission_handler: ^10.1.0
+  expandable_text: ^2.3.0
+
+
 
 
 dev_dependencies:
