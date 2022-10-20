@@ -12,7 +12,9 @@ enum QUESTYPE {
   fraction,
   ratio,
   ascendingdescendingdifference,
+  sampletype
 }
+
 //We can make this class as Singleton instead of changeNotifier
 //Now that it is a changeNotifier we can take advantage of that to notify a change such as being out of templates.
 class QuizProvider with ChangeNotifier {
@@ -37,11 +39,13 @@ class QuizProvider with ChangeNotifier {
 
   QuestionTemplate? getQuestionTemplateForIndex(int index) {
     _index = index;
-    _checkQuestionType(quesTemplateList[_index!]);
+    _checkQuestionType(quesTemplateList[index]);
+
     if (index >= quesTemplateList.length) {
       return null;
     }
-    return quesTemplateList[_index!];
+
+    return quesTemplateList[index];
   }
 
   void increaseScore() {
