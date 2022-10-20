@@ -17,9 +17,9 @@ class QuesTypeName extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    return SizedBox(
+    return Container(
       width: width,
-      // color: const Color.fromRGBO(33, 0, 2, 1),
+      color: const Color.fromRGBO(54, 58, 102, 1),
       child: InkWell(
         onTap: () => onQuesTypeSelected(questype),
         child: Container(

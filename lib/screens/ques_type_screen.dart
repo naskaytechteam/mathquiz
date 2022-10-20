@@ -29,7 +29,7 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
     double width = size.width;
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
+      // backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
         body: NotificationListener(
             onNotification: _handleScrollNotification,
             child: Stack(
