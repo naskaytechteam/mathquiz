@@ -27,7 +27,7 @@ class QuesScoreDetails extends StatelessWidget {
       height: height * 0.1,
       width: width,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           buildQuestionScoreDetails(firstResult, firstType, height, width,
               textColor: firstTextColor),
@@ -41,19 +41,22 @@ class QuesScoreDetails extends StatelessWidget {
   Widget buildQuestionScoreDetails(
       String firstDetails, String type, double height, double width,
       {Color? textColor = const Color.fromRGBO(56, 61, 110, 1)}) {
-    return Container(
-      height: height * 0.1,
-      width: width * 0.3,
-      alignment: Alignment.topCenter,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(firstDetails,
-              style: TextStyle(
-                  color: textColor, fontSize: 20, fontWeight: FontWeight.bold)),
-          Text(type)
-        ],
+    return Align(
+      child: Container(
+        height: height * 0.1,
+        width: width * 0.25,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(firstDetails,
+                style: TextStyle(
+                    color: textColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            Text(type)
+          ],
+        ),
       ),
     );
   }
