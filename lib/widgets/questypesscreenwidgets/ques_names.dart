@@ -1,68 +1,27 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mathquiz/provider/quiz_provider.dart';
-import 'package:mathquiz/widgets/questypesscreenwidgets/custom_animation.dart';
 
-class QuesNames extends StatefulWidget {
+class QuesNames extends StatelessWidget {
   final Function(QUESTYPE questype) onQuesTypeSelected;
+  final QUESTYPE questype;
+  final Color color;
 
-  const QuesNames({required this.onQuesTypeSelected, Key? key})
+  const QuesNames(
+      {required this.onQuesTypeSelected,
+        required this.questype,
+        required this.color,
+      Key? key})
       : super(key: key);
 
   @override
-  State<QuesNames> createState() => _QuesNamesState();
-}
-
-class _QuesNamesState extends State<QuesNames>
-    with SingleTickerProviderStateMixin {
-  late AnimationController animationController;
-  late Animation<double> widthAnimation;
-
-  @override
-  void initState() {
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    widthAnimation = Tween<double>(begin: 0, end: 100).animate(
-        CurvedAnimation(parent: animationController, curve: Curves.decelerate));
-    animationController.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    Random random = Random();
-
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    return Expanded(
-      child: GridView.builder(
-        padding: EdgeInsets.zero,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, crossAxisSpacing: 15, mainAxisSpacing: 15),
-        itemCount: 6,
-        itemBuilder: (BuildContext context, int index) {
-
-          int randomValueForColor = random.nextInt(Colors.primaries.length);
-
-          return CustomAnimation(
-              addTime: 800 * index,
-              child: _buildQuestionTypeItem(height, width, index,
-                  Colors.primaries[randomValueForColor], QUESTYPE.values[index]));
-        },
-      ),
-    );
-  }
-
-  Widget _buildQuestionTypeItem(
-      double height, double width, int index, Color color, QUESTYPE questype) {
-    animationController.forward();
-    return InkWell(
-      onTap: () => widget.onQuesTypeSelected(questype),
+    return
+      InkWell(
+      onTap: () => onQuesTypeSelected(questype),
       child: SizedBox(
         height: height * 0.2,
         width: width * 0.2,
@@ -88,8 +47,9 @@ class _QuesNamesState extends State<QuesNames>
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
+
                     height: height * 0.01,
-                    width: widthAnimation.value,
+                    width: /*widthAnimation.value*/100,
                     color: color),
               ),
             ),
