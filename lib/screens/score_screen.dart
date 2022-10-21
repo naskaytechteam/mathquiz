@@ -41,7 +41,7 @@ class ScoreScreen extends StatelessWidget {
               bottom: 0,
               child: _buildBottomWidget(height, width, context),
             ),
-            const Positioned(top: 50, left: 0, right: 0, child: YourPoint()),
+            YourPoint(),
             Positioned(
               top: 0,
               bottom: 0,
@@ -173,7 +173,8 @@ class ScoreScreen extends StatelessWidget {
   void _saveFile(pdf.Document document, BuildContext context) async {
     Directory? directory = await getExternalStorageDirectory();
     File file = File('${directory!.path}/QuizQuestions.pdf');
-    file.writeAsBytes(await document.save())
+    file
+        .writeAsBytes(await document.save())
         .then((value) => _showSnackBar(context));
   }
 
@@ -181,5 +182,4 @@ class ScoreScreen extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('pdf Generated Successfully')));
   }
-
 }
