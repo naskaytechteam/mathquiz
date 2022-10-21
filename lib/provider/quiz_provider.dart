@@ -268,14 +268,17 @@ class QuizProvider with ChangeNotifier {
   }
 
   bool _isContainName(String ques) {
+    print(ques);
     List<String> names = [
       ' she ',
       ' he ',
       ' his ',
       ' her ',
       ' him ',
+      ' it '
     ];
     Iterable iterable = names.where((element) => ques.contains(element));
+    print(iterable.isEmpty);
     return iterable.isNotEmpty;
   }
 
