@@ -35,6 +35,7 @@ class _OptionsState extends State<Options> {
       height: height * 0.2,
       width: width,
       child: GridView.builder(
+        physics:const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 10,
