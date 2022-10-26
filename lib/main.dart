@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import './provider/time_provider.dart';
-import './screens/ques_type_screen.dart';
-import './provider/quiz_provider.dart';
 import 'package:provider/provider.dart';
 
-void main()async {
+import './provider/quiz_provider.dart';
+import './provider/time_provider.dart';
+import './screens/ques_type_screen.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //this line is here because of stop unwanted rebuilding widget from MediaQery class
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -20,6 +21,7 @@ void main()async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  static const String primaryFontFamily = 'Inconsolata';
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textTheme:const TextTheme(
-          headline1: TextStyle(fontFamily: 'Inconsolata')
-        )
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontFamily: primaryFontFamily),
+        ),
       ),
-
-      home: const Scaffold(
-        body: QuesTypeScreen(),
-      ),
+      home: const HomeScreen(),
     );
   }
 }

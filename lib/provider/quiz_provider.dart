@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:function_tree/function_tree.dart';
-import '/model/util.dart';
+import 'package:mathquiz/provider/template_factory.dart';
+
 import '/database/db_helper.dart';
 import '/model/question_template.dart';
-import 'dart:math';
+import '/model/util.dart';
 
 enum QUESTYPE {
   lcm,
@@ -25,7 +28,7 @@ class QuizProvider with ChangeNotifier {
 
   int get score => _score;
 
-  List<QuestionTemplate> get quesTemplateList => [..._quesTemplateList];
+  List<QuestionTemplate> get quesTemplateList => _quesTemplateList;
 
   Future<void> readDataFromDatabase(QUESTYPE questype) async {
     DbHelper dbHelper = DbHelper();
@@ -93,13 +96,13 @@ class QuizProvider with ChangeNotifier {
     StringBuffer stringBuffer = StringBuffer();
     for (int a = 0; a < quesTemp.valuePlaceholdersCount; a++) {
       for (int b = a + 1; b < quesTemp.valuePlaceholdersCount; b++) {
-        if (quesTemp.randomValues[a] > quesTemp.randomValues[b]) {
-          int firstValue = quesTemp.randomValues[a];
-          quesTemp.randomValues[a] = quesTemp.randomValues[b];
-          quesTemp.randomValues[b] = firstValue;
+        if (quesTemp.values[a] > quesTemp.values[b]) {
+          int firstValue = quesTemp.values[a];
+          quesTemp.values[a] = quesTemp.values[b];
+          quesTemp.values[b] = firstValue;
         }
       }
-      stringBuffer.write(quesTemp.randomValues[a]);
+      stringBuffer.write(quesTemp.values[a]);
     }
     return int.parse(stringBuffer.toString());
   }
@@ -108,13 +111,13 @@ class QuizProvider with ChangeNotifier {
     StringBuffer stringBuffer = StringBuffer();
     for (int a = 0; a < quesTemp.valuePlaceholdersCount; a++) {
       for (int b = a + 1; b < quesTemp.valuePlaceholdersCount; b++) {
-        if (quesTemp.randomValues[a] < quesTemp.randomValues[b]) {
-          int firstValue = quesTemp.randomValues[a];
-          quesTemp.randomValues[a] = quesTemp.randomValues[b];
-          quesTemp.randomValues[b] = firstValue;
+        if (quesTemp.values[a] < quesTemp.values[b]) {
+          int firstValue = quesTemp.values[a];
+          quesTemp.values[a] = quesTemp.values[b];
+          quesTemp.values[b] = firstValue;
         }
       }
-      stringBuffer.write(quesTemp.randomValues[a]);
+      stringBuffer.write(quesTemp.values[a]);
     }
     return int.parse(stringBuffer.toString());
   }
@@ -133,13 +136,13 @@ class QuizProvider with ChangeNotifier {
 
   void _makeRatioAnswer(QuestionTemplate quesTemp) {
     String ratio =
-        Util.ratio(quesTemp.randomValues[0], quesTemp.randomValues[1]);
+        Util.ratio(quesTemp.values[0], quesTemp.values[1]);
     quesTemp.formula = quesTemp.formula.replaceAll('ratio', ratio.toString());
     _makeAnswer(quesTemp);
   }
 
   void _hcf(QuestionTemplate data) {
-    int hcf = Util.hcf(data.randomValues[0], data.randomValues[1]);
+    int hcf = Util.hcf(data.values[0], data.values[1]);
     data.formula = data.formula.replaceAll('hcf', hcf.toString());
     _makeAnswer(data);
   }
@@ -153,10 +156,10 @@ class QuizProvider with ChangeNotifier {
     int? lcm;
     if (quesTemp.valuePlaceholdersCount == 3) {
       int firstLcm =
-          Util.lcm(quesTemp.randomValues[0], quesTemp.randomValues[1]);
-      lcm = Util.lcm(firstLcm, quesTemp.randomValues[2]);
+          Util.lcm(quesTemp.values[0], quesTemp.values[1]);
+      lcm = Util.lcm(firstLcm, quesTemp.values[2]);
     } else if (quesTemp.valuePlaceholdersCount == 2) {
-      lcm = Util.lcm(quesTemp.randomValues[0], quesTemp.randomValues[1]);
+      lcm = Util.lcm(quesTemp.values[0], quesTemp.values[1]);
     }
     quesTemp.formula = quesTemp.formula.replaceAll('lcm', lcm.toString());
     _makeAnswer(quesTemp);
@@ -207,10 +210,10 @@ class QuizProvider with ChangeNotifier {
 
   bool _isAnswerPositive(QuestionTemplate quesTemp) {
     String formula = quesTemp.formula;
-    quesTemp.randomValues = [];
+    quesTemp.values = [];
     for (int arr = 1; arr <= quesTemp.valuePlaceholdersCount; arr++) {
       int randomValue = _random.nextInt(100);
-      quesTemp.randomValues.add(randomValue);
+      quesTemp.values.add(randomValue);
       formula = formula.replaceAll('V$arr', randomValue.toString());
     }
     int answer = formula.interpret().toInt();
@@ -219,7 +222,7 @@ class QuizProvider with ChangeNotifier {
 
   void _changeValuePlaceholder(QuestionTemplate quesTemp) {
     for (int arr = 1; arr <= quesTemp.valuePlaceholdersCount; arr++) {
-      if (quesTemp.randomValues.length < quesTemp.valuePlaceholdersCount) {
+      if (quesTemp.values.length < quesTemp.valuePlaceholdersCount) {
         _makeRandomValue(quesTemp);
       }
       _changeQuesValuePlaceholder(quesTemp, arr);
@@ -229,17 +232,17 @@ class QuizProvider with ChangeNotifier {
 
   void _makeRandomValue(QuestionTemplate quesType) {
     int randomValue = _random.nextInt(100);
-    quesType.randomValues.add(randomValue);
+    quesType.values.add(randomValue);
   }
 
   void _changeFormulaValuePlaceholder(QuestionTemplate quesTemp, int index) {
     quesTemp.formula = quesTemp.formula
-        .replaceAll('V$index', (quesTemp.randomValues[index - 1]).toString());
+        .replaceAll('V$index', (quesTemp.values[index - 1]).toString());
   }
 
   void _changeQuesValuePlaceholder(QuestionTemplate quesTemp, int index) {
     quesTemp.ques = quesTemp.ques
-        .replaceAll('V$index', quesTemp.randomValues[index - 1].toString());
+        .replaceAll('V$index', quesTemp.values[index - 1].toString());
   }
 
   void _makeAnswer(QuestionTemplate quesTemp) {
@@ -269,14 +272,7 @@ class QuizProvider with ChangeNotifier {
 
   bool _isContainName(String ques) {
     print(ques);
-    List<String> names = [
-      ' she ',
-      ' he ',
-      ' his ',
-      ' her ',
-      ' him ',
-      ' it '
-    ];
+    List<String> names = [' she ', ' he ', ' his ', ' her ', ' him ', ' it '];
     Iterable iterable = names.where((element) => ques.contains(element));
     print(iterable.isEmpty);
     return iterable.isNotEmpty;

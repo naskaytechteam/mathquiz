@@ -4,14 +4,14 @@ import '/screens/ques_screen.dart';
 import 'package:provider/provider.dart';
 import '/provider/quiz_provider.dart';
 
-class QuesTypeScreen extends StatefulWidget {
-  const QuesTypeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<QuesTypeScreen> createState() => _QuesTypeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _QuesTypeScreenState extends State<QuesTypeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   double _firstImagePositionFromTop = 0,
       _secondImagePositionFromTop = 0,
       _thirdImagePositionFromTop = 0,
@@ -93,13 +93,12 @@ class _QuesTypeScreenState extends State<QuesTypeScreen> {
     );
   }
 
-  void _onQuesTypeSelected(QUESTYPE questype) async {
+  Future<void> _onQuesTypeSelected(QUESTYPE questype) async {
     NavigatorState navigatorState = Navigator.of(context);
     QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
     await provider.readDataFromDatabase(questype);
     if (provider.quesTemplateList.isEmpty) {
       _showDialogBox();
-      return;
     }
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return QuesScreen(

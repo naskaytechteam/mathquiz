@@ -3,7 +3,7 @@ class QuestionTemplate {
   int valuePlaceholdersCount;
   String formula;
   List<num> options = [];
-  List<int> randomValues = [];
+  List<int> values = [];
   num? answer;
   int quesType;
 
