@@ -33,28 +33,29 @@ class QuizProvider with ChangeNotifier {
   Future<void> readDataFromDatabase(QUESTYPE questype) async {
     DbHelper dbHelper = DbHelper();
     _quesTemplateList = await dbHelper.readData(questype);
-    _resetScore();
+    // _resetScore();
   }
 
-  void _resetScore() {
+  void resetScore() {
     _score = 0;
   }
-
+/// this method change current index question template with ques
   QuestionTemplate? getQuestionTemplateForIndex(int index) {
     _index = index;
     _checkQuestionType(quesTemplateList[index]);
-
+/// if our last question is removed from list than this index will be == quesTemplateList.length and
+    /// this will return null
     if (index >= quesTemplateList.length) {
       return null;
     }
 
     return quesTemplateList[index];
   }
-
+///
   void increaseScore() {
     _score++;
   }
-
+///this method will check the type of question and will do further operation on that like changeValuePlaceHolder etc.
   void _checkQuestionType(QuestionTemplate quesTemp) {
     switch (quesTemp.quesType) {
       case 0:
@@ -166,6 +167,7 @@ class QuizProvider with ChangeNotifier {
   }
 
   void _simpleQuestion(QuestionTemplate quesTemp) {
+
     if (_isContainName(quesTemp.ques)) {
       _questionContainsName(quesTemp);
       return;
@@ -192,6 +194,7 @@ class QuizProvider with ChangeNotifier {
   }
 
   void _questionContainsName(QuestionTemplate quesTemp) {
+    /// this will check 1st time that the answer of this quesTemp is positive or negative if negative than we will try to make answer positive
     if (!_isAnswerPositive(quesTemp)) {
       _makeAnswerPositive(quesTemp);
       return;
@@ -260,7 +263,7 @@ class QuizProvider with ChangeNotifier {
     quesTemp.options.add(answer - 3);
     _swipeOptions(quesTemp.options);
   }
-
+/// this method is for swipe our answer(option) place
   void _swipeOptions(List<num> options) {
     for (int a = 0; a < 2; a++) {
       int randomValue = _random.nextInt(options.length);
