@@ -38,13 +38,11 @@ class TemplateFactory {
     }, growable: false);
   }
 
-  Future<List<QuestionTemplate>> _fetchRawTemplatesFromDB(
-      TEMPLATE_TYPE questype) {
+  Future<List<QuestionTemplate>> _fetchRawTemplatesFromDB(TEMPLATE_TYPE questype) {
     return DbHelper().readData(questype);
   }
 
-  Future<List<Question>> generateQuestions(
-      TEMPLATE_TYPE temp_type) async {
+  Future<List<Question>> generateQuestions(TEMPLATE_TYPE temp_type) async {
     _currentTemplateType = temp_type;
     _templateList ??= await _fetchRawTemplatesFromDB(temp_type);
     _populateTemplates();

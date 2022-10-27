@@ -8,15 +8,15 @@ import '/database/db_helper.dart';
 import '/model/question_template.dart';
 import '/model/util.dart';
 
-enum QUESTYPE {
-  lcm,
-  hcf,
-  simple,
-  fraction,
-  ratio,
-  ascendingdescendingdifference,
-  sampletype
-}
+// enum QUESTYPE {
+//   lcm,
+//   hcf,
+//   simple,
+//   fraction,
+//   ratio,
+//   ascendingdescendingdifference,
+//   sampletype
+// }
 
 //We can make this class as Singleton instead of changeNotifier
 //Now that it is a changeNotifier we can take advantage of that to notify a change such as being out of templates.

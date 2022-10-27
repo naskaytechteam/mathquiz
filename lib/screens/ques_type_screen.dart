@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathquiz/provider/template_factory.dart';
 import 'package:mathquiz/widgets/questypesscreenwidgets/ques_type_name.dart';
 import '/screens/ques_screen.dart';
 import 'package:provider/provider.dart';
@@ -50,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: height * 0.3,
                         width: width,
                       ),
-                      for (int a = 0; a < QUESTYPE.values.length; a++)
+                      for (int a = 0; a < TEMPLATE_TYPE.values.length; a++)
                         QuesTypeName(
-                            questype: QUESTYPE.values[a],
+                            questype: TEMPLATE_TYPE.values[a],
                             onQuesTypeSelected: _onQuesTypeSelected)
                     ],
                   ),
@@ -93,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _onQuesTypeSelected(QUESTYPE questype) async {
+  Future<void> _onQuesTypeSelected(TEMPLATE_TYPE questype) async {
     NavigatorState navigatorState = Navigator.of(context);
     QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
     await provider.readDataFromDatabase(questype);
@@ -102,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return QuesScreen(
-        quizType: questype.name,
+        templateType: questype,
       );
     }));
   }

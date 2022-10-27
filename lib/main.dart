@@ -12,7 +12,7 @@ void main() async {
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<QuizProvider>.value(value: QuizProvider()),
+      // ChangeNotifierProvider<QuizProvider>.value(value: QuizProvider()),
       ChangeNotifierProvider<TimeProvider>.value(value: TimeProvider())
     ],
     child: const MyApp(),

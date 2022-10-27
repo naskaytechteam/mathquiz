@@ -1,12 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mathquiz/provider/quiz_provider.dart';
 
-import '../../provider/quiz_provider.dart';
+import '../../provider/template_factory.dart';
 
 class QuesTypeName extends StatelessWidget {
-  final QUESTYPE questype;
-  final Function(QUESTYPE questype) onQuesTypeSelected;
+  final TEMPLATE_TYPE questype;
+  final Function(TEMPLATE_TYPE questype) onQuesTypeSelected;
 
   const QuesTypeName(
       {required this.questype, required this.onQuesTypeSelected, Key? key})

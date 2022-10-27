@@ -1,17 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import '/screens/score_screen.dart';
+import 'package:mathquiz/provider/template_factory.dart';
 import 'package:provider/provider.dart';
+
+import '/screens/score_screen.dart';
 import '../model/question_template.dart';
 import '../provider/quiz_provider.dart';
-import '../widgets/quesscreenswidgets/options.dart';
-import '../widgets/quesscreenswidgets/current_ques_list.dart';
 import '../widgets/quesscreenswidgets/app_bar.dart';
+import '../widgets/quesscreenswidgets/current_ques_list.dart';
+import '../widgets/quesscreenswidgets/options.dart';
 
 class QuesScreen extends StatefulWidget {
-  final String quizType;
+  final TEMPLATE_TYPE templateType;
 
-  const QuesScreen({required this.quizType, Key? key}) : super(key: key);
+  const QuesScreen({required this.templateType, Key? key}) : super(key: key);
 
   @override
   State<QuesScreen> createState() => QuesScreenState();
@@ -39,30 +41,33 @@ class QuesScreenState extends State<QuesScreen> {
     return Scaffold(
       appBar: const Appbar(),
       backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          children: [
-            _gap(height * 0.02),
-            Image.asset(
-              'assets/back.png',
-              fit: BoxFit.fill,
-              width: width,
-              height: height * 0.2,
-            ),
-            _gap(height * 0.02),
-            _buildQuesType(widget.quizType),
-            _gap(height * 0.02),
-            CurrentQuesList(
-              index: _quesIndex,
-              totalQuestion: provider.quesTemplateList.length,
-            ),
-            _gap(height * 0.03),
-            _buildQuestion(quesTemp!.ques, height, width),
-            Options(quesScreen: this, option: quesTemp.options),
-            _gap(height * 0.03),
-            _buildNextButton(height, width)
-          ],
+      body: FutureBuilder(
+        future: TemplateFactory().generateQuestions(widget.templateType),
+        builder: (context, snapshot) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: Column(
+            children: [
+              _gap(height * 0.02),
+              Image.asset(
+                'assets/back.png',
+                fit: BoxFit.fill,
+                width: width,
+                height: height * 0.2,
+              ),
+              _gap(height * 0.02),
+              _buildQuesType(widget.templateType),
+              _gap(height * 0.02),
+              CurrentQuesList(
+                index: _quesIndex,
+                totalQuestion: provider.quesTemplateList.length,
+              ),
+              _gap(height * 0.03),
+              _buildQuestion(quesTemp!.ques, height, width),
+              Options(quesScreen: this, option: quesTemp.options),
+              _gap(height * 0.03),
+              _buildNextButton(height, width)
+            ],
+          ),
         ),
       ),
     );
@@ -100,11 +105,11 @@ class QuesScreenState extends State<QuesScreen> {
     );
   }
 
-  Widget _buildQuesType(String quizType) {
+  Widget _buildQuesType(TEMPLATE_TYPE quizType) {
     return Container(
         alignment: Alignment.centerLeft,
         child: Text(
-          quizType,
+          quizType.name,
           style: const TextStyle(color: Colors.white, fontSize: 20),
         ));
   }
