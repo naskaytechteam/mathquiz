@@ -98,6 +98,7 @@ class TemplateFactory {
   }
 
   void _initFormula(QuestionTemplate questionTemplate, int placeHolderIndex) {
+    //would it affect if I solve for lcm, hcf,etc.. & then place t in formula?
     var placeHolderValue = questionTemplate.values[placeHolderIndex].toString();
     questionTemplate.formula.replaceAll('V$placeHolderIndex', placeHolderValue);
   }
@@ -109,7 +110,7 @@ class TemplateFactory {
 
   Iterable<int> generateRandomValues(int size) sync* {
     while (size >= 0) {
-      yield _random.nextInt(100);
+      yield _random.nextInt(100) + 1;
       --size;
     }
   }
