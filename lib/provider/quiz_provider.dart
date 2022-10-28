@@ -18,6 +18,26 @@ import '/model/util.dart';
 //   sampletype
 // }
 
+/// Steps to make a Question from a QuestionTemplate :
+/// 1) fetch templates from DB (for a given type).
+/// 2) Generate random values (could be any range)
+/// 3) Solve the question with the populated values from the given formula
+/// (template has a "formula" field)... (There is is an exception).
+/// 4) change placeholder(refers to all placeholders i.e. formula, question, values.
+/// Template has a placeholderCount field to fetch the number of placeholders in a template.)
+/// of question with generated random values (The template should only populate
+/// itself once the user has moved to that question).
+/// 5) Generate options: Options are random values near the correct answer.
+/// 6) Randomize the option list with correct answer and options so the correct answer
+/// position is always random on UI.
+///
+/// 7) Voilaaa!!! Your question is ready! :D
+///
+/// Exceptional Case:
+/// For Question with Non - Negative types:
+/// 1) Same procedure till step 4 from above. if the answer cannot be -ve then
+/// set a limit for re-generating the answer.
+
 //We can make this class as Singleton instead of changeNotifier
 //Now that it is a changeNotifier we can take advantage of that to notify a change such as being out of templates.
 class QuizProvider with ChangeNotifier {
