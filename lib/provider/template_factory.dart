@@ -1,12 +1,9 @@
 import 'dart:math';
-
 import 'package:function_tree/function_tree.dart';
-
 import '../database/db_helper.dart';
 import '../model/question.dart';
 import '../model/question_template.dart';
 import '../model/util.dart';
-
 
 /// Init random values first, get answer from formula but just use the formula
 /// to calculate answer, don't initialize it or anything, for simple questions
@@ -49,55 +46,51 @@ class TemplateFactory {
 
   Future<List<Question>> generateQuestions(TEMPLATE_TYPE temp_type) async {
     _currentTemplateType = temp_type;
-    _templateList ??= await _fetchRawTemplatesFromDB(temp_type);
+    _templateList = await _fetchRawTemplatesFromDB(temp_type);
     _populateTemplates();
 
     //////////////////// PENDING //////////////////////////
     // _initAnswers();
     // _checkQuestionType(quesTemplateList[index]);
+    if (temp_type == TEMPLATE_TYPE.simple) {
+      _selectQuestionWithNotEmptyOption();
+    }
 
     return convertTemplatesToQuestions();
   }
-  //
-  // void _initAnswers() {
-  //   _templateList?.forEach((element) {
-  //     switch (_currentTemplateType!.index) {
-  //       case 0:
-  //         _makeLcmAnswer(element);
-  //         break;
-  //       case 1:
-  //         // _hcfQuestion(element);
-  //         break;
-  //       case 2: //this is good than that
-  //         _simpleQuestion(element);
-  //         break;
-  //       case 3:
-  //         fraction(element);
-  //         break;
-  //       case 4:
-  //         _ratioQuestion(element);
-  //         break;
-  //       case 5:
-  //         _ascendingdescendingQues(element);
-  //         break;
-  //     }
-  //   });
-  // }
+
+  void _selectQuestionWithNotEmptyOption() {
+    _templateList =
+        _templateList?.where((element) => element.options.length == 4).toList();
+  }
 
   void _populateTemplates() {
     _templateList?.forEach((template) {
       _initRandomValues(template);
       template.answer = _getAnswer(template);
+      if (_currentTemplateType == TEMPLATE_TYPE.simple &&
+          _isContainName(template.ques) &&
+          !_isAnswerPositive(template.answer!)) {
+        _tryToMakeAnswerPositive(template);
+        return;
+      }
 
       _initQuestion(template);
+      _makeOptions(template);
       // _initPlaceHolders(template);
     });
   }
 
-  // void _initPlaceHolders(QuestionTemplate quesTemp) {
-  //   _initFormula(quesTemp);
-  //   _initQuestion(quesTemp);
-  // }
+  void _tryToMakeAnswerPositive(QuestionTemplate quesTemp) {
+    _initRandomValues(quesTemp);
+    _makeAnswerPositive(quesTemp);
+  }
+
+  bool _isContainName(String ques) {
+    List<String> names = [' she ', ' he ', ' his ', ' her ', ' him ', ' it '];
+    Iterable iterable = names.where((element) => ques.contains(element));
+    return iterable.isNotEmpty;
+  }
 
   void _initRandomValues(QuestionTemplate temp) {
     temp.values.clear();
@@ -107,42 +100,44 @@ class TemplateFactory {
   int _getAnswer(QuestionTemplate template) {
     var formula = template.formula;
     if (_currentTemplateType == TEMPLATE_TYPE.hcf) {
-      //calculate hcf here
-      int hcf = Util.hcf(data.values[0], data.values[1]);
-      data.formula = data.formula.replaceAll('hcf', hcf.toString());
+      int hcf = Util.hcf(template.values);
+      formula = formula.replaceAll('hcf', '$hcf');
     } else if (_currentTemplateType == TEMPLATE_TYPE.lcm) {
-      //calculate lcm here
+      int lcm = Util.lcm(template.values);
+      formula = formula.replaceAll('lcm', '$lcm');
     } else if (_currentTemplateType == TEMPLATE_TYPE.ratio) {
-      //calculate ratio here
-    } else if (_currentTemplateType == TEMPLATE_TYPE.ascendingdescendingdifference) {
-      int asc = Util.reduceList(values: template.values);
-      int des = Util.reduceList(values: template.values, sortOrder: SortOrder.descending);
-      formula = formula..replaceAll('ascending', asc.toString())
-        ..replaceAll('descending', des.toString());
+    } else if (_currentTemplateType ==
+        TEMPLATE_TYPE.ascendingdescendingdifference) {
+      /// logic need to be change
+      // int asc = Util.reduceList(values: template.values);
+      // int des = Util.reduceList(
+      //     values: template.values, sortOrder: SortOrder.descending);
+      // formula = formula
+      //     .replaceAll('ascending', asc.toString())
+      //     .replaceAll('descending', des.toString());
     } else {
-      for (int i = 0; i < template.valuePlaceholdersCount; i++) {
-        var placeHolderValue = template.values[i].toString();
-        formula.replaceAll('V$i', placeHolderValue);
+      for (int i = 1; i <= template.valuePlaceholdersCount; i++) {
+        var placeHolderValue = template.values[i - 1].toString();
+        formula = formula.replaceAll('V$i', placeHolderValue);
       }
     }
     return formula.interpret().toInt();
   }
 
   void _initQuestion(QuestionTemplate questionTemplate) {
-    for (int i = 0; i < questionTemplate.valuePlaceholdersCount; i++) {
-      var placeHolderValue = questionTemplate.values[i].toString();
-      questionTemplate.ques.replaceAll('V$i', placeHolderValue);
+    for (int i = 1; i <= questionTemplate.valuePlaceholdersCount; i++) {
+      var placeHolderValue = questionTemplate.values[i - 1].toString();
+      questionTemplate.ques =
+          questionTemplate.ques.replaceAll('V$i', placeHolderValue);
     }
   }
 
   Iterable<int> generateRandomValues(int size) sync* {
-    while (size >= 0) {
+    while (size > 0) {
       yield _random.nextInt(100) + 1;
       --size;
     }
   }
-
-  void _checkQuestionType(QuestionTemplate template) {}
 
   ///////////////////////////////////////////////////////////////////////
 
@@ -153,92 +148,41 @@ class TemplateFactory {
     quesTemp.options.add(1);
   }
 
-  void _ratioQuestion(QuestionTemplate quesTemp) {
-    // _changeValuePlaceholder(quesTemp);
-    _makeRatioAnswer(quesTemp);
-  }
-
-  void _makeRatioAnswer(QuestionTemplate quesTemp) {
-    String ratio = Util.ratio(quesTemp.values[0], quesTemp.values[1]);
-    quesTemp.formula = quesTemp.formula.replaceAll('ratio', ratio.toString());
-    // _makeAnswer(quesTemp);
-  }
-
-  void _hcf(QuestionTemplate data) {
-    int hcf = Util.hcf(data.values[0], data.values[1]);
-    data.formula = data.formula.replaceAll('hcf', hcf.toString());
-    // _makeAnswer(data);
-  }
-
-  void _lcmQues(QuestionTemplate quesTemp) {
-    // _changeValuePlaceholder(quesTemp);
-    ;
-  }
-
-  void _makeLcmAnswer(QuestionTemplate quesTemp) {
-    int? lcm;
-    if (quesTemp.valuePlaceholdersCount == 3) {
-      int firstLcm = Util.lcm(quesTemp.values[0], quesTemp.values[1]);
-      lcm = Util.lcm(firstLcm, quesTemp.values[2]);
-    } else if (quesTemp.valuePlaceholdersCount == 2) {
-      lcm = Util.lcm(quesTemp.values[0], quesTemp.values[1]);
-    }
-    quesTemp.formula = quesTemp.formula.replaceAll('lcm', lcm.toString());
-    // _makeAnswer(quesTemp);
-  }
-
-  void _simpleQuestion(QuestionTemplate quesTemp) {
-    // if (_isContainName(quesTemp.ques)) {
-    //   _questionContainsName(quesTemp);
-    //   return;
-    // }
-    // _changeValuePlaceholder(quesTemp);
-    // _makeAnswer(quesTemp);
-  }
-
   void _makeAnswerPositive(QuestionTemplate quesTemp) {
-    bool isAnswerPositive = _isAnswerPositive(quesTemp);
-    int totalLoop = 5;
-    for (int a = 1; a <= totalLoop; a++) {
-      if (isAnswerPositive) {
-        // _changeValuePlaceholder(quesTemp);
-        // _makeAnswer(quesTemp);
-        return;
-      }
-      if (a == totalLoop) {
-        _removeQues(quesTemp);
+    int totalRetry = 5;
+    for (int i = 1; i <= totalRetry; i++) {
+      int answer = _getAnswer(quesTemp);
+      if (_isAnswerPositive(answer)) {
+        quesTemp.answer = answer;
         break;
       }
-      isAnswerPositive = _isAnswerPositive(quesTemp);
+      if (i == totalRetry) {
+        return;
+      }
+      _initRandomValues(quesTemp);
+    }
+    _makeOptions(quesTemp);
+  }
+
+  void _makeOptions(QuestionTemplate quesTemp) {
+    num answer = quesTemp.answer!;
+    quesTemp.options.add(answer);
+    quesTemp.options.add(answer - 5);
+    quesTemp.options.add(answer + 5);
+    quesTemp.options.add(answer - 3);
+    _swipeOptions(quesTemp.options);
+  }
+
+  void _swipeOptions(List<num> options) {
+    for (int a = 0; a < 2; a++) {
+      int randomValue = _random.nextInt(options.length);
+      num value = options[a];
+      options[a] = options[randomValue];
+      options[randomValue] = value;
     }
   }
 
-  void _questionContainsName(QuestionTemplate quesTemp) {
-    if (!_isAnswerPositive(quesTemp)) {
-      _makeAnswerPositive(quesTemp);
-      return;
-    }
-    // _changeValuePlaceholder(quesTemp);
-    // _makeAnswer(quesTemp);
-  }
-
-  void _removeQues(QuestionTemplate quesTemp) {
-    // _quesTemplateList.remove(quesTemp);
-    // if (_index! >= quesTemplateList.length) {
-    //   return;
-    // }
-    // _simpleQuestion(quesTemplateList[_index!]);
-  }
-
-  bool _isAnswerPositive(QuestionTemplate quesTemp) {
-    String formula = quesTemp.formula;
-    quesTemp.values = [];
-    for (int arr = 1; arr <= quesTemp.valuePlaceholdersCount; arr++) {
-      int randomValue = _random.nextInt(100);
-      quesTemp.values.add(randomValue);
-      formula = formula.replaceAll('V$arr', randomValue.toString());
-    }
-    int answer = formula.interpret().toInt();
+  bool _isAnswerPositive(num answer) {
     return answer > 0;
   }
 }
