@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mathquiz/provider/template_factory.dart';
-import 'package:mathquiz/widgets/questypesscreenwidgets/ques_type_name.dart';
+import '/provider/template_factory.dart';
+import '/widgets/questypesscreenwidgets/ques_type_name.dart';
+import '../model/question.dart';
 import '/screens/ques_screen.dart';
-import 'package:provider/provider.dart';
-import '/provider/quiz_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -94,16 +93,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _onQuesTypeSelected(TEMPLATE_TYPE questype) async {
+  Future<void> _onQuesTypeSelected(TEMPLATE_TYPE temptype) async {
     NavigatorState navigatorState = Navigator.of(context);
-    QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
-    await provider.readDataFromDatabase(questype);
-    if (provider.quesTemplateList.isEmpty) {
+    // QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
+    // await provider.readDataFromDatabase(questype);
+    List<Question>questions=await TemplateFactory().generateQuestions(temptype);
+    if (questions.isEmpty) {
       _showDialogBox();
+      return;
     }
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return QuesScreen(
-        templateType: questype,
+        templateType: temptype,
+        questions: questions,
       );
     }));
   }
