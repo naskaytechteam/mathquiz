@@ -4,9 +4,8 @@ enum SortOrder {
 }
 
 class Util {
-  //TODO : Convert this method same as the lcm method which takes a list.
-  static int hcf(int firstValue, int secondValue) {
-    return _findGCD(firstValue, secondValue);
+  static int hcf(List<int> values) {
+    return values.reduce((value, element) => _findGCD(value, element));
   }
 
   static int _findGCD(int x, int y) {
@@ -27,10 +26,15 @@ class Util {
   }
 
   // [2, 5, 9, 10] sortOrder = ascending => [9, 2, 5, 10] = 92510
-  static int reduceList({required List<int> values, SortOrder sortOrder = SortOrder.ascending}) {
-    List<int> sortedList = sortOrder == SortOrder.descending ?
-    _sortListInDescendingOrder(values) : _sortListInAscendingOrder(values);
-    return sortedList.reduce((previousValue, element) => previousValue * 10 + element);
+  static int reduceList(
+      {required List<int> values, SortOrder sortOrder = SortOrder.ascending}) {
+    List<int> sortedList = sortOrder == SortOrder.descending
+        ? _sortListInDescendingOrder(values)
+        : _sortListInAscendingOrder(values);
+    /// why are we multiplying this previousValue by 10
+
+    return sortedList
+        .reduce((previousValue, element) => previousValue * 10 + element);
   }
 
   static List<int> _sortListInAscendingOrder(List<int> values) {
@@ -41,11 +45,7 @@ class Util {
     return _sortListInAscendingOrder(values).reversed.toList();
   }
 
-  static int lcm(int a, int b) {
-    return (a * b) ~/ _findGCD(a, b);
-  }
-
-  static int giveAnyProperNameForThisLCMMethod(List<int> values) {
+  static int lcm(List<int> values) {
     return values.reduce((a, b) => (a * b) ~/ _findGCD(a, b));
   }
 }
