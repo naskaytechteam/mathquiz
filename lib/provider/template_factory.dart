@@ -7,6 +7,10 @@ import '../model/question.dart';
 import '../model/question_template.dart';
 import '../model/util.dart';
 
+
+/// Init random values first, get answer from formula but just use the formula
+/// to calculate answer, don't initialize it or anything, for simple questions
+/// if answer is not correct just re init the random values
 enum TEMPLATE_TYPE {
   lcm,
   hcf,
@@ -38,7 +42,8 @@ class TemplateFactory {
     }, growable: false);
   }
 
-  Future<List<QuestionTemplate>> _fetchRawTemplatesFromDB(TEMPLATE_TYPE questype) {
+  Future<List<QuestionTemplate>> _fetchRawTemplatesFromDB(
+      TEMPLATE_TYPE questype) {
     return DbHelper().readData(questype);
   }
 
@@ -48,64 +53,86 @@ class TemplateFactory {
     _populateTemplates();
 
     //////////////////// PENDING //////////////////////////
-    _initAnswers();
+    // _initAnswers();
     // _checkQuestionType(quesTemplateList[index]);
 
     return convertTemplatesToQuestions();
   }
-
-  void _initAnswers() {
-    _templateList?.forEach((element) {
-      switch (_currentTemplateType!.index) {
-        case 0:
-          _makeLcmAnswer(element);
-          break;
-        case 1:
-          // _hcfQuestion(element);
-          break;
-        case 2: //this is good than that
-          _simpleQuestion(element);
-          break;
-        case 3:
-          fraction(element);
-          break;
-        case 4:
-          _ratioQuestion(element);
-          break;
-        case 5:
-          _ascendingdescendingQues(element);
-          break;
-      }
-    });
-  }
+  //
+  // void _initAnswers() {
+  //   _templateList?.forEach((element) {
+  //     switch (_currentTemplateType!.index) {
+  //       case 0:
+  //         _makeLcmAnswer(element);
+  //         break;
+  //       case 1:
+  //         // _hcfQuestion(element);
+  //         break;
+  //       case 2: //this is good than that
+  //         _simpleQuestion(element);
+  //         break;
+  //       case 3:
+  //         fraction(element);
+  //         break;
+  //       case 4:
+  //         _ratioQuestion(element);
+  //         break;
+  //       case 5:
+  //         _ascendingdescendingQues(element);
+  //         break;
+  //     }
+  //   });
+  // }
 
   void _populateTemplates() {
-    _templateList?.forEach((element) {
-      _initPlaceHolders(element);
+    _templateList?.forEach((template) {
+      _initRandomValues(template);
+      template.answer = _getAnswer(template);
+
+      _initQuestion(template);
+      // _initPlaceHolders(template);
     });
   }
 
-  void _initPlaceHolders(QuestionTemplate quesTemp) {
-    _initRandomValues(quesTemp);
-    for (int i = 0; i < quesTemp.valuePlaceholdersCount; i++) {
-      _initFormula(quesTemp, i);
-      _initQuestion(quesTemp, i);
-    }
-  }
+  // void _initPlaceHolders(QuestionTemplate quesTemp) {
+  //   _initFormula(quesTemp);
+  //   _initQuestion(quesTemp);
+  // }
 
   void _initRandomValues(QuestionTemplate temp) {
+    temp.values.clear();
     temp.values.addAll(generateRandomValues(temp.valuePlaceholdersCount));
   }
 
-  void _initFormula(QuestionTemplate questionTemplate, int placeHolderIndex) {
-    //would it affect if I solve for lcm, hcf,etc.. & then place t in formula?
-    var placeHolderValue = questionTemplate.values[placeHolderIndex].toString();
-    questionTemplate.formula.replaceAll('V$placeHolderIndex', placeHolderValue);
+  int _getAnswer(QuestionTemplate template) {
+    var formula = template.formula;
+    if (_currentTemplateType == TEMPLATE_TYPE.hcf) {
+      //calculate hcf here
+      int hcf = Util.hcf(data.values[0], data.values[1]);
+      data.formula = data.formula.replaceAll('hcf', hcf.toString());
+    } else if (_currentTemplateType == TEMPLATE_TYPE.lcm) {
+      //calculate lcm here
+    } else if (_currentTemplateType == TEMPLATE_TYPE.ratio) {
+      //calculate ratio here
+    } else if (_currentTemplateType == TEMPLATE_TYPE.ascendingdescendingdifference) {
+      int asc = Util.reduceList(values: template.values);
+      int des = Util.reduceList(values: template.values, sortOrder: SortOrder.descending);
+      formula = formula..replaceAll('ascending', asc.toString())
+        ..replaceAll('descending', des.toString());
+    } else {
+      for (int i = 0; i < template.valuePlaceholdersCount; i++) {
+        var placeHolderValue = template.values[i].toString();
+        formula.replaceAll('V$i', placeHolderValue);
+      }
+    }
+    return formula.interpret().toInt();
   }
 
-  void _initQuestion(QuestionTemplate questionTemplate, int placeHolderIndex) {
-    var placeHolderValue = questionTemplate.values[placeHolderIndex].toString();
-    questionTemplate.ques.replaceAll('V$placeHolderIndex', placeHolderValue);
+  void _initQuestion(QuestionTemplate questionTemplate) {
+    for (int i = 0; i < questionTemplate.valuePlaceholdersCount; i++) {
+      var placeHolderValue = questionTemplate.values[i].toString();
+      questionTemplate.ques.replaceAll('V$i', placeHolderValue);
+    }
   }
 
   Iterable<int> generateRandomValues(int size) sync* {
@@ -118,49 +145,6 @@ class TemplateFactory {
   void _checkQuestionType(QuestionTemplate template) {}
 
   ///////////////////////////////////////////////////////////////////////
-
-  void _ascendingdescendingQues(QuestionTemplate quesTemp) {
-    _makeascendingdescendingOQuesFormula(quesTemp);
-    // _makeAnswer(quesTemp);
-  }
-
-  void _makeascendingdescendingOQuesFormula(QuestionTemplate quesTemp) {
-    int asc = _ascendingOrder(quesTemp);
-    int des = _descendingOrder(quesTemp);
-    quesTemp.formula = quesTemp.formula.replaceAll('ascending', asc.toString());
-    quesTemp.formula =
-        quesTemp.formula.replaceAll('descending', des.toString());
-  }
-
-  int _ascendingOrder(QuestionTemplate quesTemp) {
-    StringBuffer stringBuffer = StringBuffer();
-    for (int a = 0; a < quesTemp.valuePlaceholdersCount; a++) {
-      for (int b = a + 1; b < quesTemp.valuePlaceholdersCount; b++) {
-        if (quesTemp.values[a] > quesTemp.values[b]) {
-          int firstValue = quesTemp.values[a];
-          quesTemp.values[a] = quesTemp.values[b];
-          quesTemp.values[b] = firstValue;
-        }
-      }
-      stringBuffer.write(quesTemp.values[a]);
-    }
-    return int.parse(stringBuffer.toString());
-  }
-
-  int _descendingOrder(QuestionTemplate quesTemp) {
-    StringBuffer stringBuffer = StringBuffer();
-    for (int a = 0; a < quesTemp.valuePlaceholdersCount; a++) {
-      for (int b = a + 1; b < quesTemp.valuePlaceholdersCount; b++) {
-        if (quesTemp.values[a] < quesTemp.values[b]) {
-          int firstValue = quesTemp.values[a];
-          quesTemp.values[a] = quesTemp.values[b];
-          quesTemp.values[b] = firstValue;
-        }
-      }
-      stringBuffer.write(quesTemp.values[a]);
-    }
-    return int.parse(stringBuffer.toString());
-  }
 
   void fraction(QuestionTemplate quesTemp) {
     quesTemp.options.add(1);
