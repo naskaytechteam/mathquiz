@@ -8,7 +8,7 @@ import '../widgets/quesscreenswidgets/current_ques_list.dart';
 import '../widgets/quesscreenswidgets/options.dart';
 
 class QuesScreen extends StatefulWidget {
-  final TEMPLATE_TYPE templateType;
+  final TemplateType templateType;
   final List<Question> questions;
 
   const QuesScreen(
@@ -99,7 +99,7 @@ class QuesScreenState extends State<QuesScreen> {
     );
   }
 
-  Widget _buildQuesType(TEMPLATE_TYPE quizType) {
+  Widget _buildQuesType(TemplateType quizType) {
     return Container(
         alignment: Alignment.centerLeft,
         child: Text(
@@ -109,8 +109,21 @@ class QuesScreenState extends State<QuesScreen> {
   }
 
   void _onNextButtonClick() {
-    _checkAnswer();
+    if (_quesIndex < widget.questions.length) {
+      _updateScore();
+    }
     _increaseIndex();
+  }
+
+  void _updateScore() {
+    if (_checkAnswer()) {
+      _increaseScore();
+    }
+  }
+
+  void _increaseScore() {
+    TemplateFactory templateFactory = TemplateFactory();
+    templateFactory.increaseScore();
   }
 
   void _increaseIndex() {
@@ -123,13 +136,9 @@ class QuesScreenState extends State<QuesScreen> {
     showScore();
   }
 
-  void _checkAnswer() {
-    if (_quesIndex < widget.questions.length) {
-      num answer = widget.questions[_quesIndex].answer;
-      if (optionSelected == answer) {
-        // quizProvider.increaseScore();
-      }
-    }
+  bool _checkAnswer() {
+    num answer = widget.questions[_quesIndex].answer;
+    return answer == optionSelected;
   }
 
   void showScore() {
