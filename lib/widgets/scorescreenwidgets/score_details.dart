@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../model/question.dart';
+import '/provider/template_factory.dart';
 import 'ques_score_details.dart';
-import 'package:provider/provider.dart';
-import '../../provider/quiz_provider.dart';
 
 class ScoreDetails extends StatelessWidget {
   final int currentQuestionIndex;
+  final List<Question> questions;
 
-  const ScoreDetails({required this.currentQuestionIndex, Key? key})
+  const ScoreDetails(
+      {required this.currentQuestionIndex, required this.questions, Key? key})
       : super(key: key);
 
   @override
@@ -14,11 +16,12 @@ class ScoreDetails extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    QuizProvider quizProvider = Provider.of<QuizProvider>(context);
-    int correctAnswer = quizProvider.score;
-    int wrongAnswer = quizProvider.quesTemplateList.length - correctAnswer;
-    int completation =
-    (currentQuestionIndex * 100) ~/ quizProvider.quesTemplateList.length;
+    TemplateFactory templateFactory = TemplateFactory();
+    int correctAnswer = templateFactory.score;
+
+    int wrongAnswer = questions.length - correctAnswer;
+    int completion = (currentQuestionIndex * 100) ~/ questions.length;
+
     return Align(
       child: Container(
         height: height * 0.2,
@@ -35,10 +38,10 @@ class ScoreDetails extends StatelessWidget {
         child: Column(
           children: [
             QuesScoreDetails(
-                firstType: 'Conpletaion',
+                firstType: 'Completion',
                 secondType: 'Total Question',
-                firstResult: '$completation%',
-                secondResult: quizProvider.quesTemplateList.length.toString()),
+                firstResult: '$completion%',
+                secondResult: questions.length.toString()),
             QuesScoreDetails(
               firstType: 'Correct',
               secondType: 'Wrong',
