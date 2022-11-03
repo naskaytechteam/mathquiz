@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../provider/template_factory.dart';
 
 class QuesTypeName extends StatelessWidget {
-  final TEMPLATE_TYPE questype;
-  final Function(TEMPLATE_TYPE questype) onQuesTypeSelected;
+  final TemplateType questype;
+  final Function(TemplateType questype) onQuesTypeSelected;
 
   const QuesTypeName(
       {required this.questype, required this.onQuesTypeSelected, Key? key})
@@ -69,7 +69,7 @@ class QuesTypeName extends StatelessWidget {
                     SizedBox(
                       height: height * 0.02,
                     ),
-                    LinearProgressIndicator(
+                    const LinearProgressIndicator(
                       value: 1,
                       backgroundColor: Colors.grey,
                       color: Colors.white60,
