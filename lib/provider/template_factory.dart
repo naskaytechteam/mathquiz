@@ -23,11 +23,22 @@ class TemplateFactory {
   List<QuestionTemplate>? _templateList;
   final Random _random = Random();
   TemplateType? _currentTemplateType;
+  int _score = 0;
 
   TemplateFactory._();
 
   factory TemplateFactory() {
     return _instance ??= TemplateFactory._();
+  }
+
+  int get score => _score;
+
+  void increaseScore() {
+    _score++;
+  }
+
+  void resetScore() {
+    _score = 0;
   }
 
   Future<List<Question>> _convertTemplatesToQuestions() async {
