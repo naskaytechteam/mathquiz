@@ -1,18 +1,20 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '/provider/quiz_provider.dart';
+import '/provider/template_factory.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
-import 'package:provider/provider.dart';
+import '../model/question.dart';
 import '/screens/review_answer.dart';
 import '../widgets/scorescreenwidgets/score_details.dart';
 import '../widgets/scorescreenwidgets/your_point.dart';
 
 class ScoreScreen extends StatelessWidget {
   final int currentQuestionIndex;
+  final List<Question> questions;
 
-  const ScoreScreen({required this.currentQuestionIndex, Key? key})
+  const ScoreScreen(
+      {required this.currentQuestionIndex, required this.questions, Key? key})
       : super(key: key);
 
   @override
@@ -26,14 +28,12 @@ class ScoreScreen extends StatelessWidget {
         width: width,
         child: Stack(
           children: [
-            _buildYourScore(height, width),
+            _buildYourScoreBackground(height, width),
             Positioned(
                 top: 0,
                 left: 0,
                 child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () => _goToHomePage(context),
                   icon: const Icon(Icons.arrow_back_outlined,
                       color: Colors.white),
                 )),
@@ -41,13 +41,16 @@ class ScoreScreen extends StatelessWidget {
               bottom: 0,
               child: _buildBottomWidget(height, width, context),
             ),
-            YourPoint(),
+            const YourPoint(),
             Positioned(
               top: 0,
               bottom: 0,
               left: 0,
               right: 0,
-              child: ScoreDetails(currentQuestionIndex: currentQuestionIndex),
+              child: ScoreDetails(
+                currentQuestionIndex: currentQuestionIndex,
+                questions: questions,
+              ),
             ),
           ],
         ),
@@ -55,7 +58,7 @@ class ScoreScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildYourScore(double height, double width) {
+  Widget _buildYourScoreBackground(double height, double width) {
     return Container(
       height: height * 0.5,
       width: width,
@@ -67,7 +70,6 @@ class ScoreScreen extends StatelessWidget {
     );
   }
 
-//refactor Name
   Widget _buildSixWidget(
       double height, double width, int index, BuildContext context) {
     List<IconData> iconList = [
@@ -90,10 +92,12 @@ class ScoreScreen extends StatelessWidget {
       onTap: () {
         if (index == 1) {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-            return const ReviewAnswer();
+            return ReviewAnswer(
+              questions: questions,
+            );
           }));
         } else if (index == 0) {
-          Navigator.pop(context);
+          _goToHomePage(context);
         } else if (index == 3) {
           _generatePdf(context, height, width);
         }
@@ -137,13 +141,11 @@ class ScoreScreen extends StatelessWidget {
 
   void _makePdfDesign(
       BuildContext context, double height, List<pdf.Widget> list) {
-    QuizProvider quizProvider =
-        Provider.of<QuizProvider>(context, listen: false);
-    for (int a = 0; a < quizProvider.quesTemplateList.length; a++) {
+    for (int a = 0; a < questions.length; a++) {
       list.add(pdf.RichText(
-        text: pdf.TextSpan(text: 'Ques ${a + 1} ', children: [
-          pdf.TextSpan(text: '${quizProvider.quesTemplateList[a].ques}\n')
-        ]),
+        text: pdf.TextSpan(
+            text: 'Ques ${a + 1} ',
+            children: [pdf.TextSpan(text: '${questions[a].question}\n')]),
       ));
 
       list.add(pdf.RichText(
@@ -152,12 +154,17 @@ class ScoreScreen extends StatelessWidget {
             style: const pdf.TextStyle(color: PdfColors.green),
             children: [
               pdf.TextSpan(
-                  text: quizProvider.quesTemplateList[a].answer.toString(),
+                  text: questions[a].answer.toString(),
                   style: const pdf.TextStyle(color: PdfColors.black))
             ]),
       ));
       list.add(pdf.SizedBox(height: height * 0.02));
     }
+  }
+
+  void _goToHomePage(BuildContext context) {
+    TemplateFactory().resetScore();
+    Navigator.pop(context);
   }
 
   void _generatePdf(BuildContext context, double height, double width) {
