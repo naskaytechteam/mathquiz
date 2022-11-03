@@ -26,6 +26,16 @@ class Util {
   }
 
   // [2, 5, 9, 10] sortOrder = ascending => [9, 2, 5, 10] = 92510
+  // static int reduceList(
+  //     {required List<int> values, SortOrder sortOrder = SortOrder.ascending}) {
+  //   List<int> sortedList = sortOrder == SortOrder.descending
+  //       ? _sortListInDescendingOrder(values)
+  //       : _sortListInAscendingOrder(values);
+  //   /// why are we multiplying this previousValue by 10
+  //
+  //   return sortedList
+  //       .reduce((previousValue, element) => previousValue * 10 + element);
+  // }
   static int reduceList(
       {required List<int> values, SortOrder sortOrder = SortOrder.ascending}) {
     List<int> sortedList = sortOrder == SortOrder.descending
@@ -33,8 +43,7 @@ class Util {
         : _sortListInAscendingOrder(values);
     /// why are we multiplying this previousValue by 10
 
-    return sortedList
-        .reduce((previousValue, element) => previousValue * 10 + element);
+    return sortedList.reduce((previousValue, element) => int.parse('$previousValue$element'));
   }
 
   static List<int> _sortListInAscendingOrder(List<int> values) {
