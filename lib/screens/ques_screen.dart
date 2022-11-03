@@ -33,11 +33,7 @@ class QuesScreenState extends State<QuesScreen> {
     return Scaffold(
       appBar: const Appbar(),
       backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
-      body:
-          // FutureBuilder(
-          //   future: TemplateFactory().generateQuestions(widget.templateType),
-          //   builder: (context, snapshot) =>
-          Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
         child: Column(
           children: [
@@ -145,6 +141,7 @@ class QuesScreenState extends State<QuesScreen> {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
       return ScoreScreen(
         currentQuestionIndex: currentQuestionIndex,
+        questions: widget.questions,
       );
     }));
   }
