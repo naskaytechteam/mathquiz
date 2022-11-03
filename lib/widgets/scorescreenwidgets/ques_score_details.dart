@@ -42,7 +42,7 @@ class QuesScoreDetails extends StatelessWidget {
       String firstDetails, String type, double height, double width,
       {Color? textColor = const Color.fromRGBO(56, 61, 110, 1)}) {
     return Align(
-      child: Container(
+      child: SizedBox(
         height: height * 0.1,
         width: width * 0.25,
         child: Column(
