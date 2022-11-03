@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mathquiz/provider/quiz_provider.dart';
-import 'package:mathquiz/widgets/scorescreenwidgets/ripple_effect_painter.dart';
-import 'package:mathquiz/widgets/scorescreenwidgets/score_container.dart';
-import 'package:provider/provider.dart';
+import '/provider/template_factory.dart';
+import '/widgets/scorescreenwidgets/ripple_effect_painter.dart';
+import '/widgets/scorescreenwidgets/score_container.dart';
 
 class YourPoint extends StatefulWidget {
   const YourPoint({Key? key}) : super(key: key);
@@ -33,10 +32,16 @@ class _YourPointState extends State<YourPoint>
     super.initState();
   }
 
+  @override
+  void dispose() {
+    animationController.removeListener(() {});
+    animationController.dispose();
+    super.dispose();
+  }
+
   void _startCountingPoints() async {
-    QuizProvider quizProvider =
-    Provider.of<QuizProvider>(context, listen: false);
-    int points = quizProvider.score * 15;
+    TemplateFactory templateFactory = TemplateFactory();
+    int points = templateFactory.score * 15;
     if (points > 0) {
       for (int a = 1; a <= points; a++) {
         setState(() {
@@ -45,14 +50,11 @@ class _YourPointState extends State<YourPoint>
         await Future.delayed(const Duration(milliseconds: 50));
       }
     }
-    animationController.stop();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
     // QuizProvider quizProvider =
@@ -66,34 +68,14 @@ class _YourPointState extends State<YourPoint>
           width: width,
           child: Stack(
             children: [
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: Container(
-              //       height: height * 0.3,
-              //       width: width * 0.6,
-              //       margin: EdgeInsets.symmetric(horizontal: width * 0.2),
-              //       decoration: BoxDecoration(
-              //           color: Colors.white70.withOpacity(0.1),
-              //           borderRadius: BorderRadius.circular(120))),
-              // )
               rippleEffectContainer(height, width),
-
-              rippleEffectContainer(height, width, child: CustomPaint(
-                painter: RippleEffectPainter(scaleAnimation.value),),),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: Container(
-              //     height: height * 0.3,
-              //     width: width * 0.6,
-              //     margin: EdgeInsets.symmetric(horizontal: width * 0.2),
-              //     decoration: BoxDecoration(
-              //         color: Colors.white70.withOpacity(0.1),
-              //         borderRadius: BorderRadius.circular(120)),
-              //     child: CustomPaint(
-              //       painter: RippleEffectPainter(scaleAnimation.value),
-              //     ),
-              //   ),
-              // ),
+              rippleEffectContainer(
+                height,
+                width,
+                child: CustomPaint(
+                  painter: RippleEffectPainter(scaleAnimation.value),
+                ),
+              ),
               ScoreContainer(point: points)
             ],
           ),
