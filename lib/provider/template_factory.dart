@@ -8,14 +8,13 @@ import '../model/util.dart';
 /// Init random values first, get answer from formula but just use the formula
 /// to calculate answer, don't initialize it or anything, for simple questions
 /// if answer is not correct just re init the random values
-enum TEMPLATE_TYPE {
+enum TemplateType {
   lcm,
   hcf,
   simple,
   fraction,
   ratio,
   ascendingdescendingdifference,
-  sampletype
 }
 
 class TemplateFactory {
@@ -23,7 +22,7 @@ class TemplateFactory {
 
   List<QuestionTemplate>? _templateList;
   final Random _random = Random();
-  TEMPLATE_TYPE? _currentTemplateType;
+  TemplateType? _currentTemplateType;
 
   TemplateFactory._();
 
@@ -31,7 +30,7 @@ class TemplateFactory {
     return _instance ??= TemplateFactory._();
   }
 
-  Future<List<Question>> convertTemplatesToQuestions() async {
+  Future<List<Question>> _convertTemplatesToQuestions() async {
     return List.generate(_templateList!.length, (index) {
       var temp = _templateList![index];
       return Question(
@@ -40,23 +39,20 @@ class TemplateFactory {
   }
 
   Future<List<QuestionTemplate>> _fetchRawTemplatesFromDB(
-      TEMPLATE_TYPE questype) {
+      TemplateType questype) {
     return DbHelper().readData(questype);
   }
 
-  Future<List<Question>> generateQuestions(TEMPLATE_TYPE temp_type) async {
-    _currentTemplateType = temp_type;
-    _templateList = await _fetchRawTemplatesFromDB(temp_type);
+  Future<List<Question>> generateQuestions(TemplateType tempType) async {
+    _currentTemplateType = tempType;
+    _templateList = await _fetchRawTemplatesFromDB(tempType);
     _populateTemplates();
 
-    //////////////////// PENDING //////////////////////////
-    // _initAnswers();
-    // _checkQuestionType(quesTemplateList[index]);
-    if (temp_type == TEMPLATE_TYPE.simple) {
+    if (tempType == TemplateType.simple) {
       _selectQuestionWithNotEmptyOption();
     }
 
-    return convertTemplatesToQuestions();
+    return _convertTemplatesToQuestions();
   }
 
   void _selectQuestionWithNotEmptyOption() {
@@ -68,22 +64,23 @@ class TemplateFactory {
     _templateList?.forEach((template) {
       _initRandomValues(template);
       template.answer = _getAnswer(template);
-      if (_currentTemplateType == TEMPLATE_TYPE.simple &&
+      if (_currentTemplateType == TemplateType.simple &&
           _isContainName(template.ques) &&
           !_isAnswerPositive(template.answer!)) {
         _tryToMakeAnswerPositive(template);
         return;
       }
-
       _initQuestion(template);
       _makeOptions(template);
-      // _initPlaceHolders(template);
     });
   }
 
   void _tryToMakeAnswerPositive(QuestionTemplate quesTemp) {
-    _initRandomValues(quesTemp);
     _makeAnswerPositive(quesTemp);
+    if (_isAnswerPositive(_getAnswer(quesTemp))) {
+      _initQuestion(quesTemp);
+      _makeOptions(quesTemp);
+    }
   }
 
   bool _isContainName(String ques) {
@@ -94,20 +91,20 @@ class TemplateFactory {
 
   void _initRandomValues(QuestionTemplate temp) {
     temp.values.clear();
-    temp.values.addAll(generateRandomValues(temp.valuePlaceholdersCount));
+    temp.values.addAll(_generateRandomValues(temp.valuePlaceholdersCount));
   }
 
   int _getAnswer(QuestionTemplate template) {
     var formula = template.formula;
-    if (_currentTemplateType == TEMPLATE_TYPE.hcf) {
+    if (_currentTemplateType == TemplateType.hcf) {
       int hcf = Util.hcf(template.values);
       formula = formula.replaceAll('hcf', '$hcf');
-    } else if (_currentTemplateType == TEMPLATE_TYPE.lcm) {
+    } else if (_currentTemplateType == TemplateType.lcm) {
       int lcm = Util.lcm(template.values);
       formula = formula.replaceAll('lcm', '$lcm');
-    } else if (_currentTemplateType == TEMPLATE_TYPE.ratio) {
+    } else if (_currentTemplateType == TemplateType.ratio) {
     } else if (_currentTemplateType ==
-        TEMPLATE_TYPE.ascendingdescendingdifference) {
+        TemplateType.ascendingdescendingdifference) {
       /// logic need to be change
       // int asc = Util.reduceList(values: template.values);
       // int des = Util.reduceList(
@@ -132,36 +129,23 @@ class TemplateFactory {
     }
   }
 
-  Iterable<int> generateRandomValues(int size) sync* {
+  Iterable<int> _generateRandomValues(int size) sync* {
     while (size > 0) {
       yield _random.nextInt(100) + 1;
       --size;
     }
   }
 
-  ///////////////////////////////////////////////////////////////////////
-
-  void fraction(QuestionTemplate quesTemp) {
-    quesTemp.options.add(1);
-    quesTemp.options.add(1);
-    quesTemp.options.add(1);
-    quesTemp.options.add(1);
-  }
-
   void _makeAnswerPositive(QuestionTemplate quesTemp) {
     int totalRetry = 5;
     for (int i = 1; i <= totalRetry; i++) {
+      _initRandomValues(quesTemp);
       int answer = _getAnswer(quesTemp);
       if (_isAnswerPositive(answer)) {
         quesTemp.answer = answer;
-        break;
-      }
-      if (i == totalRetry) {
         return;
       }
-      _initRandomValues(quesTemp);
     }
-    _makeOptions(quesTemp);
   }
 
   void _makeOptions(QuestionTemplate quesTemp) {
