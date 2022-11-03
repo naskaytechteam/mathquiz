@@ -50,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: height * 0.3,
                         width: width,
                       ),
-                      for (int a = 0; a < TEMPLATE_TYPE.values.length; a++)
+                      for (int a = 0; a < TemplateType.values.length; a++)
                         QuesTypeName(
-                            questype: TEMPLATE_TYPE.values[a],
+                            questype: TemplateType.values[a],
                             onQuesTypeSelected: _onQuesTypeSelected)
                     ],
                   ),
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _onQuesTypeSelected(TEMPLATE_TYPE tempType) async {
+  Future<void> _onQuesTypeSelected(TemplateType tempType) async {
     NavigatorState navigatorState = Navigator.of(context);
 
     List<Question> questions =
