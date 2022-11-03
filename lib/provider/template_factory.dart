@@ -87,11 +87,24 @@ class TemplateFactory {
   }
 
   void _tryToMakeAnswerPositive(QuestionTemplate quesTemp) {
-    _makeAnswerPositive(quesTemp);
-    if (_isAnswerPositive(_getAnswer(quesTemp))) {
+    bool isAnswerPositive = _makeAnswerPositive(quesTemp);
+    if (isAnswerPositive) {
       _initQuestion(quesTemp);
       _makeOptions(quesTemp);
     }
+  }
+
+  bool _makeAnswerPositive(QuestionTemplate quesTemp) {
+    int totalRetry = 5;
+    for (int i = 1; i <= totalRetry; i++) {
+      _initRandomValues(quesTemp);
+      int answer = _getAnswer(quesTemp);
+      if (_isAnswerPositive(answer)) {
+        quesTemp.answer = answer;
+        return true;
+      }
+    }
+    return false;
   }
 
   bool _isContainName(String ques) {
@@ -114,15 +127,15 @@ class TemplateFactory {
       int lcm = Util.lcm(template.values);
       formula = formula.replaceAll('lcm', '$lcm');
     } else if (_currentTemplateType == TemplateType.ratio) {
+      //need to refactor ratio question
     } else if (_currentTemplateType ==
         TemplateType.ascendingdescendingdifference) {
-      /// logic need to be change
-      // int asc = Util.reduceList(values: template.values);
-      // int des = Util.reduceList(
-      //     values: template.values, sortOrder: SortOrder.descending);
-      // formula = formula
-      //     .replaceAll('ascending', asc.toString())
-      //     .replaceAll('descending', des.toString());
+      int asc = Util.reduceList(values: template.values);
+      int des = Util.reduceList(
+          values: template.values, sortOrder: SortOrder.descending);
+      formula = formula
+          .replaceAll('ascending', asc.toString())
+          .replaceAll('descending', des.toString());
     } else {
       for (int i = 1; i <= template.valuePlaceholdersCount; i++) {
         var placeHolderValue = template.values[i - 1].toString();
@@ -147,17 +160,17 @@ class TemplateFactory {
     }
   }
 
-  void _makeAnswerPositive(QuestionTemplate quesTemp) {
-    int totalRetry = 5;
-    for (int i = 1; i <= totalRetry; i++) {
-      _initRandomValues(quesTemp);
-      int answer = _getAnswer(quesTemp);
-      if (_isAnswerPositive(answer)) {
-        quesTemp.answer = answer;
-        return;
-      }
-    }
-  }
+  // void _makeAnswerPositive(QuestionTemplate quesTemp) {
+  //   int totalRetry = 5;
+  //   for (int i = 1; i <= totalRetry; i++) {
+  //     _initRandomValues(quesTemp);
+  //     int answer = _getAnswer(quesTemp);
+  //     if (_isAnswerPositive(answer)) {
+  //       quesTemp.answer = answer;
+  //       return;
+  //     }
+  //   }
+  // }
 
   void _makeOptions(QuestionTemplate quesTemp) {
     num answer = quesTemp.answer!;
