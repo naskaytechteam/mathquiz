@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     double width = size.width;
 
     return Scaffold(
-      // backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
+        // backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
         body: NotificationListener(
             onNotification: _handleScrollNotification,
             child: Stack(
@@ -93,18 +93,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _onQuesTypeSelected(TEMPLATE_TYPE temptype) async {
+  Future<void> _onQuesTypeSelected(TEMPLATE_TYPE tempType) async {
     NavigatorState navigatorState = Navigator.of(context);
-    // QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
-    // await provider.readDataFromDatabase(questype);
-    List<Question>questions=await TemplateFactory().generateQuestions(temptype);
+
+    List<Question> questions =
+        await TemplateFactory().generateQuestions(tempType);
     if (questions.isEmpty) {
       _showDialogBox();
       return;
     }
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return QuesScreen(
-        templateType: temptype,
+        templateType: tempType,
         questions: questions,
       );
     }));
