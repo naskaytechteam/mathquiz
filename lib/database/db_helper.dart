@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
+import '/parsers/template_parser.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '/model/question_template.dart';
-import '/parsers/quiz_data_parser.dart';
 import '../provider/template_factory.dart';
 
 class DbHelper {
@@ -32,11 +30,11 @@ class DbHelper {
     return await openDatabase(path, version: 1);
   }
 
-  Future<List<QuestionTemplate>> readData(TEMPLATE_TYPE quesType) async {
+  Future<List<QuestionTemplate>> readData(TemplateType quesType) async {
     Database db = await database;
     List<Map<String, Object?>> map = await db
         .query('questemp', where: 'quesType=?', whereArgs: [quesType.index]);
-    List<QuestionTemplate> qData = QuizDataParser.quizDataList(map);
-    return qData;
+    List<QuestionTemplate> templateList = TemplateParser.questionsTemplateList(map);
+    return templateList;
   }
 }
