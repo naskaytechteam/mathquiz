@@ -11,6 +11,6 @@ class QuestionTemplate {
 
   factory QuestionTemplate.fromMap(Map<String, Object?> map) {
     return QuestionTemplate(map['ques'] as String, map['formula'] as String,
-        map['value'] as int, map['quesType'] as int);
+        map['valuePlaceholder'] as int, map['quesType'] as int);
   }
 }
