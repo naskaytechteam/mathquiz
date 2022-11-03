@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../model/question_template.dart';
-import '../provider/quiz_provider.dart';
+import '../model/question.dart';
 import '../widgets/quesscreenswidgets/app_bar.dart';
 import '../widgets/quesscreenswidgets/current_ques_list.dart';
 
 class ReviewAnswer extends StatefulWidget {
-  const ReviewAnswer({Key? key}) : super(key: key);
+  final List<Question> questions;
+
+  const ReviewAnswer({required this.questions, Key? key}) : super(key: key);
 
   @override
   State<ReviewAnswer> createState() => _ReviewAnswerState();
@@ -21,8 +21,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    QuizProvider provider = Provider.of<QuizProvider>(context, listen: false);
-    QuestionTemplate quesTemp = provider.quesTemplateList[_quesIndex];
+    Question questionDetails = widget.questions[_quesIndex];
 
     return Scaffold(
       appBar: const Appbar(
@@ -44,19 +43,18 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
             _gap(height * 0.02),
             CurrentQuesList(
               isReviewScreen: true,
-              onCurrentQuesChange: (index){
-                print('clicked $index');
+              onCurrentQuesChange: (index) {
                 setState(() {
-                  _quesIndex=index;
+                  _quesIndex = index;
                 });
               },
               index: _quesIndex,
-              totalQuestion: provider.quesTemplateList.length,
+              totalQuestion: widget.questions.length,
             ),
             _gap(height * 0.03),
-            _buildQuestion(quesTemp.ques, height, width),
-            _gap(height*0.03),
-            _buildOptions(height, width, quesTemp),
+            _buildQuestion(questionDetails.question, height, width),
+            _gap(height * 0.03),
+            _buildOptions(height, width, questionDetails),
             _gap(height * 0.03),
           ],
         ),
@@ -64,7 +62,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     );
   }
 
-  Widget _buildOptions(double height, double width, QuestionTemplate quesTemp) {
+  Widget _buildOptions(double height, double width, Question question) {
     return SizedBox(
       height: height * 0.2,
       width: width,
@@ -77,22 +75,22 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
               crossAxisCount: 2),
           itemCount: 4,
           itemBuilder: (_, index) {
-            return _buildOptionDesign(height, width, index, quesTemp);
+            return _buildOptionDesign(height, width, index, question);
           }),
     );
   }
 
   Widget _buildOptionDesign(
-      double height, double width, int index, QuestionTemplate quesTemp) {
+      double height, double width, int index, Question question) {
     return Container(
         decoration: BoxDecoration(
-            color: quesTemp.answer == quesTemp.options[index]
+            color: question.answer == question.options[index]
                 ? Colors.green
                 : const Color.fromRGBO(56, 61, 110, 1),
             borderRadius: BorderRadius.circular(20)),
         alignment: Alignment.center,
         child: Text(
-          quesTemp.options[index].toString(),
+          question.options[index].toString(),
           style: const TextStyle(color: Colors.white, fontSize: 20),
         ));
   }
