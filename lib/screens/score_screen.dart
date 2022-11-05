@@ -10,11 +10,11 @@ import '../widgets/scorescreenwidgets/score_details.dart';
 import '../widgets/scorescreenwidgets/your_point.dart';
 
 class ScoreScreen extends StatelessWidget {
-  final int currentQuestionIndex;
+  final int questionNo;
   final List<Question> questions;
 
   const ScoreScreen(
-      {required this.currentQuestionIndex, required this.questions, Key? key})
+      {required this.questionNo, required this.questions, Key? key})
       : super(key: key);
 
   @override
@@ -48,7 +48,7 @@ class ScoreScreen extends StatelessWidget {
               left: 0,
               right: 0,
               child: ScoreDetails(
-                currentQuestionIndex: currentQuestionIndex,
+                currentQuestionIndex: questionNo,
                 questions: questions,
               ),
             ),

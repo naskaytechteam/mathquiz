@@ -140,13 +140,13 @@ class QuesScreenState extends State<QuesScreen> {
   void showScore() {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
       return ScoreScreen(
-        currentQuestionIndex: currentQuestionIndex,
+        questionNo: _questionNo,
         questions: widget.questions,
       );
     }));
   }
 
-  int get currentQuestionIndex {
+  int get _questionNo {
     return _quesIndex + 1;
   }
 
