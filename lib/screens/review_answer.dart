@@ -40,7 +40,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
               height: height * 0.2,
             ),
             _gap(height * 0.02),
-            _gap(height * 0.02),
             CurrentQuesList(
               isReviewScreen: true,
               onCurrentQuesChange: (index) {
@@ -55,7 +54,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
             _buildQuestion(questionDetails.question, height, width),
             _gap(height * 0.03),
             _buildOptions(height, width, questionDetails),
-            _gap(height * 0.03),
           ],
         ),
       ),
