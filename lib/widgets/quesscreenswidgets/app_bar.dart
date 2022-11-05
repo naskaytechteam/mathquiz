@@ -20,11 +20,11 @@ class Appbar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       title:  Text(
         title,
-        style: TextStyle(color: Colors.white, fontSize: 20),
+        style: const TextStyle(color: Colors.white, fontSize: 20),
       ),
     );
   }
 
   @override
-  Size get preferredSize => AppBar().preferredSize;
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
