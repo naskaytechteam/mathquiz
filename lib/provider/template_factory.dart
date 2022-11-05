@@ -98,7 +98,7 @@ class TemplateFactory {
     int totalRetry = 5;
     for (int i = 1; i <= totalRetry; i++) {
       _initRandomValues(quesTemp);
-      int answer = _getAnswer(quesTemp);
+      num answer = _getAnswer(quesTemp);
       if (_isAnswerPositive(answer)) {
         quesTemp.answer = answer;
         return true;
@@ -118,7 +118,7 @@ class TemplateFactory {
     temp.values.addAll(_generateRandomValues(temp.valuePlaceholdersCount));
   }
 
-  int _getAnswer(QuestionTemplate template) {
+  num _getAnswer(QuestionTemplate template) {
     var formula = template.formula;
     if (_currentTemplateType == TemplateType.hcf) {
       int hcf = Util.hcf(template.values);
@@ -142,7 +142,15 @@ class TemplateFactory {
         formula = formula.replaceAll('V$i', placeHolderValue);
       }
     }
-    return formula.interpret().toInt();
+    num answer = formula.interpret();
+    return _typeCastValue(answer);
+  }
+
+  num _typeCastValue(num answer) {
+    num a = answer.compareTo(answer.toInt()) == 0
+        ? answer.toInt()
+        : double.parse(answer.toStringAsFixed(3));
+    return a;
   }
 
   void _initQuestion(QuestionTemplate questionTemplate) {
