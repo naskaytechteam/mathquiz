@@ -44,13 +44,14 @@ class _OptionsState extends State<Options> {
               crossAxisCount: 2),
           itemCount: widget.option.length,
           itemBuilder: (_, index) {
-            return _buildOption(height, width, index, widget.option[index]);
+            return _buildOption(height, width, index);
           }),
     );
   }
 
   Widget _buildOption(
-      double height, double width, int index, num selectedOption) {
+      double height, double width, int index, ) {
+    final num optionValue=widget.option[index];
     return Container(
         decoration: BoxDecoration(
             color: const Color.fromRGBO(56, 61, 110, 1),
@@ -63,14 +64,13 @@ class _OptionsState extends State<Options> {
             borderRadius: BorderRadius.circular(20)),
         alignment: Alignment.center,
         child: InkWell(
-          onTap: () => _onOptionSelected(index, selectedOption),
+          onTap: () => _onOptionSelected(index, optionValue),
           child: Text(
-            widget.option[index].toString(),
+            optionValue.toString(),
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         ));
   }
-//is wrong ?
   void _onOptionSelected(int index, num selectedOption) {
     setState(() {
       _optionSelectedIndex = index;
