@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
 import '../../provider/template_factory.dart';
 
 class QuesTypeName extends StatelessWidget {
