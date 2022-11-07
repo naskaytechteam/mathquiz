@@ -7,9 +7,11 @@ class CurrentQuesList extends StatelessWidget {
   final Function(int index)? onCurrentQuesChange;
 
   const CurrentQuesList(
-      {this.isReviewScreen=false,
-        this.onCurrentQuesChange,
-        required this.index, required this.totalQuestion, Key? key})
+      {this.isReviewScreen = false,
+      this.onCurrentQuesChange,
+      required this.index,
+      required this.totalQuestion,
+      Key? key})
       : super(key: key);
 
   @override
@@ -26,12 +28,13 @@ class CurrentQuesList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (_, index) {
             int questionNumber = index + 1;
-            return questionNo(questionNumber, height, width);
+            return questionNo(questionNumber, height, width, context);
           }),
     );
   }
 
-  Widget questionNo(int quesNo, double height, double width) {
+  Widget questionNo(
+      int quesNo, double height, double width, BuildContext context) {
     int index = quesNo - 1;
     return Align(
       child: Container(
@@ -39,24 +42,23 @@ class CurrentQuesList extends StatelessWidget {
         width: width * 0.13,
         margin: EdgeInsets.symmetric(horizontal: width * 0.03),
         decoration: BoxDecoration(
-            color: const Color.fromRGBO(56, 61, 110, 1),
+            color: Theme.of(context).colorScheme.onBackground,
             borderRadius: BorderRadius.circular(28),
             gradient: this.index == index
-                ? const LinearGradient(colors: [
-              Color.fromRGBO(227, 90, 158, 1),
-              Color.fromRGBO(190, 106, 228, 1),
-            ])
+                ? LinearGradient(colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.secondary,
+                  ])
                 : null),
         alignment: Alignment.center,
         child: InkWell(
-            onTap: isReviewScreen?()=>onCurrentQuesChange!(index):null,
-        child: Text(
+          onTap: isReviewScreen ? () => onCurrentQuesChange!(index) : null,
+          child: Text(
             '$quesNo',
             style: const TextStyle(fontSize: 25, color: Colors.white),
           ),
         ),
       ),
-
-        );
+    );
   }
 }

@@ -35,7 +35,7 @@ class _OptionsState extends State<Options> {
       height: height * 0.2,
       width: width,
       child: GridView.builder(
-        physics:const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 10,
@@ -50,11 +50,14 @@ class _OptionsState extends State<Options> {
   }
 
   Widget _buildOption(
-      double height, double width, int index, ) {
-    final num optionValue=widget.option[index];
+    double height,
+    double width,
+    int index,
+  ) {
+    final num optionValue = widget.option[index];
     return Container(
         decoration: BoxDecoration(
-            color: const Color.fromRGBO(56, 61, 110, 1),
+            color: Theme.of(context).colorScheme.onBackground,
             gradient: _optionSelectedIndex == index
                 ? const LinearGradient(colors: [
                     Color.fromRGBO(231, 89, 153, 1),
@@ -71,6 +74,7 @@ class _OptionsState extends State<Options> {
           ),
         ));
   }
+
   void _onOptionSelected(int index, num selectedOption) {
     setState(() {
       _optionSelectedIndex = index;

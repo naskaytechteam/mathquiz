@@ -32,7 +32,7 @@ class QuesScreenState extends State<QuesScreen> {
 
     return Scaffold(
       appBar: const Appbar(),
-      backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
         child: Column(
@@ -85,7 +85,8 @@ class QuesScreenState extends State<QuesScreen> {
         height: height * 0.07,
         width: width,
         decoration: BoxDecoration(
-            color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(20)),
         alignment: Alignment.center,
         child: const Text(
           'Next',

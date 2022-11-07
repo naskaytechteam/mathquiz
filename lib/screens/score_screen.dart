@@ -28,7 +28,7 @@ class ScoreScreen extends StatelessWidget {
         width: width,
         child: Stack(
           children: [
-            _buildYourScoreBackground(height, width),
+            _buildYourScoreBackground(height, width, context),
             Positioned(
                 top: 0,
                 left: 0,
@@ -58,13 +58,15 @@ class ScoreScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildYourScoreBackground(double height, double width) {
+  Widget _buildYourScoreBackground(
+      double height, double width, BuildContext context) {
     return Container(
       height: height * 0.5,
       width: width,
-      decoration: const BoxDecoration(
-          color: Color.fromRGBO(56, 61, 110, 1),
-          borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+          // color: Color.fromRGBO(56, 61, 110, 1),
+          color: Theme.of(context).colorScheme.onBackground,
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(50),
               bottomRight: Radius.circular(50))),
     );

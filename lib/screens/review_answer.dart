@@ -83,8 +83,8 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     return Container(
         decoration: BoxDecoration(
             color: question.answer == question.options[index]
-                ? Colors.green
-                : const Color.fromRGBO(56, 61, 110, 1),
+                ? Theme.of(context).colorScheme.primaryContainer
+                : Theme.of(context).colorScheme.onBackground,
             borderRadius: BorderRadius.circular(20)),
         alignment: Alignment.center,
         child: Text(

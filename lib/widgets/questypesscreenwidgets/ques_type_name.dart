@@ -17,7 +17,7 @@ class QuesTypeName extends StatelessWidget {
     double width = size.width;
     return Container(
       width: width,
-      color: const Color.fromRGBO(54, 58, 102, 1),
+      color: Theme.of(context).backgroundColor,
       child: InkWell(
         onTap: () => onQuesTypeSelected(questype),
         child: Container(
@@ -27,7 +27,7 @@ class QuesTypeName extends StatelessWidget {
               horizontal: width * 0.06, vertical: height * 0.02),
           decoration: BoxDecoration(
               // color: const Color.fromRGBO(45, 10, 13, 1),
-              color: const Color.fromRGBO(63, 159, 254, 1),
+              color: Theme.of(context).primaryColor,
               borderRadius: BorderRadius.circular(20)),
           child: Row(
             children: [

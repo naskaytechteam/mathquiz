@@ -18,7 +18,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
+        //background color
+        primaryColor: Colors.blue,
+        colorScheme: const ColorScheme.light(
+            primary: Color.fromRGBO(227, 90, 158, 1),
+            secondary: Color.fromRGBO(190, 106, 228, 1),
+            primaryContainer: Colors.green,
+
+            // 56,61,110,1
+            onBackground: Color.fromRGBO(56, 65, 110, 1) //option color
+            ),
         textTheme: const TextTheme(
           headline1: TextStyle(fontFamily: primaryFontFamily),
         ),
