@@ -95,13 +95,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _onQuesTypeSelected(TemplateType tempType) async {
     NavigatorState navigatorState = Navigator.of(context);
+    showDialog(
+        context: context,
+        builder: (_) {
+          return const Center(child: CircularProgressIndicator());
+        });
 
     List<Question> questions =
         await TemplateFactory().generateQuestions(tempType);
+    navigatorState.pop();
+
     if (questions.isEmpty) {
       _showDialogBox();
       return;
     }
+
     navigatorState.push(MaterialPageRoute(builder: (_) {
       return QuesScreen(
         templateType: tempType,
