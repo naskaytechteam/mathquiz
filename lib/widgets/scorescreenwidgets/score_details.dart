@@ -31,9 +31,9 @@ class ScoreDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: const [
               BoxShadow(
-                  offset: Offset(0, 5),
-                  blurRadius: 20,
-                  color: Color.fromRGBO(56, 61, 110, 1)),
+                  offset: Offset(0, 3),
+                  blurRadius: 10,
+                  color: Color.fromRGBO(56, 61, 110, 0.5)),
             ]),
         child: Column(
           children: [
