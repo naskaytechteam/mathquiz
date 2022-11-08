@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/homescreenwidgets/ques_type_name.dart';
 import '/provider/template_factory.dart';
-import '/widgets/questypesscreenwidgets/ques_type_name.dart';
 import '../model/question.dart';
 import '/screens/ques_screen.dart';
 
@@ -27,10 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-
     return Scaffold(
-        // backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
-        body: NotificationListener(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: NotificationListener<ScrollUpdateNotification>(
             onNotification: _handleScrollNotification,
             child: Stack(
               children: [
@@ -61,20 +60,18 @@ class _HomeScreenState extends State<HomeScreen> {
             )));
   }
 
-  bool _handleScrollNotification(Object v) {
-    if (v is ScrollUpdateNotification) {
-      setState(() {
-        _firstImagePositionFromTop -= v.scrollDelta! / 1.9;
-        _secondImagePositionFromTop -= v.scrollDelta! / 1.8;
-        _thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
-        _forthImagePositionFromTop -= v.scrollDelta! / 1.6;
-        _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
-        _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
-        _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
-        _eightImagePositionFromTop -= v.scrollDelta! / 1;
-        _nineImagePositionFromTop -= v.scrollDelta! / 1;
-      });
-    }
+  bool _handleScrollNotification(ScrollUpdateNotification v) {
+    setState(() {
+      _firstImagePositionFromTop -= v.scrollDelta! / 1.9;
+      _secondImagePositionFromTop -= v.scrollDelta! / 1.8;
+      _thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
+      _forthImagePositionFromTop -= v.scrollDelta! / 1.6;
+      _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
+      _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
+      _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
+      _eightImagePositionFromTop -= v.scrollDelta! / 1;
+      _nineImagePositionFromTop -= v.scrollDelta! / 1;
+    });
     return true;
   }
 
@@ -93,13 +90,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _onQuesTypeSelected(TemplateType tempType) async {
-    NavigatorState navigatorState = Navigator.of(context);
+  void _showCircularProgressIndicator(BuildContext context) {
     showDialog(
         context: context,
         builder: (_) {
           return const Center(child: CircularProgressIndicator());
         });
+  }
+
+  Future<void> _onQuesTypeSelected(TemplateType tempType) async {
+    NavigatorState navigatorState = Navigator.of(context);
+    _showCircularProgressIndicator(context);
 
     List<Question> questions =
         await TemplateFactory().generateQuestions(tempType);
@@ -116,6 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
         questions: questions,
       );
     }));
+
   }
 
   void _showDialogBox() {
