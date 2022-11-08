@@ -86,8 +86,8 @@ class _YourPointState extends State<YourPoint>
     return Align(
       alignment: Alignment.center,
       child: Container(
-          height: height * 0.3,
-          width: width * 0.6,
+          height: height * 0.28,
+          width: width * 0.58,
           margin: EdgeInsets.symmetric(horizontal: width * 0.2),
           decoration: BoxDecoration(
               color: Colors.white70.withOpacity(0.1),
