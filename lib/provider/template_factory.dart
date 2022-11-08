@@ -183,13 +183,13 @@ class TemplateFactory {
   void _makeOptions(QuestionTemplate quesTemp) {
     num answer = quesTemp.answer!;
     quesTemp.options.add(answer);
-    quesTemp.options.add(answer - 5);
-    quesTemp.options.add(answer + 5);
-    quesTemp.options.add(answer - 3);
-    _swipeOptions(quesTemp.options);
+    quesTemp.options.add(_typeCastValue(answer - 5));
+    quesTemp.options.add(_typeCastValue(answer + 5));
+    quesTemp.options.add(_typeCastValue(answer - 3));
+    _swapOptions(quesTemp.options);
   }
 
-  void _swipeOptions(List<num> options) {
+  void _swapOptions(List<num> options) {
     for (int a = 0; a < 2; a++) {
       int randomValue = _random.nextInt(options.length);
       num value = options[a];
