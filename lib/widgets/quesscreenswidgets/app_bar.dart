@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/provider/template_factory.dart';
 
 class Appbar extends StatelessWidget with PreferredSizeWidget {
   final String title;
@@ -10,6 +11,7 @@ class Appbar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       leading: IconButton(
           onPressed: () {
+            TemplateFactory().resetScore();
             Navigator.pop(context);
           },
           icon: CircleAvatar(
