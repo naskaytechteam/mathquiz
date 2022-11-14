@@ -57,9 +57,6 @@ class _YourPointState extends State<YourPoint>
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    // QuizProvider quizProvider =
-    //     Provider.of<QuizProvider>(context, listen: false);
-    // int points=quizProvider.score*15;
     return Positioned(
         left: 0,
         right: 0,
@@ -91,7 +88,7 @@ class _YourPointState extends State<YourPoint>
           margin: EdgeInsets.symmetric(horizontal: width * 0.2),
           decoration: BoxDecoration(
               color: Colors.white70.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(120)),
+              borderRadius: BorderRadius.circular(width * 0.3)),
           child: child),
     );
   }
