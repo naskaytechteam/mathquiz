@@ -37,10 +37,11 @@ class _OptionsState extends State<Options> {
       child: GridView.builder(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(0),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          clipBehavior: Clip.none,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 10,
               crossAxisSpacing: 5,
-              mainAxisExtent: 70,
+              mainAxisExtent: height * 0.09,
               crossAxisCount: 2),
           itemCount: widget.option.length,
           itemBuilder: (_, index) {
@@ -55,24 +56,28 @@ class _OptionsState extends State<Options> {
     int index,
   ) {
     final num optionValue = widget.option[index];
-    return Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onBackground,
-            gradient: _optionSelectedIndex == index
-                ? const LinearGradient(colors: [
-                    Color.fromRGBO(231, 89, 153, 1),
-                    Color.fromRGBO(188, 108, 234, 1)
-                  ])
-                : null,
-            borderRadius: BorderRadius.circular(20)),
-        alignment: Alignment.center,
-        child: InkWell(
-          onTap: () => _onOptionSelected(index, optionValue),
-          child: Text(
-            optionValue.toString(),
-            style: const TextStyle(color: Colors.white, fontSize: 20),
-          ),
-        ));
+    return Align(
+      child: Container(
+          height: height * 0.08,
+          width: width * 0.5,
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onBackground,
+              gradient: _optionSelectedIndex == index
+                  ? const LinearGradient(colors: [
+                      Color.fromRGBO(231, 89, 153, 1),
+                      Color.fromRGBO(188, 108, 234, 1)
+                    ])
+                  : null,
+              borderRadius: BorderRadius.circular(20)),
+          alignment: Alignment.center,
+          child: InkWell(
+            onTap: () => _onOptionSelected(index, optionValue),
+            child: Text(
+              optionValue.toString(),
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )),
+    );
   }
 
   void _onOptionSelected(int index, num selectedOption) {
