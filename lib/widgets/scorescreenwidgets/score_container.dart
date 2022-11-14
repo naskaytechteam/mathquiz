@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ScoreContainer extends StatelessWidget {
   final int point;
-  const ScoreContainer({required this.point,Key? key}) : super(key: key);
+  const ScoreContainer({required this.point, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,8 @@ class ScoreContainer extends StatelessWidget {
           height: height * 0.2,
           width: width * 0.4,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(80)),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(width * 0.2)),
           alignment: Alignment.center,
           child: Text.rich(
             TextSpan(
