@@ -31,7 +31,7 @@ class QuesScreenState extends State<QuesScreen> {
     Question question = widget.questions[_quesIndex];
 
     return Scaffold(
-      appBar: const Appbar(),
+      appBar: Appbar(height: height,),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -45,7 +45,7 @@ class QuesScreenState extends State<QuesScreen> {
               height: height * 0.2,
             ),
             _gap(height * 0.02),
-            _buildQuesType(widget.templateType),
+            _buildQuesType(widget.templateType,width,height),
             _gap(height * 0.02),
             CurrentQuesList(
               index: _quesIndex,
@@ -96,8 +96,11 @@ class QuesScreenState extends State<QuesScreen> {
     );
   }
 
-  Widget _buildQuesType(TemplateType quizType) {
+  Widget _buildQuesType(TemplateType quizType,double width,double height) {
     return Container(
+      // color: Colors.red,
+        width: width,
+        height: height*0.05,
         alignment: Alignment.centerLeft,
         child: Text(
           quizType.name,

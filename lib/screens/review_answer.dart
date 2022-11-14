@@ -24,7 +24,8 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     Question questionDetails = widget.questions[_quesIndex];
 
     return Scaffold(
-      appBar: const Appbar(
+      appBar: Appbar(
+        height: height,
         title: 'Review Answer',
       ),
       backgroundColor: const Color.fromRGBO(54, 58, 102, 1),
