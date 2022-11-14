@@ -19,6 +19,8 @@ enum TemplateType {
 
 class TemplateFactory {
   static TemplateFactory? _instance;
+  int? classNo;
+
 
   List<QuestionTemplate>? _templateList;
   final Random _random = Random();
@@ -51,7 +53,7 @@ class TemplateFactory {
 
   Future<List<QuestionTemplate>> _fetchRawTemplatesFromDB(
       TemplateType questype) {
-    return DbHelper().readData(questype);
+    return DbHelper().readData(questype, classNo!);
   }
 
   Future<List<Question>> generateQuestions(TemplateType tempType) async {
@@ -196,6 +198,11 @@ class TemplateFactory {
       options[a] = options[randomValue];
       options[randomValue] = value;
     }
+  }
+
+  Future<List<int>> getQuesTypes(int classNo) {
+    this.classNo = classNo;
+    return DbHelper().getQuestypeForClass(classNo);
   }
 
   bool _isAnswerPositive(num answer) {
