@@ -9,6 +9,8 @@ import '../provider/template_factory.dart';
 
 class DbHelper {
   static Database? _database;
+  static const int totalClass = 6;
+
 
   Future<Database> get database async {
     _database ??= await _getDatabase();

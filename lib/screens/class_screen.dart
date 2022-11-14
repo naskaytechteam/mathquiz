@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathquiz/database/db_helper.dart';
 import '/provider/template_factory.dart';
 import '/screens/home_screen.dart';
 
@@ -15,7 +16,7 @@ class ClassScreen extends StatelessWidget {
       height: height,
       width: width,
       child: ListView.builder(
-          itemCount: TemplateFactory.totalClass,
+          itemCount: DbHelper.totalClass,
           itemBuilder: (_, index) {
             return _buildClassContainer(width, height, index, context);
           }),
