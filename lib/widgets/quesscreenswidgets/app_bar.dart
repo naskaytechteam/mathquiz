@@ -3,11 +3,14 @@ import '/provider/template_factory.dart';
 
 class Appbar extends StatelessWidget with PreferredSizeWidget {
   final String title;
+  final double height;
 
-  const Appbar({this.title = 'Live Quiz', Key? key}) : super(key: key);
+  Appbar({this.title = 'Live Quiz',required this.height, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // height=MediaQuery.of(context).size.height;
     return AppBar(
       leading: IconButton(
           onPressed: () {
@@ -29,5 +32,5 @@ class Appbar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>  Size.fromHeight(height*0.07);
 }
