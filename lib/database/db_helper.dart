@@ -46,10 +46,24 @@ class DbHelper {
     return await openDatabase(file.path, version: 1);
   }
 
-  Future<List<QuestionTemplate>> readData(TemplateType quesType) async {
+  Future<List<int>> getQuestypeForClass(int classNo) async {
     Database db = await database;
-    List<Map<String, Object?>> map = await db
-        .query('questemp', where: 'quesType=?', whereArgs: [quesType.index]);
+    List<Map<String, Object?>> list =
+        await db.rawQuery('select type from questype where class=$classNo');
+    return _changeListType(list);
+  }
+
+  List<int> _changeListType(List<Map> list) {
+    List<int> newList = list.map((e) => e['type'] as int).toSet().toList();
+    return newList;
+  }
+
+  Future<List<QuestionTemplate>> readData(
+      TemplateType quesType, int classNo) async {
+    Database db = await database;
+    List<Map<String, Object?>> map = await db.rawQuery(
+        'select * from questemp  where quesType=${quesType.index} and class=$classNo ');
+
     List<QuestionTemplate> templateList =
         TemplateParser.questionsTemplateList(map);
     return templateList;
