@@ -5,7 +5,9 @@ import '../model/question.dart';
 import '/screens/ques_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final List<int> quesTypeList;
+
+  const HomeScreen({required this.quesTypeList, Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -28,36 +30,37 @@ class _HomeScreenState extends State<HomeScreen> {
     double height = size.height;
     double width = size.width;
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: NotificationListener<ScrollUpdateNotification>(
-            onNotification: _handleScrollNotification,
-            child: Stack(
-              children: [
-                _buildParallaxImages(1, _firstImagePositionFromTop, height),
-                _buildParallaxImages(2, _secondImagePositionFromTop, height),
-                _buildParallaxImages(3, _thirdImagePositionFromTop, height),
-                _buildParallaxImages(4, _forthImagePositionFromTop, height),
-                _buildParallaxImages(5, _fifthImagePositionFromTop, height),
-                _buildParallaxImages(6, _sixImagePositionFromTop, height),
-                _buildParallaxImages(7, _sevenImagePositionFromTop, height),
-                _buildParallaxImages(8, _eightImagePositionFromTop, height),
-                _buildParallaxImages(9, _nineImagePositionFromTop, height),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: height * 0.3,
-                        width: width,
-                      ),
-                      for (int a = 0; a < TemplateType.values.length; a++)
-                        QuesTypeName(
-                            questype: TemplateType.values[a],
-                            onQuesTypeSelected: _onQuesTypeSelected)
-                    ],
-                  ),
-                )
-              ],
-            )));
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: NotificationListener<ScrollUpdateNotification>(
+          onNotification: _handleScrollNotification,
+          child: Stack(
+            children: [
+              _buildParallaxImages(1, _firstImagePositionFromTop, height),
+              _buildParallaxImages(2, _secondImagePositionFromTop, height),
+              _buildParallaxImages(3, _thirdImagePositionFromTop, height),
+              _buildParallaxImages(4, _forthImagePositionFromTop, height),
+              _buildParallaxImages(5, _fifthImagePositionFromTop, height),
+              _buildParallaxImages(6, _sixImagePositionFromTop, height),
+              _buildParallaxImages(7, _sevenImagePositionFromTop, height),
+              _buildParallaxImages(8, _eightImagePositionFromTop, height),
+              _buildParallaxImages(9, _nineImagePositionFromTop, height),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: height * 0.3,
+                      width: width,
+                    ),
+                    for (int a = 0; a < widget.quesTypeList.length; a++)
+                      QuesTypeName(
+                          questype: TemplateType.values[widget.quesTypeList[a]],
+                          onQuesTypeSelected: _onQuesTypeSelected)
+                  ],
+                ),
+              )
+            ],
+          )),
+    );
   }
 
   bool _handleScrollNotification(ScrollUpdateNotification v) {
@@ -117,7 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
         questions: questions,
       );
     }));
-
   }
 
   void _showDialogBox() {
