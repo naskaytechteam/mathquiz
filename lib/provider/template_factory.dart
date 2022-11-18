@@ -21,13 +21,14 @@ class TemplateFactory {
   static TemplateFactory? _instance;
   int? classNo;
 
-
   List<QuestionTemplate>? _templateList;
   final Random _random = Random();
   TemplateType? _currentTemplateType;
   int _score = 0;
 
   TemplateFactory._();
+
+  TemplateType get currentTemplateType => _currentTemplateType!;
 
   factory TemplateFactory() {
     return _instance ??= TemplateFactory._();
@@ -117,7 +118,8 @@ class TemplateFactory {
 
   void _initRandomValues(QuestionTemplate temp) {
     temp.values.clear();
-    temp.values.addAll(_generateRandomValues(temp.valuePlaceholdersCount));
+    temp.values.addAll(_generateRandomValues(
+        temp.valuePlaceholdersCount, temp.startRange, temp.endRange));
   }
 
   num _getAnswer(QuestionTemplate template) {
@@ -163,9 +165,10 @@ class TemplateFactory {
     }
   }
 
-  Iterable<int> _generateRandomValues(int size) sync* {
+  Iterable<int> _generateRandomValues(
+      int size, int startRange, int endRange) sync* {
     while (size > 0) {
-      yield _random.nextInt(100) + 1;
+      yield _random.nextInt(endRange - startRange) + startRange;
       --size;
     }
   }
