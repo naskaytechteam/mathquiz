@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class QuesScoreDetails extends StatelessWidget {
@@ -44,17 +45,17 @@ class QuesScoreDetails extends StatelessWidget {
     return Align(
       child: SizedBox(
         height: height * 0.1,
-        width: width * 0.25,
+        width: width * 0.3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(firstDetails,
+            AutoSizeText(firstDetails,
                 style: TextStyle(
                     color: textColor,
-                    fontSize: 20,
+                    fontSize: height*0.025,
                     fontWeight: FontWeight.bold)),
-            Text(type)
+            AutoSizeText(type)
           ],
         ),
       ),
