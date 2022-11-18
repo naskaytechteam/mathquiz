@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildParallaxImages(8, _eightImagePositionFromTop, height),
               _buildParallaxImages(9, _nineImagePositionFromTop, height),
               SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
                     SizedBox(
