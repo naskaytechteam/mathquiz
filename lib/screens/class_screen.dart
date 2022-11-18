@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mathquiz/database/db_helper.dart';
+import '/database/db_helper.dart';
 import '/provider/template_factory.dart';
 import '/screens/home_screen.dart';
 
@@ -30,7 +30,7 @@ class ClassScreen extends StatelessWidget {
       onTap: () async {
         NavigatorState navigatorState = Navigator.of(context);
         List<int> list = await TemplateFactory().getQuesTypes(classNo);
-        navigatorState.push(MaterialPageRoute(builder: (_) {
+        navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
           return HomeScreen(quesTypeList: list);
         }));
         //next button
