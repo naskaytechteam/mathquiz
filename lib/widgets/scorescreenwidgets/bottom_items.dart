@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:mathquiz/widgets/scorescreenwidgets/review_pdf.dart';
+import 'package:mathquiz/screens/ques_screen.dart';
+import '../../provider/template_factory.dart';
+import '/widgets/pdf_design.dart';
+import '/widgets/scorescreenwidgets/review_pdf.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pdf;
+import 'package:share_plus/share_plus.dart';
 import '../../model/question.dart';
 import '../../screens/review_answer.dart';
 
@@ -27,10 +29,14 @@ class BottomItems extends StatelessWidget {
           height: height * 0.4,
           width: width,
           child: GridView.builder(
-              padding: const EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: height * 0.05),
               itemCount: 6,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, crossAxisSpacing: 0),
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                  mainAxisExtent: height * 0.14),
               itemBuilder: (_, index) {
                 return Align(
                   child: _buildItems(height, width, index, context),
@@ -44,18 +50,21 @@ class BottomItems extends StatelessWidget {
     return InkWell(
       onTap: () => _onItemSelected(height, width, index, context),
       child: SizedBox(
-        height: height * 0.12,
+        height: height * 0.1,
         width: width * 0.3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CircleAvatar(
               backgroundColor: Colors.primaries[index],
-              radius: 30,
-              child: Icon(_getIconData(index), color: Colors.white),
+              // radius: width*0.08,
+              radius: height * 0.03,
+              child: Icon(_getIconData(index),
+                  color: Colors.white, size: height * 0.03),
             ),
             Text(
               _getItemName(index),
+              style: TextStyle(fontSize: height * 0.0175),
             )
           ],
         ),
@@ -64,27 +73,42 @@ class BottomItems extends StatelessWidget {
   }
 
   void _onItemSelected(
-      double height, double width, int index, BuildContext context) {
+      double height, double width, int index, BuildContext context) async {
+    NavigatorState navigatorState = Navigator.of(context);
+
     if (index == 0) {
-      goToHomePage(context);
+      TemplateFactory templateFactory = TemplateFactory();
+      templateFactory.resetScore();
+      TemplateType currentQuestionsType = templateFactory.currentTemplateType;
+      List<Question> newQuestionsList =
+          await templateFactory.generateQuestions(currentQuestionsType);
+      navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
+        return QuesScreen(
+            templateType: currentQuestionsType, questions: newQuestionsList);
+      }));
     } else if (index == 1) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      navigatorState.push(MaterialPageRoute(builder: (_) {
         return ReviewAnswer(
           questions: questions,
         );
       }));
+    } else if (index == 2) {
+      await Share.share('My MathQuiz Score is : 55');
     } else if (index == 3) {
-      _generatePdf(context, height, width);
+      _generatePdf(navigatorState, height, width);
+    } else if (index == 4) {
+      goToHomePage(context);
     }
   }
 
+  void _generatePdf(
+      NavigatorState navigatorState, double height, double width) async {
+    Directory directory = await getTemporaryDirectory();
+    String path = await PdfDesign.makePdf(questions, directory.path);
 
-  void _generatePdf(BuildContext context, double height, double width) {
-    List<pdf.Widget> list = [];
-    _makePdfDesign(context, height, list);
-    pdf.Document document = pdf.Document();
-    document.addPage(pdf.MultiPage(build: (_) => list));
-    _saveFile(document, context);
+    navigatorState.push(MaterialPageRoute(builder: (_) {
+      return ReviewPDF(pdfPath: path);
+    }));
   }
 
   String _getItemName(int index) {
@@ -100,7 +124,6 @@ class BottomItems extends StatelessWidget {
   }
 
   IconData _getIconData(int index) {
-
     const iconList = [
       Icons.refresh,
       Icons.remove_red_eye,
@@ -110,50 +133,5 @@ class BottomItems extends StatelessWidget {
       Icons.star
     ];
     return iconList[index];
-  }
-
-  void _saveFile(pdf.Document document, BuildContext context) async {
-   // Directory? directory = await getExternalStorageDirectory();
-    Directory directory=await getTemporaryDirectory();
-
-    File file = File('${directory.path}/QuizQuestions.pdf');
-
-    // file.writeAsBytes(await document.save())
-    //Check how to open a storage path from file explorer via code.
-    //     .then((value) => _showSnackBar(context));
-
-    await file.writeAsBytes(await document.save());
-
-    Navigator.of(context).push(MaterialPageRoute(builder: (_){
-      return ReviewPDF(pdfPath: file.path);
-    }));
-  }
-
-  // void _showSnackBar(BuildContext context) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('pdf Generated Successfully')));
-  // }
-
-  void _makePdfDesign(
-      BuildContext context, double height, List<pdf.Widget> list) {
-    for (int a = 0; a < questions.length; a++) {
-      list.add(pdf.RichText(
-        text: pdf.TextSpan(
-            text: 'Ques ${a + 1} ',
-            children: [pdf.TextSpan(text: '${questions[a].question}\n')]),
-      ));
-
-      list.add(pdf.RichText(
-        text: pdf.TextSpan(
-            text: 'Ans :-> ',
-            style: const pdf.TextStyle(color: PdfColors.green),
-            children: [
-              pdf.TextSpan(
-                  text: questions[a].answer.toString(),
-                  style: const pdf.TextStyle(color: PdfColors.black))
-            ]),
-      ));
-      list.add(pdf.SizedBox(height: height * 0.02));
-    }
   }
 }
