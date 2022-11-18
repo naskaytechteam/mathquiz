@@ -1,5 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import '/widgets/commonwidgets/build_question.dart';
 import '../model/question.dart';
 import '../widgets/quesscreenswidgets/app_bar.dart';
 import '../widgets/quesscreenswidgets/current_ques_list.dart';
@@ -52,8 +52,9 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
               totalQuestion: widget.questions.length,
             ),
             _gap(height * 0.03),
-            _buildQuestion(questionDetails.question, height, width),
+            BuildQuestion(ques: questionDetails.question),
             _gap(height * 0.03),
+            // this is same as Option (widget) class
             _buildOptions(height, width, questionDetails),
           ],
         ),
@@ -67,12 +68,12 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
       width: width,
       child: GridView.builder(
           padding: const EdgeInsets.all(0),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 10,
               crossAxisSpacing: 5,
-              mainAxisExtent: 70,
+              mainAxisExtent: height*0.09,
               crossAxisCount: 2),
-          itemCount: 4,
+          itemCount: question.options.length,
           itemBuilder: (_, index) {
             return _buildOptionDesign(height, width, index, question);
           }),
@@ -81,31 +82,20 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
 
   Widget _buildOptionDesign(
       double height, double width, int index, Question question) {
-    return Container(
-        decoration: BoxDecoration(
-            color: question.answer == question.options[index]
-                ? Theme.of(context).colorScheme.primaryContainer
-                : Theme.of(context).colorScheme.onBackground,
-            borderRadius: BorderRadius.circular(20)),
-        alignment: Alignment.center,
-        child: Text(
-          question.options[index].toString(),
-          style: const TextStyle(color: Colors.white, fontSize: 20),
-        ));
-  }
-
-  Widget _buildQuestion(String ques, double height, double width) {
-    return SizedBox(
-      height: height * 0.18,
-      width: width,
-      child: AutoSizeText(
-        ques,
-        style: const TextStyle(
-          fontSize: 28,
-          color: Colors.white,
-        ),
-        textAlign: TextAlign.center,
-      ),
+    return Align(
+      child: Container(
+        height: height*0.08,
+          width: width*0.5,
+          decoration: BoxDecoration(
+              color: question.answer == question.options[index]
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : Theme.of(context).colorScheme.onBackground,
+              borderRadius: BorderRadius.circular(height*0.025)),
+          alignment: Alignment.center,
+          child: Text(
+            question.options[index].toString(),
+            style: const TextStyle(color: Colors.white, fontSize: 20),
+          )),
     );
   }
 
