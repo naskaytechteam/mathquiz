@@ -4,13 +4,18 @@ import '/provider/template_factory.dart';
 class Appbar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final double height;
+  final VoidCallback? onPdfGenerated;
 
-  Appbar({this.title = 'Live Quiz',required this.height, Key? key})
-      : super(key: key);
+  Appbar(
+      {this.title = 'Live Quiz',
+      VoidCallback? onPdfGenerate,
+      required this.height,
+      Key? key})
+      :onPdfGenerated=onPdfGenerate??((){}), super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // height=MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return AppBar(
       leading: IconButton(
           onPressed: () {
@@ -21,6 +26,23 @@ class Appbar extends StatelessWidget with PreferredSizeWidget {
             backgroundColor: Theme.of(context).backgroundColor,
             child: const Icon(Icons.arrow_back),
           )),
+      actions: [
+        Align(
+          child: TextButton(
+            onPressed: onPdfGenerated,
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                minimumSize: Size(width * 0.3, height * 0.04)),
+            child: const Text(
+              'Generate Pdf',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ],
       centerTitle: true,
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -32,5 +54,5 @@ class Appbar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>  Size.fromHeight(height*0.07);
+  Size get preferredSize =>  Size.fromHeight(height * 0.07);
 }
