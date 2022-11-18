@@ -50,11 +50,7 @@ class _OptionsState extends State<Options> {
     );
   }
 
-  Widget _buildOption(
-    double height,
-    double width,
-    int index,
-  ) {
+  Widget _buildOption(double height, double width, int index) {
     final num optionValue = widget.option[index];
     return Align(
       child: Container(
@@ -68,7 +64,7 @@ class _OptionsState extends State<Options> {
                       Color.fromRGBO(188, 108, 234, 1)
                     ])
                   : null,
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(height * 0.025)),
           alignment: Alignment.center,
           child: InkWell(
             onTap: () => _onOptionSelected(index, optionValue),
