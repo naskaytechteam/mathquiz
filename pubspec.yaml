@@ -46,7 +46,7 @@ dependencies:
   expandable_text: ^2.3.0
   filesystem_picker: ^3.1.0
   flutter_pdfview: ^1.2.5
-
+  share_plus: ^6.3.0
 
 
 
