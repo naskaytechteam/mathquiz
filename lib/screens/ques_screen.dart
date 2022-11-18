@@ -1,5 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '/widgets/commonwidgets/build_question.dart';
+import '/widgets/pdf_design.dart';
+import 'package:path_provider/path_provider.dart';
 import '/model/question.dart';
 import '/provider/template_factory.dart';
 import '/screens/score_screen.dart';
@@ -22,6 +26,7 @@ class QuesScreen extends StatefulWidget {
 class QuesScreenState extends State<QuesScreen> {
   num optionSelected = -1;
   int _quesIndex = 0;
+  final MethodChannel methodChannel = const MethodChannel("open/file/manager");
 
   @override
   Widget build(BuildContext context) {
@@ -31,51 +36,46 @@ class QuesScreenState extends State<QuesScreen> {
     Question question = widget.questions[_quesIndex];
 
     return Scaffold(
-      appBar: Appbar(height: height,),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          children: [
-            _gap(height * 0.02),
-            Image.asset(
-              'assets/back.png',
-              fit: BoxFit.fill,
-              width: width,
-              height: height * 0.2,
-            ),
-            _gap(height * 0.02),
-            _buildQuesType(widget.templateType,width,height),
-            _gap(height * 0.02),
-            CurrentQuesList(
-              index: _quesIndex,
-              totalQuestion: widget.questions.length,
-            ),
-            _gap(height * 0.03),
-            _buildQuestion(question.question, height, width),
-            Options(quesScreen: this, option: question.options),
-            _gap(height * 0.03),
-            _buildNextButton(height, width)
-          ],
+        appBar: Appbar(
+          height: height,
+          onPdfGenerate: onGeneratePdf,
         ),
-      ),
-      // ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _gap(height * 0.02),
+                Image.asset(
+                  'assets/back.png',
+                  fit: BoxFit.fill,
+                  width: width,
+                  height: height * 0.2,
+                ),
+                _gap(height * 0.02),
+                _buildQuesType(widget.templateType, width, height),
+                _gap(height * 0.02),
+                CurrentQuesList(
+                  index: _quesIndex,
+                  totalQuestion: widget.questions.length,
+                ),
+                _gap(height * 0.03),
+                BuildQuestion(ques: question.question),
+                Options(quesScreen: this, option: question.options),
+                _gap(height * 0.03),
+                _buildNextButton(height, width)
+              ],
+            ),
+          ),
+        ),
+        // ),
     );
   }
 
-  Widget _buildQuestion(String ques, double height, double width) {
-    return SizedBox(
-      height: height * 0.18,
-      width: width,
-      child: AutoSizeText(
-        ques,
-        style: const TextStyle(
-          fontSize: 28,
-          color: Colors.white,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    );
+  void onGeneratePdf() async {
+    Directory? directory = await getExternalStorageDirectory();
+    await PdfDesign.makePdf(widget.questions, directory!.path);
   }
 
   Widget _buildNextButton(double height, double width) {
@@ -96,11 +96,10 @@ class QuesScreenState extends State<QuesScreen> {
     );
   }
 
-  Widget _buildQuesType(TemplateType quizType,double width,double height) {
+  Widget _buildQuesType(TemplateType quizType, double width, double height) {
     return Container(
-      // color: Colors.red,
         width: width,
-        height: height*0.05,
+        height: height * 0.05,
         alignment: Alignment.centerLeft,
         child: Text(
           quizType.name,
