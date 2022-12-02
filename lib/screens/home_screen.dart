@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathquiz/screens/first_screen.dart';
 import '../widgets/homescreenwidgets/ques_type_name.dart';
 import '/provider/template_factory.dart';
 import '../model/question.dart';
 import '/screens/ques_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final List<int> quesTypeList;
+  // final List<int> quesTypeList;
 
-  const HomeScreen({required this.quesTypeList, Key? key}) : super(key: key);
+  const HomeScreen({/*required this.quesTypeList*/ Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double _firstImagePositionFromTop = 0,
-      _secondImagePositionFromTop = 0,
-      _thirdImagePositionFromTop = 0,
-      _forthImagePositionFromTop = 0,
-      _fifthImagePositionFromTop = 0,
-      _sixImagePositionFromTop = 0,
-      _sevenImagePositionFromTop = 0,
-      _eightImagePositionFromTop = 0,
-      _nineImagePositionFromTop = 0;
+  // double _firstImagePositionFromTop = 0,
+  //     _secondImagePositionFromTop = 0,
+  //     _thirdImagePositionFromTop = 0,
+  //     _forthImagePositionFromTop = 0,
+  //     _fifthImagePositionFromTop = 0,
+  //     _sixImagePositionFromTop = 0,
+  //     _sevenImagePositionFromTop = 0,
+  //     _eightImagePositionFromTop = 0,
+  //     _nineImagePositionFromTop = 0;
+  final screenIndex = 0;
+
+  List<Widget> _screens = [FirstScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,100 @@ class _HomeScreenState extends State<HomeScreen> {
     double height = size.height;
     double width = size.width;
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: _screens[screenIndex],
+      bottomNavigationBar: SizedBox(
+        height: 100,
+        child: BottomNavigationBar(
+          selectedItemColor: const Color.fromRGBO(231, 76, 60, 1),
+          items: [
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/firsticon.svg'),
+                label: ''),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/secondicon.svg'),
+                label: ''),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/thirdicon.svg'),
+                label: '')
+          ],
+        ),
+      ),
+    );
+  }
+
+// bool _handleScrollNotification(ScrollUpdateNotification v) {
+//   setState(() {
+//     _firstImagePositionFromTop -= v.scrollDelta! / 1.9;
+//     _secondImagePositionFromTop -= v.scrollDelta! / 1.8;
+//     _thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
+//     _forthImagePositionFromTop -= v.scrollDelta! / 1.6;
+//     _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
+//     _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
+//     _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
+//     _eightImagePositionFromTop -= v.scrollDelta! / 1;
+//     _nineImagePositionFromTop -= v.scrollDelta! / 1;
+//   });
+//   return true;
+// }
+
+// Widget _buildParallaxImages(int image, double top, double height) {
+//   return Positioned(
+//     left: 0,
+//     right: 0,
+//     top: top,
+//     child: SizedBox(
+//       height: height * 0.3,
+//       child: Image(
+//         image: AssetImage('assets/$image.png'),
+//         fit: BoxFit.cover,
+//       ),
+//     ),
+//   );
+// }
+
+// void _showCircularProgressIndicator(BuildContext context) {
+//   showDialog(
+//       context: context,
+//       builder: (_) {
+//         return const Center(child: CircularProgressIndicator());
+//       });
+// }
+
+// Future<void> _onQuesTypeSelected(TemplateType tempType) async {
+//   NavigatorState navigatorState = Navigator.of(context);
+//   _showCircularProgressIndicator(context);
+//
+//   List<Question> questions =
+//       await TemplateFactory().generateQuestions(tempType);
+//   navigatorState.pop();
+//
+//   if (questions.isEmpty) {
+//     _showDialogBox();
+//     return;
+//   }
+//
+//   navigatorState.push(MaterialPageRoute(builder: (_) {
+//     return QuesScreen(
+//       templateType: tempType,
+//       questions: questions,
+//     );
+//   }));
+// }
+
+// void _showDialogBox() {
+//   showDialog(
+//       context: context,
+//       builder: (_) {
+//         return const AlertDialog(
+//           content: Text('No question found'),
+//         );
+//       });
+// }
+}
+
+/*
+Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: NotificationListener<ScrollUpdateNotification>(
           onNotification: _handleScrollNotification,
@@ -62,74 +161,4 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           )),
     );
-  }
-
-  bool _handleScrollNotification(ScrollUpdateNotification v) {
-    setState(() {
-      _firstImagePositionFromTop -= v.scrollDelta! / 1.9;
-      _secondImagePositionFromTop -= v.scrollDelta! / 1.8;
-      _thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
-      _forthImagePositionFromTop -= v.scrollDelta! / 1.6;
-      _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
-      _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
-      _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
-      _eightImagePositionFromTop -= v.scrollDelta! / 1;
-      _nineImagePositionFromTop -= v.scrollDelta! / 1;
-    });
-    return true;
-  }
-
-  Widget _buildParallaxImages(int image, double top, double height) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      top: top,
-      child: SizedBox(
-        height: height * 0.3,
-        child: Image(
-          image: AssetImage('assets/$image.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
-  void _showCircularProgressIndicator(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (_) {
-          return const Center(child: CircularProgressIndicator());
-        });
-  }
-
-  Future<void> _onQuesTypeSelected(TemplateType tempType) async {
-    NavigatorState navigatorState = Navigator.of(context);
-    _showCircularProgressIndicator(context);
-
-    List<Question> questions =
-        await TemplateFactory().generateQuestions(tempType);
-    navigatorState.pop();
-
-    if (questions.isEmpty) {
-      _showDialogBox();
-      return;
-    }
-
-    navigatorState.push(MaterialPageRoute(builder: (_) {
-      return QuesScreen(
-        templateType: tempType,
-        questions: questions,
-      );
-    }));
-  }
-
-  void _showDialogBox() {
-    showDialog(
-        context: context,
-        builder: (_) {
-          return const AlertDialog(
-            content: Text('No question found'),
-          );
-        });
-  }
-}
+ */

@@ -31,7 +31,7 @@ class ClassScreen extends StatelessWidget {
         NavigatorState navigatorState = Navigator.of(context);
         List<int> list = await TemplateFactory().getQuesTypes(classNo);
         navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
-          return HomeScreen(quesTypeList: list);
+          return HomeScreen(/*quesTypeList: list*/);
         }));
         //next button
         // leader board
