@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-class Page1 extends StatelessWidget {
-  final VoidCallback onSkip;
-  const Page1({required this.onSkip,Key? key}) : super(key: key);
+import 'package:mathquiz/widgets/onboardingscreenwidgets/skip_button.dart';
+
+class OnBoardingPage1 extends StatelessWidget {
+  // final VoidCallback onSkip;
+
+  const OnBoardingPage1({/*required this.onSkip,*/ Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
+
     return Column(
       children: [
         Container(
