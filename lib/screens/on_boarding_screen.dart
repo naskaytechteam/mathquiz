@@ -43,7 +43,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onPageChanged: (nextPageIndex) {
                     pageIndex = nextPageIndex;
                   },
-                  children: [Page1(onSkip: onSkip,), Page2(onSkip: onSkip,), Page3()],
+                  children: const [
+                    OnBoardingPage1(),
+                    OnBoardingPage2(),
+                    OnBoardingPage3()
+                  ],
                 ),
               ),
               //todo this indicator is not dynamic(responsible)
