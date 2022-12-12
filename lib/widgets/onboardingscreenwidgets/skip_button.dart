@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 import '../../screens/details_screen.dart';
 
 class SkipButton extends StatelessWidget {
-  final double fontSize;
-
-  const SkipButton({required this.fontSize, Key? key}) : super(key: key);
+  const SkipButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    return SizedBox(
-      height: height * 0.05,
-      width: width,
-      child: Align(
-        alignment: Alignment.centerRight,
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        height: height * 0.05,
+        width: width * 0.3,
         child: TextButton(
-          style: TextButton.styleFrom(padding:const EdgeInsets.only(right: 41)),
+          style: TextButton.styleFrom(
+              // padding: const EdgeInsets.only(right: 41),
+              ),
           onPressed: () => onSkip(context),
           child: Text(
             'SKIP',
             style: TextStyle(
               color: const Color.fromRGBO(127, 140, 141, 1),
-              fontSize: /*height * 0.5*/ fontSize,
+              fontSize: height * 0.0225,
               fontFamily: Theme.of(context).textTheme.headline2!.fontFamily,
               // fontWeight: FontWeight.w700
             ),

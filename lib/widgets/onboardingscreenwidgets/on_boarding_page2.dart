@@ -14,7 +14,7 @@ class OnBoardingPage2 extends StatelessWidget {
     double width = size.width;
     return Column(
       children: [
-        SkipButton(fontSize: height * 0.5),
+        SkipButton(),
         SizedBox(
           //height: 23.58
           height: height * 0.031,
