@@ -34,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               left: 0,
               right: 0,
               child: Align(
-                child: Container(
+                child: SizedBox(
                   width: width,
                   height: height * 0.0356,
                   child: Text(
@@ -54,7 +54,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               left: 0,
               right: 0,
               child: Align(
-                child: Container(
+                child: SizedBox(
                   width: width,
                   // height: 78,
                   height: height * 0.1027,
