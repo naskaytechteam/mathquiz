@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'onboarding_screen.dart';
+import 'on_boarding_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -19,8 +18,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String? nunitoFamily = Theme.of(context).textTheme.headline2?.fontFamily;
+
     Size size = MediaQuery.of(context).size;
     double width = size.width;
+    double height = size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SizedBox(
@@ -28,22 +30,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: [
             Positioned(
               top: 0,
-              bottom: 105,
+              bottom: height * 0.1381579,
               left: 0,
               right: 0,
               child: Align(
                 child: Container(
                   width: width,
-                  height: 27,
-                  alignment: Alignment.center,
-                  // color: Colors.red,
+                  height: height * 0.0356,
                   child: Text(
                     'Welcome to',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: height * 0.0264,
                         fontWeight: FontWeight.w700,
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily),
+                        fontFamily: nunitoFamily),
                   ),
                 ),
               ),
@@ -56,8 +56,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Align(
                 child: Container(
                   width: width,
-                  height: 78,
-                  alignment: Alignment.center,
+                  // height: 78,
+                  height: height * 0.1027,
+                  // alignment: Alignment.center,
                   // color: Colors.red,
                   child: Text.rich(
                     const TextSpan(
@@ -76,9 +77,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ]),
                     style: TextStyle(
                         color: const Color.fromRGBO(231, 76, 60, 1),
-                        fontSize: 57,
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily),
+                        // fontSize: 57,
+                        fontSize: height * 0.075,
+                        fontFamily: nunitoFamily),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ), //389 364.65
@@ -89,8 +91,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 right: 0,
                 child: SvgPicture.asset(
                   'assets/images/welcomeimage.svg',
-                  height: 190,
-                  width: 228,
+                  // height: 190,
+                  height: height * 0.25,
+                  // width: 228,
+                  width: width * 0.6334,
                 ))
           ],
         ),
@@ -98,7 +102,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
+//todo Change push Animation effect
   Future<void> moveToNextPage() async {
+    // const splashScreenTime=300;
     NavigatorState state = Navigator.of(context);
     await Future.delayed(const Duration(milliseconds: 300));
     state.pushReplacement(PageRouteBuilder(
@@ -108,8 +114,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         },
         transitionsBuilder: (_, animation, secondAnimation, widget) {
           Animation<Offset> position =
-              Tween<Offset>(begin:const Offset(0.0, -2.0), end: Offset.zero).animate(
-                  CurvedAnimation(
+              Tween<Offset>(begin: const Offset(0.0, -2.0), end: Offset.zero)
+                  .animate(CurvedAnimation(
                       parent: animation, curve: Curves.bounceInOut));
           return SlideTransition(
             position: position,
@@ -118,4 +124,3 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         }));
   }
 }
-//93.4032
