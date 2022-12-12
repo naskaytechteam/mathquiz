@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-class Page2 extends StatelessWidget {
-  final VoidCallback onSkip;
-  const Page2({required this.onSkip,Key? key}) : super(key: key);
+import '/widgets/onboardingscreenwidgets/skip_button.dart';
+
+class OnBoardingPage2 extends StatelessWidget {
+  // final VoidCallback onSkip;
+
+  const OnBoardingPage2({/*required this.onSkip,*/ Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Size size=MediaQuery.of(context).size;
-    double height=size.height;
-    double width=size.width;
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Column(
       children: [
         SkipButton(fontSize: height * 0.5),
-
         SizedBox(
           //height: 23.58
           height: height * 0.031,
@@ -26,48 +28,66 @@ class Page2 extends StatelessWidget {
             children: [
               Positioned(
                 bottom: 0,
+                left: 0,
+                right: 0,
                 child: SvgPicture.asset(
-                    'assets/images/onboardingbackground2.svg',
-                    height: 316
+                  'assets/images/onboardingbackground2.svg',
+                  // height: 316
+                  // width:280,
+                  width: width * 0.778,
+                  height: height * 0.4158,
                 ),
               ),
               Positioned(
-                  bottom: 32.9,
+                  // bottom: 32.9,
+                  bottom: height * 0.0433,
                   child: SvgPicture.asset(
                     'assets/images/onboardingimage2.svg',
-                    height: 311.52,
+                    // height: 311.52,
+                    // width: 182.5,
+                    width: width * 0.507,
+                    height: height * 0.41,
                   ))
             ],
           ),
         ),
-        SizedBox(height: 19,),
-        Container(
-          height: 88,
-          width: width,
-          //19
-          // color: Colors.greenAccent,
+        SizedBox(
+            // height: 19,
+            height: height * 0.025),
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-          child: Text(
-            'Mockup tests for Olympiad',
-            style: TextStyle(
-                fontSize: 32,
-                color: const Color.fromRGBO(52, 73, 94, 1),
-                fontWeight: FontWeight.w900,
-                fontFamily: Theme.of(context).textTheme.headline2!.fontFamily),
-            textAlign: TextAlign.center,
+          child: SizedBox(
+            // height: 88,
+            height: height * 0.1158,
+            width: width,
+            //19
+            child: Text(
+              'Mockup tests for Olympiad',
+              style: TextStyle(
+                  // fontSize: 32,
+                  fontSize: height * 0.0422,
+                  color: const Color.fromRGBO(52, 73, 94, 1),
+                  fontWeight: FontWeight.w900,
+                  fontFamily:
+                      Theme.of(context).textTheme.headline2!.fontFamily),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         SizedBox(
-          height: 14,
+          // height: 14,
+          height: height * 0.01845,
         ),
-        Container(
-          height: 88,
+        SizedBox(
+          // height: 88,
+          height: height * 0.1158,
           width: width * 0.6,
           // color: Colors.red,
           child: Text(
             'Lorem ipsum dolor  consectetur  sed do eiusmod  ut labore et dolore aliqua.',
             style: TextStyle(
-                fontSize: 16,
+                // fontSize: 16,
+                fontSize: height * 0.0211,
                 fontWeight: FontWeight.w500,
                 fontFamily: Theme.of(context).textTheme.headline2?.fontFamily),
             textAlign: TextAlign.center,
