@@ -76,7 +76,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 // height: 33,
                 height: height * 0.04344,
               ),
-              CustomButton(onButtonPressed: onButtonPressed)
+              CustomButton(
+                onButtonPressed: onButtonPressed,
+                buttonName: 'Next',
+              )
             ],
           ),
         ),
@@ -84,25 +87,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
+  void _goToDetailsScreen() {
+    Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 800),
+            pageBuilder: (_, animation, secondAnimation) {
+              return const DetailsScreen();
+            },
+            transitionsBuilder: (_, animation, secondAnimation, widget) {
+              Animation<Offset> an =
+                  Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                      .animate(animation);
+              return SlideTransition(
+                position: an,
+                child: widget,
+              );
+            }));
+  }
+
   void onButtonPressed() {
     const int lastPage = 2;
     if (pageIndex == lastPage) {
-      Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-              transitionDuration: const Duration(milliseconds: 800),
-              pageBuilder: (_, animation, secondAnimation) {
-                return const DetailsScreen();
-              },
-              transitionsBuilder: (_, animation, secondAnimation, widget) {
-                Animation<Offset> an = Tween<Offset>(
-                        begin: const Offset(1.0, 0.0), end: Offset.zero)
-                    .animate(animation);
-                return SlideTransition(
-                  position: an,
-                  child: widget,
-                );
-              }));
+      _goToDetailsScreen();
       return;
     }
 
