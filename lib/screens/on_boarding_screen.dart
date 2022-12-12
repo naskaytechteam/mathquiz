@@ -34,19 +34,21 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: height * 0.808,
                 width: width,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
-                  onPageChanged: (a) {
-                    pageIndex = a;
+                  onPageChanged: (nextPageIndex) {
+                    pageIndex = nextPageIndex;
                   },
                   children: [Page1(onSkip: onSkip,), Page2(onSkip: onSkip,), Page3()],
                 ),
               ),
-              Container(
+              //todo this indicator is not dynamic(responsible)
+
+              SizedBox(
                 height: height * 0.02,
                 width: width,
                 // alignment: Alignment.center,
