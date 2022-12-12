@@ -15,27 +15,8 @@ class OnBoardingPage1 extends StatelessWidget {
 
     return Column(
       children: [
-        Container(
-          // color: Colors.yellow,
-          height: height * 0.05,
-          width: width,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: onSkip,
-              child: Text(
-                'SKIP',
-                style: TextStyle(
-                  color: const Color.fromRGBO(127, 140, 141, 1),
-                  fontSize: height * 0.0225,
-                  fontFamily:
-                  Theme.of(context).textTheme.headline2!.fontFamily,
-                  // fontWeight: FontWeight.w700
-                ),
-              ),
-            ),
-          ),
-        ),
+        SkipButton(fontSize: height * 0.0225),
+
         // SizedBox(height: 27,),
         Container(
           height: height * 0.45,
