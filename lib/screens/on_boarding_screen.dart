@@ -70,7 +70,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         dotHeight: height * 0.0132,
                         activeDotColor: const Color.fromRGBO(231, 76, 60, 1)),
                   ),
-
                 ),
               ),
               SizedBox(
@@ -107,57 +106,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       return;
     }
 
-                  pageController.nextPage(
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.decelerate);
-                },
-                child: Container(
-                  height: 70,
-                  alignment: Alignment.center,
-                  width: width * 0.817,
-                  decoration: BoxDecoration(
-                      color: const Color.fromRGBO(231, 76, 60, 1),
-                      borderRadius: BorderRadius.circular(height * 0.0352),
-                      boxShadow: const [
-                        BoxShadow(
-                            offset: Offset(0, 9),
-                            color: Color.fromRGBO(192, 57, 43, 1))
-                      ]),
-                  child: Text(
-                    'NEXT',
-                    style: TextStyle(
-                        color: const Color.fromRGBO(255, 250, 240, 1),
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily,
-                        fontWeight: FontWeight.w900,
-                        fontSize: height * 0.0281),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void onSkip(){
-    Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-            transitionDuration:const Duration(milliseconds: 800),
-            pageBuilder: (_, animation, secondAnimation) {
-              return const HomeScreen();
-            },
-            transitionsBuilder:
-                (_, animation, secondAnimation, widget) {
-              Animation<Offset> an = Tween<Offset>(
-                  begin:const Offset(1.0, 0.0), end: Offset.zero)
-                  .animate(animation);
-              return SlideTransition(
-                position: an,
-                child: widget,
-              );
-            }));
+    pageController.nextPage(
+        duration: const Duration(seconds: 1), curve: Curves.decelerate);
   }
 }
