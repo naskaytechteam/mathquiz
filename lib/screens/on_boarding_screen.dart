@@ -49,44 +49,56 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               Container(
                 height: height * 0.02,
                 width: width,
-                // color: Colors.red,
-                alignment: Alignment.center,
-                child: SmoothPageIndicator(
-                  controller: pageController,
-                  count: 3,
-                  effect: const SwapEffect(
-                      dotColor: Color.fromRGBO(127, 140, 141, 1),
-                      dotWidth: 10,
-                      dotHeight: 10,
-                      activeDotColor: Color.fromRGBO(231, 76, 60, 1)),
+                // alignment: Alignment.center,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SmoothPageIndicator(
+                    controller: pageController,
+                    count: 3,
+                    effect: SwapEffect(
+                        dotColor: const Color.fromRGBO(127, 140, 141, 1),
+                        // dotWidth: 10,
+                        dotWidth: width * 0.028,
+                        // dotHeight: 10,
+                        dotHeight: height * 0.0132,
+                        activeDotColor: const Color.fromRGBO(231, 76, 60, 1)),
+                  ),
+
                 ),
               ),
-              const SizedBox(
-                height: 33,
+              SizedBox(
+                // height: 33,
+                height: height * 0.04344,
               ),
-              InkWell(
-                onTap: () {
-                  const int lastPage = 2;
-                  if (pageIndex == lastPage) {
-                    Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 800),
-                            pageBuilder: (_, animation, secondAnimation) {
-                              return const HomeScreen();
-                            },
-                            transitionsBuilder:
-                                (_, animation, secondAnimation, widget) {
-                              Animation<Offset> an = Tween<Offset>(
-                                      begin:const Offset(1.0, 0.0), end: Offset.zero)
-                                  .animate(animation);
-                              return SlideTransition(
-                                position: an,
-                                child: widget,
-                              );
-                            }));
-                    return;
-                  }
+              CustomButton(onButtonPressed: onButtonPressed)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void onButtonPressed() {
+    const int lastPage = 2;
+    if (pageIndex == lastPage) {
+      Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 800),
+              pageBuilder: (_, animation, secondAnimation) {
+                return const DetailsScreen();
+              },
+              transitionsBuilder: (_, animation, secondAnimation, widget) {
+                Animation<Offset> an = Tween<Offset>(
+                        begin: const Offset(1.0, 0.0), end: Offset.zero)
+                    .animate(animation);
+                return SlideTransition(
+                  position: an,
+                  child: widget,
+                );
+              }));
+      return;
+    }
 
                   pageController.nextPage(
                       duration: const Duration(seconds: 1),
