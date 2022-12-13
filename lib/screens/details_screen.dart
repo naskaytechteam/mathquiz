@@ -156,8 +156,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 // height: 50,
                 height: height * 0.0659,
               ),
-              CustomButton(onButtonPressed: _onClick,buttonName: 'CONTINUE',)
-
+              CustomButton(
+                onButtonPressed: _onClick,
+                buttonName: 'CONTINUE',
+                height: height * 0.0922,
+                width: width * 0.817,
+              )
             ],
           ),
         ),
