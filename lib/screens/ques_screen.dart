@@ -1,15 +1,11 @@
-import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '/widgets/commonwidgets/build_question.dart';
-import '/widgets/pdf_design.dart';
-import 'package:path_provider/path_provider.dart';
+import '/widgets/common_widgets/custom_app_bar.dart';
+import '/widgets/common_widgets/custom_button.dart';
+import '../widgets/quesscreenswidgets/options.dart';
 import '/model/question.dart';
 import '/provider/template_factory.dart';
 import '/screens/score_screen.dart';
-import '../widgets/quesscreenswidgets/app_bar.dart';
-import '../widgets/quesscreenswidgets/current_ques_list.dart';
-import '../widgets/quesscreenswidgets/options.dart';
 
 class QuesScreen extends StatefulWidget {
   final TemplateType templateType;
@@ -24,9 +20,9 @@ class QuesScreen extends StatefulWidget {
 }
 
 class QuesScreenState extends State<QuesScreen> {
-  num optionSelected = -1;
+  static const noOptionSelected = -1;
+  num optionSelected = noOptionSelected;
   int _quesIndex = 0;
-  final MethodChannel methodChannel = const MethodChannel("open/file/manager");
 
   @override
   Widget build(BuildContext context) {
@@ -34,84 +30,170 @@ class QuesScreenState extends State<QuesScreen> {
     double height = size.height;
     double width = size.width;
     Question question = widget.questions[_quesIndex];
+    bool isFirstQuestion = _quesIndex == 0;
 
     return Scaffold(
-        appBar: Appbar(
-          height: height,
-          onPdfGenerate: onGeneratePdf,
-        ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _gap(height * 0.02),
-                Image.asset(
-                  'assets/back.png',
-                  fit: BoxFit.fill,
-                  width: width,
-                  height: height * 0.2,
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: CustomAppBar(
+        title: widget.templateType.name,
+        height: height * 0.1,
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.1112),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                // height: 25,
+                height: height * 0.033,
+              ),
+              Container(
+                // height: height * 0.18,
+                // width: width,
+                // height: 102,
+                height: height * 0.13422,
+                // width: 295,
+                width: width * 0.81945,
+                child: AutoSizeText(
+                  question.question,
+                  style: TextStyle(
+                      // fontSize: 20,
+                      fontSize: height * 0.02632,
+                      fontWeight: FontWeight.w600,
+                      fontFamily:
+                          Theme.of(context).textTheme.headline2?.fontFamily),
                 ),
-                _gap(height * 0.02),
-                _buildQuesType(widget.templateType, width, height),
-                _gap(height * 0.02),
-                CurrentQuesList(
-                  index: _quesIndex,
-                  totalQuestion: widget.questions.length,
+              ),
+              SizedBox(
+                // height: 40,
+                height: height * 0.05264,
+              ),
+              Options(quesScreen: this, option: question.options),
+              _gap(/*90*/ height * 0.11843),
+              const Divider(
+                height: 1,
+                thickness: 0.5,
+                color: Colors.black,
+              ),
+              _gap(/*25*/ height * 0.033),
+
+              SizedBox(
+                // height: 80,
+                height: height * 0.1053,
+                width: width,
+                child: Row(
+                  mainAxisAlignment: isFirstQuestion
+                      ? MainAxisAlignment.end
+                      : MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (!isFirstQuestion)
+                      TextButton(
+                        onPressed: _onPreviousButtonClick,
+                        child: Text(
+                          'PREVIOUS',
+                          style: TextStyle(
+                              color: const Color.fromRGBO(231, 76, 60, 1),
+                              // fontSize: 20,
+                              fontSize: height * 0.02632,
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .headline2
+                                  ?.fontFamily,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                    CustomButton(
+                      buttonName: 'Next',
+                      // height: 70,
+                      height: height * 0.0922,
+                      // width: 130,
+                      width: width * 0.36112,
+                      onButtonPressed: _onNextButtonClick,
+                      // backgroundColor: !checkOptionSelected?Colors.black:Colors.red,
+                    )
+                  ],
                 ),
-                _gap(height * 0.03),
-                BuildQuestion(ques: question.question),
-                Options(quesScreen: this, option: question.options),
-                _gap(height * 0.03),
-                _buildNextButton(height, width)
-              ],
-            ),
+              ),
+
+              // _gap(height * 0.02),
+              /* Image.asset(
+                'assets/back.png',
+                fit: BoxFit.fill,
+                width: width,
+                height: height * 0.2,
+              ),
+              _gap(height * 0.02),
+              _buildQuesType(widget.templateType, width, height),
+              _gap(height * 0.02),
+              CurrentQuesList(
+                index: _quesIndex,
+                totalQuestion: widget.questions.length,
+              ),
+              _gap(height * 0.03),
+              // BuildQuestion(ques: question.question),
+              Options(quesScreen: this, option: question.options),
+              _gap(height * 0.03),
+              _buildNextButton(height, width)
+
+              */
+            ],
           ),
         ),
-        // ),
-    );
-  }
-
-  void onGeneratePdf() async {
-    Directory? directory = await getExternalStorageDirectory();
-    await PdfDesign.makePdf(widget.questions, directory!.path);
-  }
-
-  Widget _buildNextButton(double height, double width) {
-    return InkWell(
-      onTap: _onNextButtonClick,
-      child: Container(
-        height: height * 0.07,
-        width: width,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(20)),
-        alignment: Alignment.center,
-        child: const Text(
-          'Next',
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
       ),
+      // ),
     );
   }
 
-  Widget _buildQuesType(TemplateType quizType, double width, double height) {
-    return Container(
-        width: width,
-        height: height * 0.05,
-        alignment: Alignment.centerLeft,
-        child: Text(
-          quizType.name,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
-        ));
-  }
+  // void onGeneratePdf() async {
+  //   Directory? directory = await getExternalStorageDirectory();
+  //   await PdfDesign.makePdf(widget.questions, directory!.path);
+  // }
+
+  // Widget _buildNextButton(double height, double width) {
+  //   return InkWell(
+  //     onTap: _onNextButtonClick,
+  //     child: Container(
+  //       height: height * 0.07,
+  //       width: width,
+  //       decoration: BoxDecoration(
+  //           color: Theme.of(context).primaryColor,
+  //           borderRadius: BorderRadius.circular(20)),
+  //       alignment: Alignment.center,
+  //       child: const Text(
+  //         'Next',
+  //         style: TextStyle(fontSize: 20, color: Colors.white),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildQuesType(TemplateType quizType, double width, double height) {
+  //   return Container(
+  //       width: width,
+  //       height: height * 0.05,
+  //       alignment: Alignment.centerLeft,
+  //       child: Text(
+  //         quizType.name,
+  //         style: const TextStyle(color: Colors.white, fontSize: 20),
+  //       ));
+  // }
 
   void _onNextButtonClick() {
     if (_quesIndex < widget.questions.length) {
       _updateScore();
     }
     _increaseIndex();
+  }
+
+  void _onPreviousButtonClick() {
+    _decreaseIndex();
+  }
+
+  void _decreaseIndex() {
+    setState(() {
+      _quesIndex--;
+    });
   }
 
   void _updateScore() {
