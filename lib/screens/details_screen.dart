@@ -38,7 +38,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     double width = size.width;
 
     return Scaffold(
-      extendBody: true,
       body: Padding(
         padding: EdgeInsets.symmetric(
             // horizontal: 40
@@ -184,7 +183,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     bool hasClassSavedSuccessfully =
         await sharedPreferences.setInt('classNo', userClass);
     bool hasAvatarSavedSuccessfully =
-        await sharedPreferences.setInt('avatarNo', selectedAvatar);
+        await sharedPreferences.setInt('avatarNo', _selectedAvatar);
 
     return hasNameSavedSuccessfully == true &&
         hasClassSavedSuccessfully == true &&
@@ -210,7 +209,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Widget _buildAvatar(int avatarNo, double height, double width) {
-    bool isAvatarSelected = selectedAvatar == avatarNo;
+    bool isAvatarSelected = _selectedAvatar == avatarNo;
     return Stack(
       children: [
         Container(
@@ -232,7 +231,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               highlightColor: Theme.of(context).backgroundColor,
               onTap: () {
                 setState(() {
-                  selectedAvatar = avatarNo;
+                  _selectedAvatar = avatarNo;
                 });
               },
               child: SvgPicture.asset('assets/images/avatar$avatarNo.svg')),
