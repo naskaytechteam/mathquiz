@@ -2,41 +2,58 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onButtonPressed;
+  final String? buttonName;
+  final double height;
+  final double width;
+  final Color backgroundColor;
+  final Color shadowColor;
+  final bool isScoreScreenButton;
+  final Widget? child;
 
-  const CustomButton({required this.onButtonPressed, Key? key})
+  const CustomButton(
+      {this.buttonName,
+      required this.height,
+      required this.width,
+      this.child,
+      this.isScoreScreenButton = false,
+      this.backgroundColor = const Color.fromRGBO(231, 76, 60, 1),
+      this.shadowColor = const Color.fromRGBO(192, 57, 43, 1),
+      required this.onButtonPressed,
+      Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
+    double screenHeight = size.height;
     return InkWell(
       onTap: onButtonPressed,
       child: Container(
-        // height: 70,
-        height: height * 0.0922,
+        height: height,
         alignment: Alignment.center,
-        width: width * 0.817,
+        width: width,
         decoration: BoxDecoration(
-            color: const Color.fromRGBO(231, 76, 60, 1),
-            borderRadius: BorderRadius.circular(height * 0.0352),
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(screenHeight * 0.0352),
             boxShadow: [
               BoxShadow(
                   offset: Offset(
                       0,
                       // 9
-                      height * 0.0119),
-                  color: const Color.fromRGBO(192, 57, 43, 1))
+                      screenHeight * 0.0119),
+                  color: shadowColor)
             ]),
-        child: Text(
-          'NEXT',
-          style: TextStyle(
-              color: const Color.fromRGBO(255, 250, 240, 1),
-              fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
-              fontWeight: FontWeight.w900,
-              fontSize: height * 0.0281),
-        ),
+        child: isScoreScreenButton
+            ? child
+            : Text(
+                buttonName!,
+                style: TextStyle(
+                    color: const Color.fromRGBO(255, 250, 240, 1),
+                    fontFamily:
+                        Theme.of(context).textTheme.headline2?.fontFamily,
+                    fontWeight: FontWeight.w900,
+                    fontSize: screenHeight * 0.0281),
+              ),
       ),
     );
   }
