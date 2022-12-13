@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import '/parsers/template_parser.dart';
 import 'package:path/path.dart';
@@ -56,7 +55,7 @@ class DbHelper {
   }
 
   List<int> _changeListType(List<Map> list) {
-    List<int> newList = list.map((e) => e['type'] as int).toSet().toList();
+    List<int> newList = list.map((e) => e['type'] as int).toList();
     return newList;
   }
 
