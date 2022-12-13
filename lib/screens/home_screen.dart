@@ -1,55 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mathquiz/screens/first_screen.dart';
-import '../widgets/homescreenwidgets/ques_type_name.dart';
-import '/provider/template_factory.dart';
-import '../model/question.dart';
-import '/screens/ques_screen.dart';
+import '../widgets/homescreenwidgets/class_screen.dart';
+import '../widgets/homescreenwidgets/second_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  // final List<int> quesTypeList;
+  final String name;
+  final int userClassNo;
+  final int avatarNo;
 
-  const HomeScreen({/*required this.quesTypeList*/ Key? key}) : super(key: key);
+  const HomeScreen(
+      {required this.name,
+      required this.userClassNo,
+      required this.avatarNo,
+      Key? key})
+      : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // double _firstImagePositionFromTop = 0,
-  //     _secondImagePositionFromTop = 0,
-  //     _thirdImagePositionFromTop = 0,
-  //     _forthImagePositionFromTop = 0,
-  //     _fifthImagePositionFromTop = 0,
-  //     _sixImagePositionFromTop = 0,
-  //     _sevenImagePositionFromTop = 0,
-  //     _eightImagePositionFromTop = 0,
-  //     _nineImagePositionFromTop = 0;
-  final screenIndex = 0;
-
-  List<Widget> _screens = [FirstScreen()];
+  int _screenIndex = 0;
+  late final List<Widget> _screens = [
+    ClassScreen(
+      name: widget.name,
+      userClassNo: widget.userClassNo,
+      avatarNo: widget.avatarNo,
+    ),
+    const SecondScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
-    double width = size.width;
+    // double width = size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: _screens[screenIndex],
+      body: _screens[_screenIndex],
       bottomNavigationBar: SizedBox(
-        height: 100,
+        // height: 100,
+        height: height * 0.13158,
         child: BottomNavigationBar(
+          currentIndex: _screenIndex,
+          onTap: (index) {
+            setState(() {
+              _screenIndex = index;
+            });
+          },
+          unselectedItemColor: const Color.fromRGBO(211, 211, 211, 1),
           selectedItemColor: const Color.fromRGBO(231, 76, 60, 1),
           items: [
             BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/firsticon.svg'),
+                icon: SvgPicture.asset(
+                  'assets/images/firsticon.svg',
+                  // color:this.screenIndex==0?const Color.fromRGBO(231, 76, 60, 1):Color.fromRGBO(211, 211, 211, 1)
+                ),
                 label: ''),
+            // BottomNavigationBarItem(
+            //     icon: SvgPicture.asset('assets/images/secondicon.svg'),
+            //     label: ''),
             BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/secondicon.svg'),
-                label: ''),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/thirdicon.svg'),
+                icon: SvgPicture.asset(
+                  'assets/images/thirdicon.svg',
+                  // color:this.screenIndex==1?const Color.fromRGBO(231, 76, 60, 1):Color.fromRGBO(211, 211, 211, 1)
+                ),
                 label: '')
           ],
         ),
@@ -57,108 +72,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-// bool _handleScrollNotification(ScrollUpdateNotification v) {
-//   setState(() {
-//     _firstImagePositionFromTop -= v.scrollDelta! / 1.9;
-//     _secondImagePositionFromTop -= v.scrollDelta! / 1.8;
-//     _thirdImagePositionFromTop -= v.scrollDelta! / 1.7;
-//     _forthImagePositionFromTop -= v.scrollDelta! / 1.6;
-//     _fifthImagePositionFromTop -= v.scrollDelta! / 1.5;
-//     _sixImagePositionFromTop -= v.scrollDelta! / 1.4;
-//     _sevenImagePositionFromTop -= v.scrollDelta! / 1.3;
-//     _eightImagePositionFromTop -= v.scrollDelta! / 1;
-//     _nineImagePositionFromTop -= v.scrollDelta! / 1;
-//   });
-//   return true;
-// }
-
-// Widget _buildParallaxImages(int image, double top, double height) {
-//   return Positioned(
-//     left: 0,
-//     right: 0,
-//     top: top,
-//     child: SizedBox(
-//       height: height * 0.3,
-//       child: Image(
-//         image: AssetImage('assets/$image.png'),
-//         fit: BoxFit.cover,
+// Future<void> hasUserDetailsGetSuccessfully() async {
+//   if (await getUserDetails()) {
+//     _screens = [
+//       ClassScreen(
+//         name: _name!,
+//         userClassNo: _userClassNo!,
+//         avatarNo: _avatarNo!,
 //       ),
-//     ),
-//   );
-// }
-
-// void _showCircularProgressIndicator(BuildContext context) {
-//   showDialog(
-//       context: context,
-//       builder: (_) {
-//         return const Center(child: CircularProgressIndicator());
-//       });
-// }
-
-// Future<void> _onQuesTypeSelected(TemplateType tempType) async {
-//   NavigatorState navigatorState = Navigator.of(context);
-//   _showCircularProgressIndicator(context);
-//
-//   List<Question> questions =
-//       await TemplateFactory().generateQuestions(tempType);
-//   navigatorState.pop();
-//
-//   if (questions.isEmpty) {
-//     _showDialogBox();
-//     return;
+//       const SecondScreen(),
+//     ];
+//     setState(() {
+//       _userDataGetSuccessfully = true;
+//     });
 //   }
-//
-//   navigatorState.push(MaterialPageRoute(builder: (_) {
-//     return QuesScreen(
-//       templateType: tempType,
-//       questions: questions,
-//     );
-//   }));
 // }
 
-// void _showDialogBox() {
-//   showDialog(
-//       context: context,
-//       builder: (_) {
-//         return const AlertDialog(
-//           content: Text('No question found'),
-//         );
-//       });
+// Future<bool> getUserDetails() async {
+//   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+//   _name = sharedPreferences.getString('userName');
+//   _userClassNo = sharedPreferences.getInt('classNo');
+//   _avatarNo = sharedPreferences.getInt('avatarNo');
+//   return _name != null && _userClassNo != null && _avatarNo != null;
 // }
 }
-
-/*
-Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: NotificationListener<ScrollUpdateNotification>(
-          onNotification: _handleScrollNotification,
-          child: Stack(
-            children: [
-              _buildParallaxImages(1, _firstImagePositionFromTop, height),
-              _buildParallaxImages(2, _secondImagePositionFromTop, height),
-              _buildParallaxImages(3, _thirdImagePositionFromTop, height),
-              _buildParallaxImages(4, _forthImagePositionFromTop, height),
-              _buildParallaxImages(5, _fifthImagePositionFromTop, height),
-              _buildParallaxImages(6, _sixImagePositionFromTop, height),
-              _buildParallaxImages(7, _sevenImagePositionFromTop, height),
-              _buildParallaxImages(8, _eightImagePositionFromTop, height),
-              _buildParallaxImages(9, _nineImagePositionFromTop, height),
-              SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: height * 0.3,
-                      width: width,
-                    ),
-                    for (int a = 0; a < widget.quesTypeList.length; a++)
-                      QuesTypeName(
-                          questype: TemplateType.values[widget.quesTypeList[a]],
-                          onQuesTypeSelected: _onQuesTypeSelected)
-                  ],
-                ),
-              )
-            ],
-          )),
-    );
- */
