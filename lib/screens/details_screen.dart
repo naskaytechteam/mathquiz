@@ -16,7 +16,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
-  int selectedAvatar = _defaultSelectedAvatar;
+  int _selectedAvatar = _defaultSelectedAvatar;
   final TextEditingController _selectedClass = TextEditingController();
   final TextEditingController _name = TextEditingController();
 
