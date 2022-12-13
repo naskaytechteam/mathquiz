@@ -79,6 +79,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               CustomButton(
                 onButtonPressed: onButtonPressed,
                 buttonName: 'Next',
+                height: height * 0.0922,
+                width: width * 0.817,
               )
             ],
           ),
