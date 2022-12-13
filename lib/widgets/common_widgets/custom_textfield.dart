@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../provider/template_factory.dart';
+import '../../database/db_helper.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
@@ -12,11 +11,11 @@ class CustomTextField extends StatelessWidget {
 
   const CustomTextField(
       {required this.hintText,
-        required this.controller,
-        this.onClassSelected,
-        required this.textInputType,
-        this.isClassTextField=false,
-        Key? key})
+      required this.controller,
+      this.onClassSelected,
+      required this.textInputType,
+      this.isClassTextField = false,
+      Key? key})
       : super(key: key);
 
   @override
@@ -53,32 +52,34 @@ class CustomTextField extends StatelessWidget {
                 fontWeight: FontWeight.w700),
             hintText: hintText,
             border: InputBorder.none,
-            suffixIcon: isClassTextField?_dropDownWidget(context,height):null
-        ),
+            suffixIcon:
+                isClassTextField ? _dropDownWidget(context, height) : null),
       ),
     );
   }
-  Widget _dropDownWidget(BuildContext context,double height){
+
+  Widget _dropDownWidget(BuildContext context, double height) {
     return DropdownButton<int>(
-        underline: const SizedBox(),
-        elevation: 0,
-        focusColor: Theme.of(context).backgroundColor,
-        alignment: Alignment.center,
-        icon: SvgPicture.asset(
-          'assets/images/dropdown.svg',
-          // height: 12
-          // height: height* 0.0158,
-          // width: 10
-          // width: width* 0.028,
-        ),
-        // iconSize: 20,
-        iconSize: height * 0.0264,
-        items: List.generate(
-            TemplateType.values.length, //totalClass
-                (index) => DropdownMenuItem(
-              value: index + 1,
-              child: Text((index + 1).toString()),
-            )),
-    onChanged: onClassSelected!,);
+      underline: const SizedBox(),
+      elevation: 0,
+      focusColor: Theme.of(context).backgroundColor,
+      alignment: Alignment.center,
+      icon: SvgPicture.asset(
+        'assets/images/dropdown.svg',
+        // height: 12
+        // height: height* 0.0158,
+        // width: 10
+        // width: width* 0.028,
+      ),
+      // iconSize: 20,
+      iconSize: height * 0.0264,
+      items: List.generate(
+          DbHelper.totalClass, //totalClass
+          (index) => DropdownMenuItem(
+                value: index + 1,
+                child: Text((index + 1).toString()),
+              )),
+      onChanged: onClassSelected!,
+    );
   }
 }
