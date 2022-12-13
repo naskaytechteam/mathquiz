@@ -101,7 +101,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   hintText: 'Name',
                   controller: _name,
                   textInputType: TextInputType.text),
-
               SizedBox(
                 // height: 20,
                 height: height * 0.0264,
@@ -113,7 +112,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 onClassSelected: _onClassSelected,
                 isClassTextField: true,
               ),
-
               SizedBox(
                 // height: 30,
                 height: height * 0.0395,
@@ -197,16 +195,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void _onClick() async {
     NavigatorState navigatorState = Navigator.of(context);
     String name = _name.value.text;
-    int classNo = int.parse(_selectedClass.value.text);
-    if (name != '' && classNo > 0) {
-      bool hasUserDetailsSavedSuccessfully = await _saveUserDetails(name, classNo);
+    String cNo = _selectedClass.value.text;
+    if (name != '' && cNo != '') {
+      int classNo = int.parse(cNo);
+      bool hasUserDetailsSavedSuccessfully =
+          await _saveUserDetails(name, classNo);
 
       if (hasUserDetailsSavedSuccessfully) {
         log('user details has successfully stored in memory $hasUserDetailsSavedSuccessfully');
         await _removeSystemNavBar();
 
         navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
-          return const HomeScreen();
+          return HomeScreen(
+            name: name,
+            userClassNo: classNo,
+            avatarNo: _selectedAvatar,
+          );
         }));
       }
     }
@@ -225,7 +229,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               shape: BoxShape.circle,
               border: isAvatarSelected
                   ? Border.all(
-                      color:const Color.fromRGBO(46, 204, 113, 1),
+                      color: const Color.fromRGBO(46, 204, 113, 1),
                       // width: 4
                       width: width * 0.0112
                       // width: height* 0.0053
