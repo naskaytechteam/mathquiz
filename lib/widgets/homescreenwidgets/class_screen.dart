@@ -27,7 +27,7 @@ class ClassScreen extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: /*40*/width*0.11112),
+        padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.11112),
         child: Column(
           children: [
             userNameContainer(height, width, context),
@@ -43,13 +43,11 @@ class ClassScreen extends StatelessWidget {
               // height: 15,
               height: height * 0.01975,
             ),
-            for (int i = userClassNo;
-                i <= DbHelper.totalClass;
-                i = i + 2)
+            for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
               _buildClass(height, width, i, context),
             // SizedBox(
-              // height: 30,
-              // height: height * 0.0395,
+            // height: 30,
+            // height: height * 0.0395,
             // ),
             const ResumeYourLesson(),
             SizedBox(
@@ -73,12 +71,16 @@ class ClassScreen extends StatelessWidget {
         width: width * 0.36112,
         child: Column(children: [
           InkWell(
-            onTap: ()async{
-              List<int>quesTypesList = await TemplateFactory().getQuesTypes(classNo);
+            onTap: () async {
+              List<int> quesTypesList =
+                  await TemplateFactory().getQuesTypes(classNo);
 
-              Navigator.of(context).push(MaterialPageRoute(builder:(_){
-                return Topics(classNo: userClassNo,quesTypeList: quesTypesList,);
-              } ));
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return Topics(
+                  classNo: userClassNo,
+                  quesTypeList: quesTypesList,
+                );
+              }));
             },
             // onTap: () => _onClassSelected(classNo),
             highlightColor: backgroundColor,
@@ -137,7 +139,9 @@ class ClassScreen extends StatelessWidget {
             height: height * 0.01975,
 
             child: isClassSelected
-                ? Text('Your Class $classNo',)
+                ? Text(
+                    'Your Class $classNo',
+                  )
                 : Text('class $classNo'),
           ),
         ]),
