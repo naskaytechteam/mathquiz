@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '/widgets/on_boarding_screen_widgets/on_boarding_page1.dart';
+import '/widgets/on_boarding_screen_widgets/on_boarding_page2.dart';
+import '/widgets/on_boarding_screen_widgets/on_boarding_page3.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '/screens/details_screen.dart';
-import '/widgets/onboardingscreenwidgets/on_boarding_page1.dart';
-import '/widgets/onboardingscreenwidgets/on_boarding_page2.dart';
-import '/widgets/onboardingscreenwidgets/on_boarding_page3.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
