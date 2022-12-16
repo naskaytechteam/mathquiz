@@ -38,7 +38,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: CustomAppBar(
-        title: 'Question $_quesIndex',
+        title: 'Question ${_quesIndex + 1}',
         height: height * 0.1,
       ),
       body: Padding(
