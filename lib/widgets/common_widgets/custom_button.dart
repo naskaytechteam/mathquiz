@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
   final double width;
   final Color backgroundColor;
   final Color shadowColor;
-  final bool isScoreScreenButton;
+  // final bool isScoreScreenButton;
   final Widget? child;
 
   const CustomButton(
@@ -15,7 +15,8 @@ class CustomButton extends StatelessWidget {
       required this.height,
       required this.width,
       this.child,
-      this.isScoreScreenButton = false,
+        this.textColor=const Color.fromRGBO(255, 250, 240, 1),
+      // this.isScoreScreenButton = false,
       this.backgroundColor = const Color.fromRGBO(231, 76, 60, 1),
       this.shadowColor = const Color.fromRGBO(192, 57, 43, 1),
       required this.onButtonPressed,
@@ -43,9 +44,7 @@ class CustomButton extends StatelessWidget {
                       screenHeight * 0.0119),
                   color: shadowColor)
             ]),
-        child: isScoreScreenButton
-            ? child
-            : Text(
+        child: child ?? Text(
                 buttonName!,
                 style: TextStyle(
                     color: const Color.fromRGBO(255, 250, 240, 1),
