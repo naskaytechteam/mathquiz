@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 class TodayTopicContainer extends StatelessWidget {
   const TodayTopicContainer({Key? key}) : super(key: key);
 
@@ -9,21 +10,17 @@ class TodayTopicContainer extends StatelessWidget {
     double height = size.height;
     double width = size.width;
 
-    String? nunitoFamily=Theme.of(context).textTheme.headline2?.fontFamily;
-
+    String? nunitoFamily = Theme.of(context).textTheme.headline2?.fontFamily;
 
     return Container(
       height: height * 0.24869,
       width: width * 0.81945,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              height * 0.033),
+          borderRadius: BorderRadius.circular(height * 0.033),
           color: const Color.fromRGBO(26, 188, 156, 1),
           boxShadow: [
             BoxShadow(
-                offset: Offset(
-                    0,
-                    height * 0.0119),
+                offset: Offset(0, height * 0.0119),
                 color: const Color.fromRGBO(22, 160, 133, 1))
           ]),
       child: Stack(
@@ -55,8 +52,7 @@ class TodayTopicContainer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: height * 0.0211,
                       fontWeight: FontWeight.w700,
-                      fontFamily:
-                      nunitoFamily),
+                      fontFamily: nunitoFamily),
                 )),
           ),
           Positioned(
@@ -69,8 +65,7 @@ class TodayTopicContainer extends StatelessWidget {
                 'Probability \nTheory',
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily:nunitoFamily
-                    ,
+                    fontFamily: nunitoFamily,
                     // fontSize: 24,
                     fontSize: height * 0.03158,
                     fontWeight: FontWeight.w900),
