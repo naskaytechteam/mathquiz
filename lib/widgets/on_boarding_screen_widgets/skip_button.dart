@@ -16,9 +16,9 @@ class SkipButton extends StatelessWidget {
         height: height * 0.05,
         width: width * 0.3,
         child: TextButton(
-          style: TextButton.styleFrom(
-              // padding: const EdgeInsets.only(right: 41),
-              ),
+          // style: TextButton.styleFrom(
+          // padding: const EdgeInsets.only(right: 41),
+          // ),
           onPressed: () => onSkip(context),
           child: Text(
             'SKIP',
@@ -35,10 +35,14 @@ class SkipButton extends StatelessWidget {
   }
 
   void onSkip(BuildContext context) {
-    Navigator.pushReplacement(
-        context,
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+      return const DetailsScreen();
+    }));
+  }
+}
+/*
         PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 800),
+            transitionDuration: const Duration(seconds: 1),
             pageBuilder: (_, animation, secondAnimation) {
               return const DetailsScreen();
             },
@@ -50,6 +54,5 @@ class SkipButton extends StatelessWidget {
                 position: customAnimation,
                 child: widget,
               );
-            }));
-  }
-}
+            })
+ */
