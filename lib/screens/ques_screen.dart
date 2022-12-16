@@ -50,7 +50,7 @@ class _QuesScreenState extends State<QuesScreen> {
                 // height: 25,
                 height: height * 0.033,
               ),
-              Container(
+              SizedBox(
                 // height: height * 0.18,
                 // width: width,
                 // height: 102,
