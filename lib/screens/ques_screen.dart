@@ -131,10 +131,11 @@ class _QuesScreenState extends State<QuesScreen> {
     );
   }
 
-  // void onGeneratePdf() async {
-  //   Directory? directory = await getExternalStorageDirectory();
-  //   await PdfDesign.makePdf(widget.questions, directory!.path);
-  // }
+  void _onOptionSelected(int index) {
+    setState(() {
+      _optionHasSelected(index: index);
+    });
+  }
 
   // Widget _buildNextButton(double height, double width) {
   //   return InkWell(
