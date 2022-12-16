@@ -17,12 +17,14 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
   int _selectedAvatar = _defaultSelectedAvatar;
-  final TextEditingController _selectedClass = TextEditingController();
-  final TextEditingController _name = TextEditingController();
+  final TextEditingController _classController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _parentsEmailController = TextEditingController();
 
   void _disposeAllControllers() {
-    _name.dispose();
-    _selectedClass.dispose();
+    _nameController.dispose();
+    _classController.dispose();
+    _parentsEmailController.dispose();
   }
 
   @override
@@ -59,8 +61,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   height: height * 0.1158,
                   // alignment: Alignment.center,
                   // width: 280,
-                  width: width
-                  /**0.778*/,
+                  width: width,
                   child: Text(
                     'Lorem Ipsum Dolar',
                     textAlign: TextAlign.center,
@@ -107,7 +108,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               CustomTextField(
                 hintText: 'Class',
-                controller: _selectedClass,
+                controller: _classController,
                 textInputType: TextInputType.number,
                 onClassSelected: _onClassSelected,
                 isClassTextField: true,
@@ -169,7 +170,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   void _onClassSelected(int? value) {
     setState(() {
-      _selectedClass.text = value.toString();
+      _classController.text = value.toString();
     });
   }
 
@@ -194,9 +195,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   void _onClick() async {
     NavigatorState navigatorState = Navigator.of(context);
-    String name = _name.value.text;
-    String cNo = _selectedClass.value.text;
-    if (name != '' && cNo != '') {
+    String name = _nameController.value.text;
+    String cNo = _classController.value.text;
+    String parentEmail = _parentsEmailController.value.text;
+    if (name != '' && cNo != '' && parentEmail != '') {
       int classNo = int.parse(cNo);
       bool hasUserDetailsSavedSuccessfully =
           await _saveUserDetails(name, classNo);
