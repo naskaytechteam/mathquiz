@@ -7,12 +7,16 @@ class CustomTextField extends StatelessWidget {
   final TextInputType textInputType;
   final TextEditingController controller;
   final bool isClassTextField;
+  final bool readOnly;
   final void Function(int? value)? onClassSelected;
+  final void Function(String value)? onSubmit;
 
   const CustomTextField(
       {required this.hintText,
       required this.controller,
       this.onClassSelected,
+      this.onSubmit,
+      this.readOnly = false,
       required this.textInputType,
       this.isClassTextField = false,
       Key? key})
@@ -43,6 +47,8 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         keyboardType: textInputType,
         controller: controller,
+        onSubmitted: onSubmit,
+        readOnly: readOnly,
         decoration: InputDecoration(
             hintStyle: TextStyle(
                 color: const Color.fromRGBO(189, 195, 199, 1),
