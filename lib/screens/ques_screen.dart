@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import '/widgets/common_widgets/custom_divider.dart';
+import '/screens/review_answer_screen.dart';
 import '/widgets/common_widgets/custom_app_bar.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '../widgets/quesscreenswidgets/options.dart';
@@ -75,11 +77,7 @@ class _QuesScreenState extends State<QuesScreen> {
                 optionSelectedIndex: _optionSelectedIndex,
               ),
               _gap(/*90*/ height * 0.11843),
-              const Divider(
-                height: 1,
-                thickness: 0.5,
-                color: Colors.black,
-              ),
+              const CustomDivider(),
               _gap(/*25*/ height * 0.033),
 
               SizedBox(
