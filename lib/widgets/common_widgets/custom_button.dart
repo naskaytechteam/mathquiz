@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final Color shadowColor;
   // final bool isScoreScreenButton;
   final Widget? child;
+  final Color textColor;
 
   const CustomButton(
       {this.buttonName,
@@ -47,7 +48,7 @@ class CustomButton extends StatelessWidget {
         child: child ?? Text(
                 buttonName!,
                 style: TextStyle(
-                    color: const Color.fromRGBO(255, 250, 240, 1),
+                    color: textColor,
                     fontFamily:
                         Theme.of(context).textTheme.headline2?.fontFamily,
                     fontWeight: FontWeight.w900,
