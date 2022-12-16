@@ -109,8 +109,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void onButtonPressed() {
-    const int lastPage = 2;
-    if (pageIndex == lastPage) {
+    const int lastPageIndex = 2;
+    if (_pageIndex == lastPageIndex) {
       _goToDetailsScreen();
       return;
     }
