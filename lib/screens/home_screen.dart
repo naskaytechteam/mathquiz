@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '/screens/setting_screen.dart';
 import '../widgets/homescreenwidgets/class_screen.dart';
-import '../widgets/homescreenwidgets/second_screen.dart';
+import '../widgets/homescreenwidgets/ranking_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String name;
@@ -27,7 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
       userClassNo: widget.userClassNo,
       avatarNo: widget.avatarNo,
     ),
-    const SecondScreen(),
+    const RankingScreen(),
+    const SettingScreen()
   ];
 
   @override
@@ -48,14 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
               _screenIndex = index;
             });
           },
-          unselectedItemColor: const Color.fromRGBO(211, 211, 211, 1),
-          selectedItemColor: const Color.fromRGBO(231, 76, 60, 1),
           items: [
             BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/firsticon.svg',
-                  // color:this.screenIndex==0?const Color.fromRGBO(231, 76, 60, 1):Color.fromRGBO(211, 211, 211, 1)
-                ),
+                icon: SvgPicture.asset('assets/images/firsticon.svg',
+                    color: bottomNavBarIconColor(iconIndex: 0)),
+                label: ''),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/images/thirdicon.svg',
+                    color: bottomNavBarIconColor(iconIndex: 1)),
                 label: ''),
             // BottomNavigationBarItem(
             //     icon: SvgPicture.asset('assets/images/secondicon.svg'),
@@ -72,27 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-// Future<void> hasUserDetailsGetSuccessfully() async {
-//   if (await getUserDetails()) {
-//     _screens = [
-//       ClassScreen(
-//         name: _name!,
-//         userClassNo: _userClassNo!,
-//         avatarNo: _avatarNo!,
-//       ),
-//       const SecondScreen(),
-//     ];
-//     setState(() {
-//       _userDataGetSuccessfully = true;
-//     });
-//   }
-// }
-
-// Future<bool> getUserDetails() async {
-//   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-//   _name = sharedPreferences.getString('userName');
-//   _userClassNo = sharedPreferences.getInt('classNo');
-//   _avatarNo = sharedPreferences.getInt('avatarNo');
-//   return _name != null && _userClassNo != null && _avatarNo != null;
-// }
+  Color bottomNavBarIconColor({required int iconIndex}) {
+    return _screenIndex == iconIndex
+        ? const Color.fromRGBO(231, 76, 60, 1)
+        : const Color.fromRGBO(211, 211, 211, 1);
+  }
 }
