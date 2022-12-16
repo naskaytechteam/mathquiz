@@ -114,6 +114,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 isClassTextField: true,
               ),
               SizedBox(
+                // height: 20,
+                height: height * 0.0264,
+              ),
+              CustomTextField(
+                  hintText: 'Parent\'s Email',
+                  controller: _parentsEmailController,
+                  onSubmit: _onSubmit,
+                  textInputType: TextInputType.text),
+              SizedBox(
                 // height: 30,
                 height: height * 0.0395,
               ),
