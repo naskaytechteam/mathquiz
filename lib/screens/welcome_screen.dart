@@ -61,25 +61,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   // alignment: Alignment.center,
                   // color: Colors.red,
                   child: Text.rich(
-                    const TextSpan(
+                    TextSpan(
                         text: 'Olym',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.italic,
+                          // fontSize: 57,
+                          fontSize: height * 0.075,
+                          fontFamily: nunitoFamily,
+                          color: const Color.fromRGBO(231, 76, 60, 1),
                         ),
-                        children: [
+                        children: const [
                           TextSpan(
                               text: 'Math',
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
-                                fontStyle: FontStyle.italic,
                               ))
                         ]),
-                    style: TextStyle(
-                        color: const Color.fromRGBO(231, 76, 60, 1),
-                        // fontSize: 57,
-                        fontSize: height * 0.075,
-                        fontFamily: nunitoFamily),
                     textAlign: TextAlign.center,
                   ),
                 ),
