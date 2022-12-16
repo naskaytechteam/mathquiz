@@ -73,13 +73,8 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                 height: height * 0.05264,
               ),
               buildOption(height, width),
-              // Options(quesScreen: this, option: question.options),
-              _gap(/*90*/height * 0.11843),
-              const Divider(
-                height: 1,
-                thickness: 0.5,
-                color: Colors.black,
-              ),
+              _gap(/*90*/ height * 0.11843),
+              const CustomDivider(),
               _gap(/*25*/ height * 0.033),
 
               SizedBox(
