@@ -213,7 +213,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _onClick() async {
-    NavigatorState navigatorState = Navigator.of(context);
     String name = _nameController.value.text;
     String cNo = _classController.value.text;
     String parentEmail = _parentsEmailController.value.text;
@@ -225,16 +224,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
       if (hasUserDetailsSavedSuccessfully) {
         log('user details has successfully stored in memory $hasUserDetailsSavedSuccessfully');
         await _removeSystemNavBar();
-
-        navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
-          return HomeScreen(
-            name: name,
-            userClassNo: classNo,
-            avatarNo: _selectedAvatar,
-          );
-        }));
+        _goToHomePage(name, classNo);
       }
     }
+  }
+
+  void _goToHomePage(String name, int classNo) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+      return HomeScreen(
+        name: name,
+        userClassNo: classNo,
+        avatarNo: _selectedAvatar,
+      );
+    }));
   }
 
   Widget _buildAvatar(int avatarNo, double height, double width) {
