@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '/widgets/topics.dart';
-import '/widgets/homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
+import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
 import '/database/db_helper.dart';
 import '/provider/template_factory.dart';
 import '/screens/profile_screen.dart';
@@ -30,7 +30,7 @@ class ClassScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.11112),
         child: Column(
           children: [
-            userNameContainer(height, width, context),
+            _buildNameContainer(height, width, context),
             SizedBox(
               height: height * 0.0566,
             ),
@@ -38,13 +38,13 @@ class ClassScreen extends StatelessWidget {
             SizedBox(
               height: height * 0.0514,
             ),
-            takeATest(height, width, context),
+            _buildTakeATextContainer(height, width, context),
             SizedBox(
               // height: 15,
               height: height * 0.01975,
             ),
             for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
-              _buildClass(height, width, i, context),
+              _buildClassRow(height, width, i, context),
             // SizedBox(
             // height: 30,
             // height: height * 0.0395,
@@ -59,7 +59,7 @@ class ClassScreen extends StatelessWidget {
     );
   }
 
-  Widget classOne(
+  Widget _buildClassContainer(
       double height, double width, int classNo, BuildContext context) {
     Color backgroundColor = Theme.of(context).backgroundColor;
     bool isClassSelected = classNo == userClassNo;
@@ -72,10 +72,12 @@ class ClassScreen extends StatelessWidget {
         child: Column(children: [
           InkWell(
             onTap: () async {
+              NavigatorState state = Navigator.of(context);
+
               List<int> quesTypesList =
                   await TemplateFactory().getQuesTypes(classNo);
 
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+              state.push(MaterialPageRoute(builder: (_) {
                 return Topics(
                   classNo: userClassNo,
                   quesTypeList: quesTypesList,
@@ -149,7 +151,8 @@ class ClassScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildClass(double height, double width, int i, BuildContext context) {
+  Widget _buildClassRow(
+      double height, double width, int i, BuildContext context) {
     return Align(
       alignment: Alignment.center,
       child: Container(
@@ -162,23 +165,17 @@ class ClassScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            classOne(height, width, i, context),
+            _buildClassContainer(height, width, i, context),
             if (i + 1 <= DbHelper.totalClass)
-              classOne(height, width, i + 1, context)
+              _buildClassContainer(height, width, i + 1, context)
           ],
         ),
       ),
     );
   }
 
-  // void _onClassSelected(int classNo) {
-  //   print('your class $classNo');
-  //   setState(() {
-  //     // this.userClassNo = classNo;
-  //   });
-  // }
-
-  Widget userNameContainer(double height, double width, BuildContext context) {
+  Widget _buildNameContainer(
+      double height, double width, BuildContext context) {
     return SizedBox(
       height: height * 0.1,
       width: width,
@@ -213,12 +210,7 @@ class ClassScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return ProfileScreen(
-                    name: name, classNo: userClassNo, avatarNo: avatarNo);
-              }));
-            },
+            onTap: () => _goToProfilePage(context),
             child: SvgPicture.asset(
               'assets/images/avatar$avatarNo.svg',
               // height: 59,
@@ -232,7 +224,8 @@ class ClassScreen extends StatelessWidget {
     );
   }
 
-  Widget takeATest(double height, double width, BuildContext context) {
+  Widget _buildTakeATextContainer(
+      double height, double width, BuildContext context) {
     return SizedBox(
       height: height * 0.029,
       width: width,
@@ -265,5 +258,12 @@ class ClassScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _goToProfilePage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return ProfileScreen(
+          name: name, classNo: userClassNo, avatarNo: avatarNo);
+    }));
   }
 }
