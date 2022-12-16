@@ -5,7 +5,6 @@ import '/widgets/common_widgets/custom_button.dart';
 import '../widgets/quesscreenswidgets/options.dart';
 import '/model/question.dart';
 import '/provider/template_factory.dart';
-import '/screens/score_screen.dart';
 
 class QuesScreen extends StatefulWidget {
   final TemplateType templateType;
@@ -16,12 +15,12 @@ class QuesScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<QuesScreen> createState() => QuesScreenState();
+  State<QuesScreen> createState() => _QuesScreenState();
 }
 
-class QuesScreenState extends State<QuesScreen> {
-  static const noOptionSelected = -1;
-  num optionSelected = noOptionSelected;
+class _QuesScreenState extends State<QuesScreen> {
+  static const _noOptionSelectedIndex = -1;
+  int _optionSelectedIndex = _noOptionSelectedIndex;
   int _quesIndex = 0;
 
   @override
@@ -219,7 +218,17 @@ class QuesScreenState extends State<QuesScreen> {
 
   bool _checkAnswer() {
     num answer = widget.questions[_quesIndex].answer;
-    return answer == optionSelected;
+    return answer == _optionSelectedIndex;
+  }
+
+  void _showScore() {
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+    //   return ScoreScreen(
+    //     questionNo: _questionNo,
+    //     questions: widget.questions,
+    //   );
+    // }));
+    justForTextMethod();
   }
 
   void showScore() {
