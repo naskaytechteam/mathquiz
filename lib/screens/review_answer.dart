@@ -130,10 +130,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     });
   }
 
-  Widget buildOption(
-    double height,
-    double width,
-  ) {
+  Widget buildOption(double height, double width) {
     return Container(
       // color: Colors.red,
       // height: height * 0.2,
@@ -143,7 +140,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
       width: width,
       child: GridView.builder(
         itemCount: 4,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: height * 0.02632,
