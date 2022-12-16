@@ -53,13 +53,14 @@ class Topics extends StatelessWidget {
             child: GridView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: quesTypeList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   // crossAxisSpacing: 21,
                   // mainAxisSpacing: 20,
                   // mainAxisExtent: 180,
-                  childAspectRatio: 138 / 150
-                  // mainAxisSpacing: 0
+                  // childAspectRatio: 138 / 150
+                  // mainAxisExtent: 163
+                  mainAxisExtent: height * 0.21448
                   // mainAxisExtent: 6
                   ),
               padding: EdgeInsets.only(
