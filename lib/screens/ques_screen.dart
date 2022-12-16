@@ -22,6 +22,7 @@ class _QuesScreenState extends State<QuesScreen> {
   static const _noOptionSelectedIndex = -1;
   int _optionSelectedIndex = _noOptionSelectedIndex;
   int _quesIndex = 0;
+  bool _isOptionSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +109,14 @@ class _QuesScreenState extends State<QuesScreen> {
                       height: height * 0.0922,
                       // width: 130,
                       width: width * 0.36112,
-                      onButtonPressed: _onNextButtonClick,
+                      onButtonPressed:
+                          _isOptionSelected ? _onNextButtonClick : null,
+                      backgroundColor: _isOptionSelected
+                          ? const Color.fromRGBO(231, 76, 60, 1)
+                          : const Color.fromRGBO(236, 240, 241, 1),
+                      shadowColor: _isOptionSelected
+                          ? const Color.fromRGBO(192, 57, 43, 1)
+                          : const Color.fromRGBO(189, 195, 199, 1),
                       // backgroundColor: !checkOptionSelected?Colors.black:Colors.red,
                     )
                   ],
