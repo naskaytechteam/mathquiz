@@ -100,13 +100,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-//todo Change push Animation effect
   Future<void> moveToNextPage() async {
     // const splashScreenTime=300;
     NavigatorState state = Navigator.of(context);
     await Future.delayed(const Duration(milliseconds: 300));
     state.pushReplacement(PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 5),
+        transitionDuration: const Duration(seconds: 4),
         pageBuilder: (_, animation, secondAnimation) {
           return const OnBoardingScreen();
         },
