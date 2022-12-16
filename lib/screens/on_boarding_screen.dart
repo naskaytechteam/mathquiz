@@ -14,12 +14,12 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  final PageController pageController = PageController();
-  int pageIndex = 0;
+  final PageController _pageController = PageController();
+  int _pageIndex = 0;
 
   @override
   void dispose() {
-    pageController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -40,9 +40,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 width: width,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
+                  controller: _pageController,
                   onPageChanged: (nextPageIndex) {
-                    pageIndex = nextPageIndex;
+                    _pageIndex = nextPageIndex;
                   },
                   children: const [
                     OnBoardingPage1(),
@@ -60,7 +60,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: Align(
                   alignment: Alignment.center,
                   child: SmoothPageIndicator(
-                    controller: pageController,
+                    controller: _pageController,
                     count: 3,
                     effect: SwapEffect(
                         dotColor: const Color.fromRGBO(127, 140, 141, 1),
@@ -115,7 +115,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       return;
     }
 
-    pageController.nextPage(
+    _pageController.nextPage(
         duration: const Duration(seconds: 1), curve: Curves.decelerate);
   }
 }
