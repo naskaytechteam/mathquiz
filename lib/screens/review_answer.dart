@@ -33,7 +33,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     double height = size.height;
     double width = size.width;
     Question question = widget.questions[_quesIndex];
-
     bool isFirstQuestion = _quesIndex == 0;
 
     return Scaffold(
