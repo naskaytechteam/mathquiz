@@ -93,7 +93,7 @@ class Topics extends StatelessWidget {
                                 color: /*isClassSelected
                                     ?const Color.fromRGBO(241, 196, 15, 1)
                                     :*/
-                                    Color.fromRGBO(236, 240, 241, 1),
+                                    const Color.fromRGBO(236, 240, 241, 1),
                                 borderRadius: BorderRadius.circular(
                                     // 25
                                     height * 0.033),
@@ -102,7 +102,8 @@ class Topics extends StatelessWidget {
                                       color: /*isClassSelected
                                           ? Color.fromRGBO(242, 176, 16, 1)
                                           :*/
-                                          Color.fromRGBO(189, 195, 199, 1),
+                                          const Color.fromRGBO(
+                                              189, 195, 199, 1),
                                       offset: Offset(
                                           0,
                                           // 7
