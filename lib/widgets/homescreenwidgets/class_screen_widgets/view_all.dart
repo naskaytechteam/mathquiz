@@ -21,22 +21,26 @@ class ViewAll extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: 36,
+            // height: 36,
+            height: height * 0.04737,
           ),
           Container(
-            height: 22,
+            // height: 22,
+            height: height * 0.029,
             width: width,
-            padding: EdgeInsets.only(left: 40),
+            padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
             child: Text(
               'Select a Class',
               style: TextStyle(
-                  fontSize: 16,
+                  // fontSize: 16,
+                  fontSize: height * 0.0211,
                   fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
                   fontWeight: FontWeight.w900),
             ),
           ),
           SizedBox(
-            height: 15,
+            // height: 15,
+            height: height * 0.01975,
           ),
           Container(
             height: height * 0.75,
@@ -48,50 +52,66 @@ class ViewAll extends StatelessWidget {
                   // crossAxisSpacing: 21,
                   // mainAxisSpacing: 20,
                   // mainAxisExtent: 180,
-                  childAspectRatio: 137 / 170
-                // childAspectRatio: width * 0.3806/height * 0.2237,
+                  // childAspectRatio: 137 / 170,
+                  // mainAxisExtent: 187
+                  mainAxisExtent: height * 0.24606
+                  // childAspectRatio: width * 0.3806/height * 0.2237,
 
-                // mainAxisSpacing: 0
+                  // mainAxisSpacing: 0
                   // mainAxisExtent: 6
                   ),
-              padding: const EdgeInsets.only(left: 40, right: 19),
+              padding: EdgeInsets.only(
+                  left: /* 40*/ width * 0.1112, right: /*19*/ width * 0.0528),
               // scrollDirection: Axis.horizontal,
+              itemCount: DbHelper.totalClass,
               itemBuilder: (_, index) {
-                bool isClassSelected = this.yourClass == index + 1;
                 return Column(
                   children: [
                     Align(
                       child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            yourClass = index + 1;
-                          });
+                        onTap: () async {
+                          NavigatorState state = Navigator.of(context);
+                          int classNo = index + 1;
+
+                          List<int> quesTypesList =
+                              await TemplateFactory().getQuesTypes(classNo);
+
+                          state.push(MaterialPageRoute(builder: (_) {
+                            return Topics(
+                              classNo: classNo,
+                              quesTypeList: quesTypesList,
+                            );
+                          }));
                         },
                         child: Container(
                           alignment: Alignment.center,
-                          height: 137,
-                          margin: const EdgeInsets.only(right: 21),
-                          width: 137,
+                          // height: 137,
+                          height: height * 0.1803,
+                          margin:
+                              EdgeInsets.only(right: /*21*/ width * 0.05835),
+                          // width: 137,
+                          width: width * 0.38056,
                           decoration: BoxDecoration(
-                              color: isClassSelected
-                                  ? const Color.fromRGBO(241, 196, 15, 1)
-                                  : Color.fromRGBO(236, 240, 241, 1),
-                              borderRadius: BorderRadius.circular(25),
+                              color: const Color.fromRGBO(236, 240, 241, 1),
+                              borderRadius: BorderRadius.circular(/*25*/
+                                  height * 0.033),
                               boxShadow: [
                                 BoxShadow(
-                                    color: isClassSelected
-                                        ? Color.fromRGBO(242, 176, 16, 1)
-                                        : Color.fromRGBO(189, 195, 199, 1),
-                                    offset: Offset(0, 7))
+                                    color:
+                                        const Color.fromRGBO(189, 195, 199, 1),
+                                    offset: Offset(0, /*7*/ height * 0.0093))
                               ]),
                           child: Container(
-                            height: 65,
+                            // height: 65,
+                            height: height * 0.0856,
                             alignment: Alignment.center,
-                            width: 58,
+                            // width: 58,
+                            width: width * 0.16112,
                             child: Text(
                               (index + 1).toString(),
                               style: TextStyle(
-                                  fontSize: 48,
+                                  // fontSize: 48,
+                                  fontSize: height * 0.06316,
                                   fontWeight: FontWeight.w900,
                                   fontFamily: Theme.of(context)
                                       .textTheme
@@ -103,15 +123,17 @@ class ViewAll extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 11,
+                      // height: 11,
+                      height: height * 0.01449,
                     ),
                     Container(
                       width: width,
                       // color: Colors.red,
-                      margin: EdgeInsets.only(right: 21),
+                      margin: EdgeInsets.only(right: /*21*/ width * 0.05835),
                       alignment: Alignment.center,
-                      height: 15,
-                      child: Text('Class ${index+1}'),
+                      // height: 15,
+                      height: height * 0.01975,
+                      child: Text('Class ${index + 1}'),
                     ),
                   ],
                 );
