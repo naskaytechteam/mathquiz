@@ -76,7 +76,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
               _gap(/*90*/ height * 0.11843),
               const CustomDivider(),
               _gap(/*25*/ height * 0.033),
-
               SizedBox(
                 // height: 80,
                 height: height * 0.1053,
@@ -206,47 +205,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
       ),
     );
   }
-
-/*
-  Widget _buildOptions(double height, double width, Question question) {
-    return SizedBox(
-      height: height * 0.2,
-      width: width,
-      child: GridView.builder(
-          padding: const EdgeInsets.all(0),
-          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 5,
-              mainAxisExtent: height*0.09,
-              crossAxisCount: 2),
-          itemCount: question.options.length,
-          itemBuilder: (_, index) {
-            return _buildOptionDesign(height, width, index, question);
-          }),
-    );
-  }
-
- */
-
-  // Widget _buildOptionDesign(
-  //     double height, double width, int index, Question question) {
-  //   return Align(
-  //     child: Container(
-  //         height: height * 0.08,
-  //         width: width * 0.5,
-  //         decoration: BoxDecoration(
-  //             color: question.answer == question.options[index]
-  //                 ? Theme.of(context).colorScheme.primaryContainer
-  //                 : Theme.of(context).colorScheme.onBackground,
-  //             borderRadius: BorderRadius.circular(height * 0.025)),
-  //         alignment: Alignment.center,
-  //         child: Text(
-  //           question.options[index].toString(),
-  //           style: TextStyle(
-  //               color: Colors.white, fontSize: /*20*/ height * 0.0264),
-  //         )),
-  //   );
-  // }
 
   Widget _gap(double height) {
     return SizedBox(
