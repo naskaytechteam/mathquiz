@@ -137,77 +137,76 @@ class _QuesScreenState extends State<QuesScreen> {
     });
   }
 
-  // Widget _buildNextButton(double height, double width) {
-  //   return InkWell(
-  //     onTap: _onNextButtonClick,
-  //     child: Container(
-  //       height: height * 0.07,
-  //       width: width,
-  //       decoration: BoxDecoration(
-  //           color: Theme.of(context).primaryColor,
-  //           borderRadius: BorderRadius.circular(20)),
-  //       alignment: Alignment.center,
-  //       child: const Text(
-  //         'Next',
-  //         style: TextStyle(fontSize: 20, color: Colors.white),
-  //       ),
-  //     ),
-  //   );
-  // }
+  void _setSelectedOptionIndex() {
+    widget.questions[_quesIndex].setSelectedOptionIndex = _optionSelectedIndex;
+  }
 
-  // Widget _buildQuesType(TemplateType quizType, double width, double height) {
-  //   return Container(
-  //       width: width,
-  //       height: height * 0.05,
-  //       alignment: Alignment.centerLeft,
-  //       child: Text(
-  //         quizType.name,
-  //         style: const TextStyle(color: Colors.white, fontSize: 20),
-  //       ));
-  // }
+  bool _isNextQuestionOptionSelected() {
+    return widget.questions[_quesIndex].selectedOptionIndex == null;
+  }
 
   void _onNextButtonClick() {
-    if (_quesIndex < widget.questions.length) {
-      _updateScore();
+    _setSelectedOptionIndex();
+    if (_quesIndex < widget.questions.length - 1) {
+      _increaseIndex();
+      // we are making this check because we have 2 scenario
+      // 1. user complete their ques
+      // 2. user review their answer (after completing)
+      if (_isNextQuestionOptionSelected()) {
+        _makeDefaultDesign();
+      } else {
+        _optionHasSelected();
+      }
+      setState(() {});
+      return;
     }
-    _increaseIndex();
+    _showScore();
+  }
+
+  void _optionHasSelected({int? index}) {
+    _isOptionSelected = true;
+    _optionSelectedIndex = index ??= _getSelectedOption();
+  }
+
+  void _makeDefaultDesign() {
+    _isOptionSelected = false;
+    _optionSelectedIndex = _noOptionSelectedIndex;
   }
 
   void _onPreviousButtonClick() {
-    _decreaseIndex();
-  }
-
-  void _decreaseIndex() {
     setState(() {
-      _quesIndex--;
+      _decreaseIndex();
+      _optionHasSelected();
     });
   }
 
-  void _updateScore() {
-    if (_checkAnswer()) {
-      _increaseScore();
-    }
+  int _getSelectedOption() {
+    return widget.questions[_quesIndex].selectedOptionIndex!;
   }
 
-  void _increaseScore() {
-    TemplateFactory templateFactory = TemplateFactory();
-    templateFactory.increaseScore();
+  void _decreaseIndex() {
+    _quesIndex--;
   }
+
+  // void _updateScore() {
+  //   if (_checkAnswer()) {
+  //     _increaseScore();
+  //   }
+  // }
+
+  // void _increaseScore() {
+  //   TemplateFactory templateFactory = TemplateFactory();
+  //   templateFactory.increaseScore();
+  // }
 
   void _increaseIndex() {
-    if (_quesIndex < widget.questions.length - 1) {
-      setState(() {
-        _quesIndex++;
-      });
-      return;
-    }
-    showScore();
+    _quesIndex++;
   }
 
-  bool _checkAnswer() {
-    num answer = widget.questions[_quesIndex].answer;
-    return answer == _optionSelectedIndex;
-  }
+  // bool _checkAnswer() {
+  //   num answer = widget.questions[_quesIndex].answer;
+  //   return answer == _optionSelectedIndex;
+  // }
 
   void _showScore() {
     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
@@ -226,10 +225,6 @@ class _QuesScreenState extends State<QuesScreen> {
         questions: widget.questions,
       );
     }));
-  }
-
-  int get _questionNo {
-    return _quesIndex + 1;
   }
 
   Widget _gap(double height) {
