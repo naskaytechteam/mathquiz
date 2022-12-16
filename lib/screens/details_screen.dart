@@ -194,7 +194,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
         overlays: [SystemUiOverlay.top]);
   }
 
-  Future<bool> _saveUserDetails(String name, int userClass) async {
+  Future<bool> _saveUserDetails(
+      String name, int userClass, String parentEmail) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool hasNameSavedSuccessfully =
         await sharedPreferences.setString('userName', name);
@@ -202,10 +203,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
         await sharedPreferences.setInt('classNo', userClass);
     bool hasAvatarSavedSuccessfully =
         await sharedPreferences.setInt('avatarNo', _selectedAvatar);
+    bool hasParentEmailSavedSuccessfully =
+        await sharedPreferences.setString('parentEmail', parentEmail);
 
     return hasNameSavedSuccessfully == true &&
         hasClassSavedSuccessfully == true &&
-        hasAvatarSavedSuccessfully == true;
+        hasAvatarSavedSuccessfully == true &&
+        hasParentEmailSavedSuccessfully == true;
   }
 
   void _onClick() async {
@@ -216,7 +220,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (name != '' && cNo != '' && parentEmail != '') {
       int classNo = int.parse(cNo);
       bool hasUserDetailsSavedSuccessfully =
-          await _saveUserDetails(name, classNo);
+          await _saveUserDetails(name, classNo, parentEmail);
 
       if (hasUserDetailsSavedSuccessfully) {
         log('user details has successfully stored in memory $hasUserDetailsSavedSuccessfully');
