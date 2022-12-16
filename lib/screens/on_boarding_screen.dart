@@ -90,22 +90,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void _goToDetailsScreen() {
-    Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 800),
-            pageBuilder: (_, animation, secondAnimation) {
-              return const DetailsScreen();
-            },
-            transitionsBuilder: (_, animation, secondAnimation, widget) {
-              Animation<Offset> an =
-                  Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
-                      .animate(animation);
-              return SlideTransition(
-                position: an,
-                child: widget,
-              );
-            }));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) {
+      return const DetailsScreen();
+    }));
+    // PageRouteBuilder(
+    //     transitionDuration: const Duration(milliseconds: 800),
+    //     pageBuilder: (_, animation, secondAnimation) {
+    //       return const DetailsScreen();
+    //     },
+    //     transitionsBuilder: (_, animation, secondAnimation, widget) {
+    //       Animation<Offset> an =
+    //           Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+    //               .animate(animation);
+    //       return SlideTransition(
+    //         position: an,
+    //         child: widget,
+    //       );
+    //     }));
   }
 
   void onButtonPressed() {
