@@ -74,20 +74,13 @@ class Topics extends StatelessWidget {
                       Align(
                         child: InkWell(
                           onTap: () async {
-                            // setState(() {
-                            //   yourClass = index + 1;
-                            // });
+                            NavigatorState state = Navigator.of(context);
                             TemplateType templateType =
                                 TemplateType.values[index];
                             List<Question> questions = await TemplateFactory()
                                 .generateQuestions(templateType);
-                            if(questions.length>0){
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (_) {
-                                return QuesScreen(
-                                    templateType: templateType,
-                                    questions: questions);
-                              }));
+                            if (questions.isNotEmpty) {
+                              _goToQuesScreen(state, templateType, questions);
                             }
                           },
                           child: Container(
@@ -142,5 +135,12 @@ class Topics extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _goToQuesScreen(NavigatorState state, TemplateType templateType,
+      List<Question> questions) {
+    state.push(MaterialPageRoute(builder: (_) {
+      return QuesScreen(templateType: templateType, questions: questions);
+    }));
   }
 }
