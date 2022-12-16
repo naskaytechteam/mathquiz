@@ -95,9 +95,9 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                         child: Text(
                           'PREVIOUS',
                           style: TextStyle(
-                              color: const Color.fromRGBO(231, 76, 60, 1),
+                              color: const Color.fromRGBO(52, 152, 219, 1),
                               // fontSize: 20,
-                              fontSize:  height * 0.02632,
+                              fontSize: height * 0.02632,
                               fontFamily: Theme.of(context)
                                   .textTheme
                                   .headline2
@@ -110,8 +110,10 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                       // height: 70,
                       height: height * 0.0922,
                       // width: 130,
-                      width:width * 0.36112,
+                      width: width * 0.36112,
                       onButtonPressed: _onNextButtonClick,
+                      backgroundColor: const Color.fromRGBO(52, 152, 219, 1),
+                      shadowColor: const Color.fromRGBO(41, 128, 185, 1),
                       // backgroundColor: !checkOptionSelected?Colors.black:Colors.red,
                     )
                   ],
