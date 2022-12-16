@@ -111,12 +111,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           return const OnBoardingScreen();
         },
         transitionsBuilder: (_, animation, secondAnimation, widget) {
-          Animation<Offset> position =
-              Tween<Offset>(begin: const Offset(0.0, -2.0), end: Offset.zero)
-                  .animate(CurvedAnimation(
-                      parent: animation, curve: Curves.bounceInOut));
-          return SlideTransition(
-            position: position,
+          // Animation<Offset> position =
+          //     Tween<Offset>(begin: const Offset(0.0, -2.0), end: Offset.zero)
+          //         .animate(CurvedAnimation(
+          //             parent: animation, curve: Curves.bounceInOut));
+          // return SlideTransition(
+          //   position: position,
+          //   child: widget,
+          // );
+          // Animation<double>opacityAnimation=Tween<double>(begin: 0,end: 1).animate(animation);
+          return FadeTransition(
+            opacity: animation,
             child: widget,
           );
         }));
