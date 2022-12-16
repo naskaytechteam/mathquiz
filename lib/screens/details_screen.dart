@@ -100,7 +100,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               CustomTextField(
                   hintText: 'Name',
-                  controller: _name,
+                  controller: _nameController,
+                  onSubmit: _onSubmit,
                   textInputType: TextInputType.text),
               SizedBox(
                 // height: 20,
@@ -175,6 +176,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
       ),
     );
+  }
+
+  void _onSubmit(String value) async {
+    await _removeSystemNavBar();
   }
 
   void _onClassSelected(int? value) {
