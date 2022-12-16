@@ -127,9 +127,11 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
   }
 
   void _onNextButtonClick() {
-    setState(() {
-      _quesIndex++;
-    });
+    if (_quesIndex < widget.questions.length - 1) {
+      setState(() {
+        _quesIndex++;
+      });
+    }
   }
 
   Widget buildOption(double height, double width) {
