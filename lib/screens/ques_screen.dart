@@ -69,7 +69,11 @@ class _QuesScreenState extends State<QuesScreen> {
                 // height: 40,
                 height: height * 0.05264,
               ),
-              Options(quesScreen: this, option: question.options),
+              Options(
+                option: widget.questions[_quesIndex].options,
+                onOptionSelected: _onOptionSelected,
+                optionSelectedIndex: _optionSelectedIndex,
+              ),
               _gap(/*90*/ height * 0.11843),
               const Divider(
                 height: 1,
