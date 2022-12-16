@@ -79,7 +79,6 @@ class _QuesScreenState extends State<QuesScreen> {
               _gap(/*90*/ height * 0.11843),
               const CustomDivider(),
               _gap(/*25*/ height * 0.033),
-
               SizedBox(
                 // height: 80,
                 height: height * 0.1053,
@@ -124,28 +123,6 @@ class _QuesScreenState extends State<QuesScreen> {
                   ],
                 ),
               ),
-
-              // _gap(height * 0.02),
-              /* Image.asset(
-                'assets/back.png',
-                fit: BoxFit.fill,
-                width: width,
-                height: height * 0.2,
-              ),
-              _gap(height * 0.02),
-              _buildQuesType(widget.templateType, width, height),
-              _gap(height * 0.02),
-              CurrentQuesList(
-                index: _quesIndex,
-                totalQuestion: widget.questions.length,
-              ),
-              _gap(height * 0.03),
-              // BuildQuestion(ques: question.question),
-              Options(quesScreen: this, option: question.options),
-              _gap(height * 0.03),
-              _buildNextButton(height, width)
-
-              */
             ],
           ),
         ),
