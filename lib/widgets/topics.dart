@@ -16,7 +16,6 @@ class Topics extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
-
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Class $classNo',
@@ -67,8 +66,7 @@ class Topics extends StatelessWidget {
                   left: /*40*/ width * 0.1112, right: /*19*/ width * 0.0528),
               // scrollDirection: Axis.horizontal,
               itemBuilder: (_, index) {
-                // bool isClassSelected = this.yourClass == index + 1;
-                return Container(
+                return SizedBox(
                   child: Column(
                     children: [
                       Align(
