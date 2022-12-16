@@ -111,6 +111,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 hintText: 'Class',
                 controller: _classController,
                 textInputType: TextInputType.number,
+                readOnly: true,
                 onClassSelected: _onClassSelected,
                 isClassTextField: true,
               ),
