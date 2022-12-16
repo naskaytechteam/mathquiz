@@ -215,17 +215,14 @@ class _QuesScreenState extends State<QuesScreen> {
     //     questions: widget.questions,
     //   );
     // }));
-    justForTextMethod();
-  }
-
-  void showScore() {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-      return ScoreScreen(
-        questionNo: _questionNo,
+      return ReviewAnswerScreen(
         questions: widget.questions,
       );
     }));
   }
+
+
 
   Widget _gap(double height) {
     return SizedBox(
