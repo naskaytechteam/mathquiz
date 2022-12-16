@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final VoidCallback onButtonPressed;
+  final VoidCallback? onButtonPressed;
   final String? buttonName;
   final double height;
   final double width;
@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
       // this.isScoreScreenButton = false,
       this.backgroundColor = const Color.fromRGBO(231, 76, 60, 1),
       this.shadowColor = const Color.fromRGBO(192, 57, 43, 1),
-      required this.onButtonPressed,
+      this.onButtonPressed,
       Key? key})
       : super(key: key);
 
