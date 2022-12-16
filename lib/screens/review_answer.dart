@@ -152,53 +152,71 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
             // childAspectRatio: 137 / 137
             mainAxisExtent: /*140*/height * 0.18422),
         itemBuilder: (_, index) {
-          int _optionSelectedIndex = 1;
-          bool isOptionSelected = _optionSelectedIndex == index;
+          Color backgroundColor = const Color.fromRGBO(236, 240, 241, 1);
+          Color shadowColor = const Color.fromRGBO(189, 195, 199, 1);
+          String? image;
+
+          if (widget.questions[_quesIndex].selectedOptionIndex == index) {
+            if (widget.questions[_quesIndex].options[index] ==
+                widget.questions[_quesIndex].answer) {
+              backgroundColor = const Color.fromRGBO(46, 204, 113, 1);
+              shadowColor = const Color.fromRGBO(39, 174, 96, 1);
+            } else {
+              backgroundColor = const Color.fromRGBO(231, 76, 60, 1);
+              shadowColor = const Color.fromRGBO(192, 57, 43, 1);
+              image = 'wrong_answer2';
+            }
+          } else if (widget.questions[_quesIndex].answer ==
+              widget.questions[_quesIndex].options[index]) {
+            shadowColor = const Color.fromRGBO(39, 174, 96, 1);
+            image = 'selected';
+          }
 
           num option = widget.questions[_quesIndex].options[index];
 
-          return Align(
-            child: InkWell(
-              highlightColor: Theme.of(context).backgroundColor,
-              onTap: () {
-                // _onOptionSelected(index, option);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                // height: 137,
-                height:  height * 0.1803,
-                // margin: const EdgeInsets.only(right: 20),
-                // width: 137,
-                width: width * 0.38056,
-                decoration: BoxDecoration(
-                    color: isOptionSelected
-                        ? const Color.fromRGBO(241, 196, 15, 1)
-                        : Color.fromRGBO(236, 240, 241, 1),
-                    borderRadius: BorderRadius.circular(/*25*/height * 0.033),
-                    boxShadow: [
-                      BoxShadow(
-                          color: isOptionSelected
-                              ? Color.fromRGBO(243, 156, 18, 1)
-                              : Color.fromRGBO(189, 195, 199, 1),
-                          offset: Offset(0, /*7*/height * 0.0093))
-                    ]),
-                child: Container(
-                  // height: 65,
-                  height: height * 0.0856,
-                  alignment: Alignment.center,
-                  // width: 58,
-                  width: width * 0.16112,
-                  child: Text(
-                    option.toString(),
-                    style: TextStyle(
-                        // fontSize: 20,
-                      fontSize: height * 0.0264,
-                        fontWeight: FontWeight.w900,
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily),
+          return Container(
+            // alignment: Alignment.center,
+            // height: 137,
+            height: height * 0.1803,
+            // margin: const EdgeInsets.only(right: 20),
+            // width: 137,
+            width: width * 0.38056,
+            decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(/*25*/ height * 0.033),
+                boxShadow: [
+                  BoxShadow(
+                      color: shadowColor,
+                      offset: Offset(0, /*7*/ height * 0.0093))
+                ]),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Align(
+                    child: Text(
+                      option.toString(),
+                      style: TextStyle(
+                          // fontSize: 20,
+                          fontSize: height * 0.0264,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: Theme.of(context)
+                              .textTheme
+                              .headline2
+                              ?.fontFamily),
+                    ),
                   ),
                 ),
-              ),
+                if (image != null)
+                  Positioned(
+                      bottom: 15,
+                      left: 0,
+                      right: 0,
+                      child: SvgPicture.asset('assets/images/$image.svg'))
+              ],
             ),
           );
         },
