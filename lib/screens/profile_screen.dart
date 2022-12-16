@@ -20,13 +20,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late final TextEditingController _selectedClass;
-
-  late final TextEditingController _name;
+  late final TextEditingController _classController;
+  late final TextEditingController _nameController;
 
   void _disposeAllControllers() {
-    _selectedClass.dispose();
-    _name.dispose();
+    _classController.dispose();
+    _nameController.dispose();
   }
 
   @override
@@ -37,8 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    _name = TextEditingController(text: widget.name);
-    _selectedClass = TextEditingController(text: widget.classNo.toString());
+    _nameController = TextEditingController(text: widget.name);
+    _classController = TextEditingController(text: widget.classNo.toString());
 
     super.initState();
   }
@@ -54,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.of(context).pop();
           },
           child: Icon(
@@ -82,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // height: 36,
               height: height * 0.04737,
             ),
-            Container(
+            SizedBox(
               // height: 22,
               height: height * 0.029,
               // width: 142,
@@ -104,22 +103,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             CustomTextField(
                 hintText: 'Name',
-                controller: _name,
+                controller: _nameController,
                 textInputType: TextInputType.text),
             SizedBox(
               // height: 20,
               height: height * 0.0264,
             ),
-            CustomTextField(hintText: 'Class', controller: _selectedClass, textInputType: TextInputType.number,isClassTextField: true,onClassSelected: (value){
-              setState(() {
-                _selectedClass.text=value.toString();
-              });
-            },),
+            CustomTextField(
+              hintText: 'Class',
+              controller: _classController,
+              textInputType: TextInputType.number,
+              isClassTextField: true,
+              onClassSelected: (value) {
+                setState(() {
+                  _classController.text = value.toString();
+                });
+              },
+            ),
             SizedBox(
               // height: 30,
               height: height * 0.0395,
             ),
-            Container(
+            SizedBox(
               // height: 22,
               height: height * 0.029,
               // width: 153,
@@ -184,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               color: Colors.red,
               border: isAvatarSelected
                   ? Border.all(
-                      color: Color.fromRGBO(46, 204, 113, 1),
+                      color:const Color.fromRGBO(46, 204, 113, 1),
                       // width: 4
                       width: width * 0.0112
                       // width: height* 0.0053
