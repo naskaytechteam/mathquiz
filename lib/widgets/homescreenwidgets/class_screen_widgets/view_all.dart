@@ -1,39 +1,22 @@
 import 'package:flutter/material.dart';
+import '../../../provider/template_factory.dart';
+import '../../topics.dart';
+import '/database/db_helper.dart';
+import '/widgets/common_widgets/custom_app_bar.dart';
 
 class ViewAll extends StatelessWidget {
   const ViewAll({Key? key}) : super(key: key);
-
-  @override
-  State<ViewAll> createState() => _ViewAllState();
-}
-
-class _ViewAllState extends State<ViewAll> {
-   int yourClass = 0;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading:const Icon(
-          Icons.chevron_left,
-          size: 40,
-          color: Color.fromRGBO(231, 76, 60, 1),
-        ),
-        toolbarHeight: height * 0.1,
-        centerTitle: true,
-        title: Text(
-          'Take a Test',
-          style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
-              fontSize: 18,
-              color: Colors.black),
-        ),
+      appBar: CustomAppBar(
+        title: 'Take a Test',
+        height: height * 0.1,
       ),
       body: Column(
         children: [
