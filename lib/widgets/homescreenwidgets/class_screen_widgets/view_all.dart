@@ -42,7 +42,7 @@ class ViewAll extends StatelessWidget {
             // height: 15,
             height: height * 0.01975,
           ),
-          Container(
+          SizedBox(
             height: height * 0.75,
             // color: Colors.red,
             child: GridView.builder(
