@@ -1,20 +1,31 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:mathquiz/widgets/common_widgets/custom_app_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '/widgets/common_widgets/custom_divider.dart';
+import '/widgets/common_widgets/custom_app_bar.dart';
 import '../widgets/common_widgets/custom_button.dart';
 import '../model/question.dart';
 
 class ReviewAnswer extends StatefulWidget {
   final List<Question> questions;
+  final int quesIndex;
 
-  const ReviewAnswer({required this.questions, Key? key}) : super(key: key);
+  const ReviewAnswer(
+      {required this.questions, required this.quesIndex, Key? key})
+      : super(key: key);
 
   @override
   State<ReviewAnswer> createState() => _ReviewAnswerState();
 }
 
 class _ReviewAnswerState extends State<ReviewAnswer> {
-  int _quesIndex = 0;
+  late int _quesIndex;
+
+  @override
+  void initState() {
+    _quesIndex = widget.quesIndex;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
