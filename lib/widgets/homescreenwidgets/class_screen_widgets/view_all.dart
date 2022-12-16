@@ -46,7 +46,7 @@ class ViewAll extends StatelessWidget {
             height: height * 0.75,
             // color: Colors.red,
             child: GridView.builder(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   // crossAxisSpacing: 21,
