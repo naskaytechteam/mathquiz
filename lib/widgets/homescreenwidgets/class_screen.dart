@@ -79,7 +79,7 @@ class ClassScreen extends StatelessWidget {
 
               state.push(MaterialPageRoute(builder: (_) {
                 return Topics(
-                  classNo: userClassNo,
+                  classNo: classNo,
                   quesTypeList: quesTypesList,
                 );
               }));
