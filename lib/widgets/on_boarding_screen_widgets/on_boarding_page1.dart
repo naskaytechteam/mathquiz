@@ -15,8 +15,7 @@ class OnBoardingPage1 extends StatelessWidget {
 
     return Column(
       children: [
-        SkipButton(),
-
+        const SkipButton(),
         // SizedBox(height: 27,),
         SizedBox(
           height: height * 0.45,
@@ -32,7 +31,7 @@ class OnBoardingPage1 extends StatelessWidget {
                   height: height * 0.375,
                   // width: 273,
                   width: width * 0.7585,
-                  fit: BoxFit.fitWidth,
+                  // fit: BoxFit.fitWidth,
                 ),
               ),
               Positioned(
