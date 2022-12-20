@@ -49,8 +49,7 @@ dependencies:
   share_plus: ^6.3.0
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
-#  sleek_circular_slider: ^2.0.1
-  syncfusion_flutter_gauges: ^20.3.61
+  percent_indicator: ^4.2.2
 
 
 
