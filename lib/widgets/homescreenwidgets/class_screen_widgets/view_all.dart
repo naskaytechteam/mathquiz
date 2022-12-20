@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathquiz/database/db_helper.dart';
 import '../../../provider/template_factory.dart';
 import '../../common_widgets/custom_gridview.dart';
 import '../../topics.dart';
@@ -46,6 +47,7 @@ class ViewAll extends StatelessWidget {
             containerHeight: height * 0.1803,
             containerWidth: width * 0.38056,
             fontSize: height * 0.06316,
+            itemCount: DbHelper.totalClass,
             onButtonClick: _onClassSelected,
           )
           // gridView(height, width,context)
