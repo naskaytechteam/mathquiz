@@ -54,14 +54,16 @@ class Topics extends StatelessWidget {
   Widget _buildGap(double height) {
     return SizedBox(height: height);
   }
-
-  void _goToQuesScreen(BuildContext context, int index) async{
-    NavigatorState navigatorState=Navigator.of(context);
-
-    TemplateType templateType=TemplateType.values[index];
-    List<Question> questions=await TemplateFactory().generateQuestions(templateType);
-    navigatorState.push(MaterialPageRoute(builder: (_) {
-      return QuesScreen(templateType: templateType, questions: questions);
-    }));
+//need to use ProgressBar
+  void _goToQuesScreen(BuildContext context, int index) async {
+    NavigatorState navigatorState = Navigator.of(context);
+    TemplateType templateType = TemplateType.values[index];
+    List<Question> questions =
+        await TemplateFactory().generateQuestions(templateType);
+    if (questions.isNotEmpty) {
+      navigatorState.push(MaterialPageRoute(builder: (_) {
+        return QuesScreen(templateType: templateType, questions: questions);
+      }));
+    }
   }
 }
