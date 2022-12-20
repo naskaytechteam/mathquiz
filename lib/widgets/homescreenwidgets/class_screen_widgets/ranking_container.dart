@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import '../../common_widgets/custom_button.dart';
 
 class RankingContainer extends StatelessWidget {
   final Color containerColor;
   final Color shadowColor;
   final String detailName;
   final String detailNo;
+  final String? fontFamily;
 
   const RankingContainer(
       {required this.containerColor,
       required this.detailName,
       required this.detailNo,
       required this.shadowColor,
+        this.fontFamily,
       Key? key})
       : super(key: key);
 
@@ -19,15 +22,64 @@ class RankingContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-
     return Align(
+      alignment: Alignment.topCenter,
+      child: CustomButton(
+        height: height * 0.24211,
+        width: width * 0.38057,
+        shadowHeight: height * 0.0106,
+        margin: EdgeInsets.only(right: width * 0.05556),
+        backgroundColor: containerColor,
+        shadowColor: shadowColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              // height: 44,
+              height: height * 0.0579,
+              // width: 100,
+              width: width * 0.2778,
+              // width: wid,
+              child: Text(
+                detailName,
+                style: TextStyle(
+                    // fontSize: 16,
+                    fontSize: height * 0.0211,
+                    color: Colors.white,
+                    fontFamily: fontFamily,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            SizedBox(
+              // height: 65,
+              height: height * 0.0856,
+              // width: 58,
+              child: Text(
+                detailNo,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: fontFamily,
+                    // fontSize: 48
+                    fontSize: height * 0.06316),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+/*
+Align(
       alignment: Alignment.topCenter,
       child: Container(
         // height: 184,
         height: height * 0.24211,
         // width: 137,
         width: width * 0.38057,
-        margin: EdgeInsets.only(right: /*20*/ width * 0.05556),
+        // margin: EdgeInsets.only(right: /*20*/ ),
         decoration: BoxDecoration(
             // color: Color.fromRGBO(241, 196, 15, 1),
             color: containerColor,
@@ -80,5 +132,4 @@ class RankingContainer extends StatelessWidget {
         ),
       ),
     );
-  }
-}
+ */

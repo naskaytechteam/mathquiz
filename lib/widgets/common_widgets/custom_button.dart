@@ -7,17 +7,21 @@ class CustomButton extends StatelessWidget {
   final double width;
   final Color backgroundColor;
   final Color shadowColor;
-  // final bool isScoreScreenButton;
   final Widget? child;
   final Color textColor;
+  final double? shadowHeight;
+  final EdgeInsets? margin;
+  final double? fontSize;
 
   const CustomButton(
       {this.buttonName,
       required this.height,
       required this.width,
       this.child,
+        this.margin,
+        this.shadowHeight,
+        this.fontSize,
         this.textColor=const Color.fromRGBO(255, 250, 240, 1),
-      // this.isScoreScreenButton = false,
       this.backgroundColor = const Color.fromRGBO(231, 76, 60, 1),
       this.shadowColor = const Color.fromRGBO(192, 57, 43, 1),
       this.onButtonPressed,
@@ -34,6 +38,7 @@ class CustomButton extends StatelessWidget {
         height: height,
         alignment: Alignment.center,
         width: width,
+        margin: margin,
         decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(screenHeight * 0.0352),
@@ -42,7 +47,7 @@ class CustomButton extends StatelessWidget {
                   offset: Offset(
                       0,
                       // 9
-                      screenHeight * 0.0119),
+                      shadowHeight??screenHeight * 0.0119),
                   color: shadowColor)
             ]),
         child: child ?? Text(
@@ -52,7 +57,7 @@ class CustomButton extends StatelessWidget {
                     fontFamily:
                         Theme.of(context).textTheme.headline2?.fontFamily,
                     fontWeight: FontWeight.w900,
-                    fontSize: screenHeight * 0.0281),
+                    fontSize:fontSize?? screenHeight * 0.0281),
               ),
       ),
     );

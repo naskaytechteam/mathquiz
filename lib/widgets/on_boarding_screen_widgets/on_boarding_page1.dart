@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import '/widgets/on_boarding_screen_widgets/on_boarding_image.dart';
 import '/widgets/on_boarding_screen_widgets/skip_button.dart';
 
 class OnBoardingPage1 extends StatelessWidget {
-  // final VoidCallback onSkip;
-
-  const OnBoardingPage1({/*required this.onSkip,*/ Key? key}) : super(key: key);
+  const OnBoardingPage1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,39 +14,51 @@ class OnBoardingPage1 extends StatelessWidget {
     return Column(
       children: [
         const SkipButton(),
-        // SizedBox(height: 27,),
-        SizedBox(
-          height: height * 0.45,
-          width: width,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                bottom: 0,
-                child: SvgPicture.asset(
-                  'assets/images/onboardingbackground1.svg',
-                  // height: 285,
-                  height: height * 0.375,
-                  // width: 273,
-                  width: width * 0.7585,
-                  // fit: BoxFit.fitWidth,
-                ),
-              ),
-              Positioned(
-                  // bottom: 11.81,
-                  right: 0,
-                  left: 0,
-                  bottom: height * 0.01555,
-                  child: SvgPicture.asset(
-                    'assets/images/onboardingimage1.svg',
-                    // width: 196.94,
-                    width: width * 0.54699,
-                    // height: 303.19,
-                    height: height * 0.39894,
-                  ))
-            ],
-          ),
+        OnBoardingImage(
+            firstImageHeight: height * 0.375,
+            secondImageHeight: height * 0.39894,
+            firstImageWidth: width * 0.7585,
+            secondImageWidth: width * 0.54699,
+            imageNo: 1,
+          firstBottom: 0,
+          secondRight: 0,
+            secondLeft: 0,
+            secondBottom: height * 0.01555,
         ),
+        // SizedBox(
+        //   height: height * 0.45,
+        //   width: width,
+        //   child: Stack(
+        //     alignment: Alignment.center,
+        //     children: [
+        //       Positioned(
+        //         bottom: 0,
+        //         child: SvgPicture.asset(
+        //           'assets/images/onboardingbackground1.svg',
+        //           // height: 285,
+        //           height: height * 0.375,
+        //           // width: 273,
+        //           width: width * 0.7585,
+        //           // fit: BoxFit.fitWidth,
+        //         ),
+        //       ),
+        //
+        // // -----------------------------------
+        //       Positioned(
+        //           // bottom: 11.81,
+        //           right: 0,
+        //           left: 0,
+        //           bottom: height * 0.01555,
+        //           child: SvgPicture.asset(
+        //             'assets/images/onboardingimage1.svg',
+        //             // width: 196.94,
+        //             width: width * 0.54699,
+        //             // height: 303.19,
+        //             height: height * 0.39894,
+        //           ))
+        //     ],
+        //   ),
+        // ),
         SizedBox(
           // height: 45,
           height: height * 0.0593,

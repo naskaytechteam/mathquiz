@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mathquiz/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_app_bar.dart';
 import '/provider/template_factory.dart';
 import '/screens/review_answer.dart';
@@ -13,10 +14,13 @@ class ReviewAnswerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
-    int classNo = TemplateFactory().classNo;
+    final Size size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
+    final TemplateFactory templateFactory = TemplateFactory();
+    final int classNo = templateFactory.classNo;
+    final String? nunitoFontFamily =
+        Theme.of(context).textTheme.headline2?.fontFamily;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -27,28 +31,21 @@ class ReviewAnswerScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.11112),
         child: Column(
           children: [
-            SizedBox(
-              // height: 36,
-              height: height * 0.04737,
-            ),
+            _buildGap(height * 0.04737),
             SizedBox(
               // height: 22,
               height: height * 0.029,
               width: width,
               child: Text(
-                'Class $classNo - Logical Reasoning',
+                'Class $classNo - ${templateFactory.currentTemplateType.name}',
                 style: TextStyle(
-                    fontFamily:
-                        Theme.of(context).textTheme.headline2?.fontFamily,
+                    fontFamily: nunitoFontFamily,
                     fontWeight: FontWeight.w900,
                     // fontSize: 16
                     fontSize: height * 0.0211),
               ),
             ),
-            SizedBox(
-              // height: 15,
-              height: height * 0.01975,
-            ),
+            _buildGap(height * 0.01975),
             SizedBox(
               // height: 50,
               height: height * 0.0658,
@@ -62,16 +59,12 @@ class ReviewAnswerScreen extends StatelessWidget {
                 ]),
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline2?.fontFamily,
+                    fontFamily: nunitoFontFamily,
                     // fontSize: 18
                     fontSize: height * 0.02369),
               ),
             ),
-            SizedBox(
-              // height: 30,
-              height: height * 0.0395,
-            ),
+            _buildGap(height * 0.0395),
             SizedBox(
               // height: 520,
               height: height * 0.68422,
@@ -85,35 +78,17 @@ class ReviewAnswerScreen extends StatelessWidget {
                         questions[index].options[selectedOptionIndex];
                     String image =
                         isAnswerCorrect ? 'selected' : 'wrong_answer';
-                    return Container(
-                      // height: 84,
+                    return CustomButton(
                       height: height * 0.11053,
-                      // width: 295,
                       width: width,
+                      onButtonPressed: ()=>_onButtonClick(context, index),
+                      backgroundColor: const Color.fromRGBO(236, 240, 241, 1),
+                      shadowColor: isAnswerCorrect
+                          ? const Color.fromRGBO(39, 174, 96, 1)
+                          : const Color.fromRGBO(192, 57, 43, 1),
+                      shadowHeight: height * 0.0093,
                       margin: EdgeInsets.only(bottom: /*22*/ height * 0.029),
-                      decoration: BoxDecoration(
-                          color: const Color.fromRGBO(236, 240, 241, 1),
-                          borderRadius: BorderRadius.circular(/*25*/
-                              height * 0.033),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, /* 7*/ height * 0.0093),
-                                color: isAnswerCorrect
-                                    ? const Color.fromRGBO(39, 174, 96, 1)
-                                    : const Color.fromRGBO(192, 57, 43, 1))
-                          ]),
-                      alignment: Alignment.center,
                       child: ListTile(
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (_) {
-                            return ReviewAnswer(
-                              questions: questions,
-                              quesIndex: index,
-                              // selectedOptions: selectedOptions,
-                            );
-                          }));
-                        },
                         trailing: const Icon(Icons.arrow_forward_ios),
                         title: Text(
                           'Q.${index + 1}',
@@ -121,10 +96,7 @@ class ReviewAnswerScreen extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                               // fontSize: 20,
                               fontSize: height * 0.0264,
-                              fontFamily: Theme.of(context)
-                                  .textTheme
-                                  .headline2
-                                  ?.fontFamily),
+                              fontFamily: nunitoFontFamily),
                         ),
                         leading: SvgPicture.asset(
                           'assets/images/$image.svg',
@@ -141,5 +113,19 @@ class ReviewAnswerScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onButtonClick(BuildContext context,int index) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) {
+      return ReviewAnswer(
+        questions: questions,
+        quesIndex: index,
+      );
+    }));
+  }
+
+  Widget _buildGap(double height) {
+    return SizedBox(height: height);
   }
 }

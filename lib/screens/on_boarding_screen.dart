@@ -16,6 +16,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _pageController = PageController();
   int _pageIndex = 0;
+  static const _totalPages = 3;
 
   @override
   void dispose() {
@@ -61,7 +62,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   alignment: Alignment.center,
                   child: SmoothPageIndicator(
                     controller: _pageController,
-                    count: 3,
+                    count: _totalPages,
                     effect: SwapEffect(
                         dotColor: const Color.fromRGBO(127, 140, 141, 1),
                         // dotWidth: 10,
@@ -77,7 +78,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 height: height * 0.04344,
               ),
               CustomButton(
-                onButtonPressed: onButtonPressed,
+                onButtonPressed: _onButtonPressed,
                 buttonName: 'Next',
                 height: height * 0.0922,
                 width: width * 0.817,
@@ -94,25 +95,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         MaterialPageRoute(builder: (BuildContext context) {
       return const DetailsScreen();
     }));
-    // PageRouteBuilder(
-    //     transitionDuration: const Duration(milliseconds: 800),
-    //     pageBuilder: (_, animation, secondAnimation) {
-    //       return const DetailsScreen();
-    //     },
-    //     transitionsBuilder: (_, animation, secondAnimation, widget) {
-    //       Animation<Offset> an =
-    //           Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
-    //               .animate(animation);
-    //       return SlideTransition(
-    //         position: an,
-    //         child: widget,
-    //       );
-    //     }));
   }
 
-  void onButtonPressed() {
-    const int lastPageIndex = 2;
-    if (_pageIndex == lastPageIndex) {
+  void _onButtonPressed() {
+    //_totalPages-1 because pageIndex starts from 0
+    if (_pageIndex == _totalPages - 1) {
       _goToDetailsScreen();
       return;
     }

@@ -72,7 +72,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                 // height: 40,
                 height: height * 0.05264,
               ),
-              buildOption(height, width),
+              _buildOption(height, width),
               _gap(/*90*/ height * 0.11843),
               const CustomDivider(),
               _gap(/*25*/ height * 0.033),
@@ -134,7 +134,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     }
   }
 
-  Widget buildOption(double height, double width) {
+  Widget _buildOption(double height, double width) {
     return Container(
       // color: Colors.red,
       // height: height * 0.2,

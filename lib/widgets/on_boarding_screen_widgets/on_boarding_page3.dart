@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import '/widgets/on_boarding_screen_widgets/on_boarding_image.dart';
 
 class OnBoardingPage3 extends StatelessWidget {
   const OnBoardingPage3({Key? key}) : super(key: key);
@@ -12,35 +12,46 @@ class OnBoardingPage3 extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: height * 0.05),
-        SizedBox(
-          height: height * 0.45,
-          width: width,
-          // color: Colors.red,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                bottom: 0,
-                child: SvgPicture.asset(
-                  'assets/images/onboardingbackground3.svg',
-                  // height: 222
-                  height: height * 0.2922,
-                  // width: 253,
-                  width: width * 0.7028,
-                ),
-              ),
-              Positioned(
-                  // bottom: 32.9,
-                  bottom: height * 0.0433,
-                  child: SvgPicture.asset(
-                    'assets/images/onboardingimage3.svg',
-                    // height: 306.25,
-                    height: height * 0.403,
-                    width: width * 0.5456,
-                  ))
-            ],
-          ),
+        OnBoardingImage(
+            firstImageHeight: height * 0.2922,
+            secondImageHeight: height * 0.403,
+            firstImageWidth: width * 0.7028,
+            secondImageWidth: width * 0.5456,
+            imageNo: 3,
+          firstBottom: 0,
+          secondBottom: height * 0.0433,
         ),
+        // SizedBox(
+        //   height: height * 0.45,
+        //   width: width,
+        //   // color: Colors.red,
+        //   child: Stack(
+        //     alignment: Alignment.center,
+        //     children: [
+        //       Positioned(
+        //         bottom: 0,
+        //         child: SvgPicture.asset(
+        //           'assets/images/onboardingbackground3.svg',
+        //           // height: 222
+        //           height: height * 0.2922,
+        //           // width: 253,
+        //           width: width * 0.7028,
+        //         ),
+        //       ),
+        //
+        // //---------------------
+        //       Positioned(
+        //           // bottom: 32.9,
+        //           bottom: height * 0.0433,
+        //           child: SvgPicture.asset(
+        //             'assets/images/onboardingimage3.svg',
+        //             // height: 306.25,
+        //             height: height * 0.403,
+        //             width: width * 0.5456,
+        //           ))
+        //     ],
+        //   ),
+        // ),
         SizedBox(
           // height: 52.75,
           height: height * 0.0694,
@@ -60,7 +71,8 @@ class OnBoardingPage3 extends StatelessWidget {
                   fontSize: height * 0.0422,
                   color: const Color.fromRGBO(52, 73, 94, 1),
                   fontWeight: FontWeight.w900,
-                  fontFamily: Theme.of(context).textTheme.headline2!.fontFamily),
+                  fontFamily:
+                      Theme.of(context).textTheme.headline2!.fontFamily),
               textAlign: TextAlign.center,
             ),
           ),

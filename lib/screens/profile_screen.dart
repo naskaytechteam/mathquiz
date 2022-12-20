@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mathquiz/widgets/common_widgets/custom_button.dart';
-import 'package:mathquiz/widgets/common_widgets/custom_textfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '/widgets/common_widgets/custom_button.dart';
+import '/widgets/common_widgets/custom_textfield.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String name;
   final int classNo;
   final int avatarNo;
+  final String parentEmail;
 
   const ProfileScreen(
       {required this.name,
       required this.classNo,
       required this.avatarNo,
+      required this.parentEmail,
       Key? key})
       : super(key: key);
 
@@ -22,10 +26,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late final TextEditingController _classController;
   late final TextEditingController _nameController;
+  late final TextEditingController _parentEmailController;
+  late int _avatarNo;
 
   void _disposeAllControllers() {
     _classController.dispose();
     _nameController.dispose();
+    _parentEmailController.dispose();
   }
 
   @override
@@ -38,6 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     _nameController = TextEditingController(text: widget.name);
     _classController = TextEditingController(text: widget.classNo.toString());
+    _parentEmailController = TextEditingController(text: widget.parentEmail);
+    _avatarNo = widget.avatarNo;
 
     super.initState();
   }
@@ -75,106 +84,120 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.1112),
-        child: Column(
-          children: [
-            SizedBox(
-              // height: 36,
-              height: height * 0.04737,
-            ),
-            SizedBox(
-              // height: 22,
-              height: height * 0.029,
-              // width: 142,
-              // width: width*0.3945,
-              width: width,
-              child: Text(
-                'Enter your Details',
-                style: TextStyle(
-                    // fontSize: 16,
-                    fontSize: height * 0.0211,
-                    fontWeight: FontWeight.w900,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline2?.fontFamily),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                // height: 36,
+                height: height * 0.04737,
               ),
-            ),
-            SizedBox(
-              // height: 15,
-              height: height * 0.01975,
-            ),
-            CustomTextField(
-                hintText: 'Name',
-                controller: _nameController,
-                textInputType: TextInputType.text),
-            SizedBox(
-              // height: 20,
-              height: height * 0.0264,
-            ),
-            CustomTextField(
-              hintText: 'Class',
-              controller: _classController,
-              textInputType: TextInputType.number,
-              isClassTextField: true,
-              onClassSelected: (value) {
-                setState(() {
-                  _classController.text = value.toString();
-                });
-              },
-            ),
-            SizedBox(
-              // height: 30,
-              height: height * 0.0395,
-            ),
-            SizedBox(
-              // height: 22,
-              height: height * 0.029,
-              // width: 153,
+              SizedBox(
+                // height: 22,
+                height: height * 0.029,
+                // width: 142,
+                // width: width*0.3945,
+                width: width,
+                child: Text(
+                  'Enter your Details',
+                  style: TextStyle(
+                      // fontSize: 16,
+                      fontSize: height * 0.0211,
+                      fontWeight: FontWeight.w900,
+                      fontFamily:
+                          Theme.of(context).textTheme.headline2?.fontFamily),
+                ),
+              ),
+              SizedBox(
+                // height: 15,
+                height: height * 0.01975,
+              ),
+              CustomTextField(
+                  hintText: 'Name',
+                  controller: _nameController,
+                  textInputType: TextInputType.text),
+              SizedBox(
+                // height: 20,
+                height: height * 0.0264,
+              ),
+              CustomTextField(
+                hintText: 'Class',
+                controller: _classController,
+                textInputType: TextInputType.number,
+                isClassTextField: true,
+                readOnly: true,
+                onClassSelected: (value) {
+                  setState(() {
+                    _classController.text = value.toString();
+                  });
+                },
+              ),
+              SizedBox(
+                // height: 20,
+                height: height * 0.0264,
+              ),
+              CustomTextField(
+                  hintText: 'Parent\'s Email',
+                  controller: _parentEmailController,
+                  // onSubmit: _onSubmit,
+                  textInputType: TextInputType.text),
 
-              // width: width* 0.425,
-              width: width,
-              child: Text(
-                'Choose your Avatar',
-                style: TextStyle(
-                    // fontSize: 16,
-                    fontSize: height * 0.0211,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline2?.fontFamily,
-                    fontWeight: FontWeight.w900),
+              SizedBox(
+                // height: 30,
+                height: height * 0.0395,
               ),
-            ),
-            SizedBox(
-              // height: 15,
-              height: height * 0.01975,
-            ),
-            SizedBox(
-              // height: 80,
-              height: height * 0.1053,
-              width: width,
+              SizedBox(
+                // height: 22,
+                height: height * 0.029,
+                // width: 153,
 
-              // color: Colors.yellow,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  avatar(1, height, width),
-                  avatar(2, height, width),
-                  avatar(3, height, width),
-                ],
+                // width: width* 0.425,
+                width: width,
+                child: Text(
+                  'Choose your Avatar',
+                  style: TextStyle(
+                      // fontSize: 16,
+                      fontSize: height * 0.0211,
+                      fontFamily:
+                          Theme.of(context).textTheme.headline2?.fontFamily,
+                      fontWeight: FontWeight.w900),
+                ),
               ),
-            ),
-            SizedBox(
-              // height: 211,
-              height: height * 0.27764,
-            ),
-            CustomButton(
-                buttonName: 'SAVE',
-                height: height * 0.0922,
-                width: width * 0.817,
-                onButtonPressed: () {})
-          ],
+              SizedBox(
+                // height: 15,
+                height: height * 0.01975,
+              ),
+              SizedBox(
+                // height: 80,
+                height: height * 0.1053,
+                width: width,
+
+                // color: Colors.yellow,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    avatar(1, height, width),
+                    avatar(2, height, width),
+                    avatar(3, height, width),
+
+                  ],
+                ),
+              ),
+              SizedBox(
+                // height: 211,
+                height: height * 0.1,
+                // height: height * 0.27764,
+              ),
+              CustomButton(
+                  buttonName: 'SAVE',
+                  height: height * 0.0922,
+                  width: width * 0.817,
+                  onButtonPressed: _onClick)
+            ],
+          ),
         ),
       ),
     );
   }
-
   Widget avatar(int avatarNo, double height, double width) {
     bool isAvatarSelected = widget.avatarNo == avatarNo;
     return Stack(
@@ -189,17 +212,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               color: Colors.red,
               border: isAvatarSelected
                   ? Border.all(
-                      color:const Color.fromRGBO(46, 204, 113, 1),
-                      // width: 4
-                      width: width * 0.0112
-                      // width: height* 0.0053
-                      )
+                  color:const Color.fromRGBO(46, 204, 113, 1),
+                  // width: 4
+                  width: width * 0.0112
+                // width: height* 0.0053
+              )
                   : null),
           child: InkWell(
               highlightColor: Theme.of(context).backgroundColor,
               onTap: () {
                 setState(() {
-                  //selectedAvatar = avatarNo;
+                  _avatarNo = avatarNo;
                 });
               },
               child: SvgPicture.asset('assets/images/avatar$avatarNo.svg')),
@@ -214,6 +237,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
+
+
+  void _onAvatarSelected(int avatarNo) {
+    setState(() {
+      _avatarNo = avatarNo;
+    });
+  }
+
+  Future<void> _removeSystemBars() async {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+        overlays: []);
+  }
+
+  void _onClick() async {
+    NavigatorState navigatorState = Navigator.of(context);
+    await _removeSystemBars();
+    int classNo = int.parse(_classController.value.text);
+    String name = _nameController.value.text;
+    String parentEmail = _parentEmailController.value.text;
+
+    if (widget.name == name &&
+        widget.classNo == classNo &&
+        widget.avatarNo == _avatarNo) {
+      navigatorState.pop();
+    } else {
+      if (name != '' && parentEmail != '') {
+        bool hasUserDetailsSaved = await _saveUserDetails(
+            name, classNo, parentEmail, _avatarNo);
+        if (hasUserDetailsSaved) {
+          navigatorState.pop({
+            'userName': name,
+            'classNo': classNo,
+            'avatarNo': _avatarNo,
+            'parentEmail': parentEmail
+          });
+        }
+      }
+    }
+  }
+  Future<bool> _saveUserDetails(String name,int userClass,String  parentEmail,int avatarNo)async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool hasNameSavedSuccessfully =
+    await sharedPreferences.setString('userName', name);
+    bool hasClassSavedSuccessfully =
+    await sharedPreferences.setInt('classNo', userClass);
+    bool hasAvatarSavedSuccessfully =
+    await sharedPreferences.setInt('avatarNo', avatarNo);
+    bool hasParentEmailSavedSuccessfully =
+    await sharedPreferences.setString('parentEmail', parentEmail);
+
+    return hasNameSavedSuccessfully == true &&
+        hasClassSavedSuccessfully == true &&
+        hasAvatarSavedSuccessfully == true &&
+        hasParentEmailSavedSuccessfully == true;
+  }
+
+
+  // Widget avatar(int avatarNo, double height, double width) {
+  //   bool isAvatarSelected = _avatarNo == avatarNo;
+  //   return
+  // }
 
   TextStyle labelStyle(double height) {
     return TextStyle(

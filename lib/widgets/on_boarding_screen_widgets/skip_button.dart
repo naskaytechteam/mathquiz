@@ -40,19 +40,3 @@ class SkipButton extends StatelessWidget {
     }));
   }
 }
-/*
-        PageRouteBuilder(
-            transitionDuration: const Duration(seconds: 1),
-            pageBuilder: (_, animation, secondAnimation) {
-              return const DetailsScreen();
-            },
-            transitionsBuilder: (_, animation, secondAnimation, widget) {
-              Animation<Offset> customAnimation =
-                  Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
-                      .animate(animation);
-              return SlideTransition(
-                position: customAnimation,
-                child: widget,
-              );
-            })
- */

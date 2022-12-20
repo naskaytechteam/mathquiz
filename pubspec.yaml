@@ -50,7 +50,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
 #  sleek_circular_slider: ^2.0.1
-#  syncfusion_flutter_gauges: ^20.3.61
+  syncfusion_flutter_gauges: ^20.3.61
 
 
 

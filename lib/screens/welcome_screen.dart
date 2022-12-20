@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '/screens/home_screen.dart';
 import 'on_boarding_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -12,19 +14,27 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
-    moveToNextPage();
+    _moveToNextPageAccordingToUserData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String? nunitoFamily = Theme.of(context).textTheme.headline2?.fontFamily;
+    String? nunitoFamily = Theme
+        .of(context)
+        .textTheme
+        .headline2
+        ?.fontFamily;
 
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     double width = size.width;
     double height = size.height;
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme
+          .of(context)
+          .backgroundColor,
       body: SizedBox(
         child: Stack(
           children: [
@@ -100,29 +110,59 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  Future<void> moveToNextPage() async {
-    // const splashScreenTime=300;
-    NavigatorState state = Navigator.of(context);
+  void _goToNextPage(Widget nextPage) async {
+    NavigatorState navigatorState = Navigator.of(context);
     await Future.delayed(const Duration(milliseconds: 300));
-    state.pushReplacement(PageRouteBuilder(
+    navigatorState.pushReplacement(PageRouteBuilder(
         transitionDuration: const Duration(seconds: 4),
         pageBuilder: (_, animation, secondAnimation) {
-          return const OnBoardingScreen();
+          return nextPage;
         },
         transitionsBuilder: (_, animation, secondAnimation, widget) {
-          // Animation<Offset> position =
-          //     Tween<Offset>(begin: const Offset(0.0, -2.0), end: Offset.zero)
-          //         .animate(CurvedAnimation(
-          //             parent: animation, curve: Curves.bounceInOut));
-          // return SlideTransition(
-          //   position: position,
-          //   child: widget,
-          // );
-          // Animation<double>opacityAnimation=Tween<double>(begin: 0,end: 1).animate(animation);
           return FadeTransition(
             opacity: animation,
             child: widget,
           );
         }));
   }
+
+  Future<void> _moveToNextPageAccordingToUserData() async {
+    Map? userData = await _getUserDetails();
+    if (userData != null) {
+      _goToNextPage(HomeScreen(
+        name: userData['userName'],
+        userClassNo: userData['classNo'],
+        avatarNo: userData['avatarNo'],
+        parentEmail: userData['parentEmail'],
+      ));
+      return;
+    }
+
+    _goToNextPage(const OnBoardingScreen());
+  }
+  Future<Map?> _getUserDetails() async {
+    SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    String? name = sharedPreferences.getString('userName');
+    int? classNo = sharedPreferences.getInt('classNo');
+    int? avatarNo = sharedPreferences.getInt('avatarNo');
+    String? parentEmail = sharedPreferences.getString('parentEmail');
+    return _isDataExists(name, classNo, avatarNo, parentEmail)
+        ? {
+      'userName': name,
+      'classNo': classNo,
+      'avatarNo': avatarNo,
+      'parentEmail': parentEmail
+    }
+        : null;
+  }
+//need to change
+  bool _isDataExists(String? name, int? classNo, int? avatarNo,
+      String? parentEmail) {
+    return name != null &&
+        classNo != null &&
+        avatarNo != null &&
+        parentEmail != null;
+  }
+
 }

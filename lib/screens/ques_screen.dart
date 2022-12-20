@@ -28,11 +28,12 @@ class _QuesScreenState extends State<QuesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
-    Question question = widget.questions[_quesIndex];
-    bool isFirstQuestion = _quesIndex == 0;
+    final Size size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
+    final Question question = widget.questions[_quesIndex];
+    final bool isFirstQuestion = _quesIndex == 0;
+    final String? nunitoFontFamily=Theme.of(context).textTheme.headline2?.fontFamily;
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -46,10 +47,7 @@ class _QuesScreenState extends State<QuesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                // height: 25,
-                height: height * 0.033,
-              ),
+             _gap(height * 0.033),
               SizedBox(
                 // height: height * 0.18,
                 // width: width,
@@ -64,21 +62,18 @@ class _QuesScreenState extends State<QuesScreen> {
                       fontSize: height * 0.02632,
                       fontWeight: FontWeight.w600,
                       fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily),
+                          nunitoFontFamily),
                 ),
               ),
-              SizedBox(
-                // height: 40,
-                height: height * 0.05264,
-              ),
+              _gap(height * 0.05264),
               Options(
                 option: widget.questions[_quesIndex].options,
                 onOptionSelected: _onOptionSelected,
                 optionSelectedIndex: _optionSelectedIndex,
               ),
-              _gap(/*90*/ height * 0.11843),
+              _gap(height * 0.11843),
               const CustomDivider(),
-              _gap(/*25*/ height * 0.033),
+              _gap(height * 0.033),
               SizedBox(
                 // height: 80,
                 height: height * 0.1053,
@@ -97,10 +92,7 @@ class _QuesScreenState extends State<QuesScreen> {
                               color: const Color.fromRGBO(231, 76, 60, 1),
                               // fontSize: 20,
                               fontSize: height * 0.02632,
-                              fontFamily: Theme.of(context)
-                                  .textTheme
-                                  .headline2
-                                  ?.fontFamily,
+                              fontFamily: nunitoFontFamily,
                               fontWeight: FontWeight.w900),
                         ),
                       ),
@@ -221,8 +213,6 @@ class _QuesScreenState extends State<QuesScreen> {
       );
     }));
   }
-
-
 
   Widget _gap(double height) {
     return SizedBox(

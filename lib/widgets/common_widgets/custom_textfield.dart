@@ -4,12 +4,13 @@ import '../../database/db_helper.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
-  final TextInputType textInputType;
+  final TextInputType? textInputType;
   final TextEditingController controller;
   final bool isClassTextField;
   final bool readOnly;
   final void Function(int? value)? onClassSelected;
   final void Function(String value)? onSubmit;
+  final String? fontFamily;
 
   const CustomTextField(
       {required this.hintText,
@@ -17,7 +18,8 @@ class CustomTextField extends StatelessWidget {
       this.onClassSelected,
       this.onSubmit,
       this.readOnly = false,
-      required this.textInputType,
+      this.textInputType=TextInputType.text,
+        this.fontFamily,
       this.isClassTextField = false,
       Key? key})
       : super(key: key);
@@ -54,7 +56,7 @@ class CustomTextField extends StatelessWidget {
                 color: const Color.fromRGBO(189, 195, 199, 1),
                 // fontSize: 20,
                 fontSize: height * 0.0264,
-                fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
+                fontFamily: fontFamily,
                 fontWeight: FontWeight.w700),
             hintText: hintText,
             border: InputBorder.none,

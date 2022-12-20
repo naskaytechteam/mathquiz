@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
 import 'package:flutter_svg/flutter_svg.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_textfield.dart';
 import '/screens/home_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+  final String? name;
+  final int? classNo;
+  final String? parentEmail;
+  final int? avatarNo;
+
+  const DetailsScreen(
+      {this.name, this.classNo, this.parentEmail, this.avatarNo, Key? key})
+      : super(key: key);
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  State<DetailsScreen> createState() => DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
-  int _selectedAvatar = _defaultSelectedAvatar;
-  final TextEditingController _classController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _parentsEmailController = TextEditingController();
+  int selectedAvatar = _defaultSelectedAvatar;
+  TextEditingController classController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController parentsEmailController = TextEditingController();
 
   void _disposeAllControllers() {
-    _nameController.dispose();
-    _classController.dispose();
-    _parentsEmailController.dispose();
+    nameController.dispose();
+    classController.dispose();
+    parentsEmailController.dispose();
   }
 
   @override
@@ -33,13 +40,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
     super.dispose();
   }
 
+// This method is for its subclass (for override)
+  AppBar? appBar(double height) {
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
+    final Size size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
+    final ThemeData theme = Theme.of(context);
+
+    final String? nunitoFontFamily = theme.textTheme.headline2?.fontFamily;
+    final Color backgroundColor = theme.backgroundColor;
+    final TextStyle textStyle = TextStyle(
+        // fontSize: 16,
+        fontSize: height * 0.0211,
+        fontFamily: nunitoFontFamily,
+        fontWeight: FontWeight.w900);
 
     return Scaffold(
+      appBar: appBar(height),
+      backgroundColor: backgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(
             // horizontal: 40
@@ -48,36 +71,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                // height: 84,
-                height: height * 0.1106,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    // horizontal: 5
-                    horizontal: width * 0.014),
-                child: SizedBox(
-                  // height: 88,
-                  height: height * 0.1158,
-                  // alignment: Alignment.center,
-                  // width: 280,
-                  width: width,
-                  child: Text(
-                    'Lorem Ipsum Dolar',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily,
-                        fontWeight: FontWeight.w900,
-                        // fontSize: 32
-                        fontSize: height * 0.04215),
-                  ),
-                ),
-              ),
-              SizedBox(
-                // height: 11,
-                height: height * 0.01449,
-              ),
+              gap(height),
+              buildTextWidget(height, width, nunitoFontFamily),
+              secondGap(height),
               SizedBox(
                 // height: 22,
                 height: height * 0.029,
@@ -86,12 +82,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 width: width,
                 child: Text(
                   'Enter your Details',
-                  style: TextStyle(
-                      // fontSize: 16,
-                      fontSize: height * 0.0211,
-                      fontWeight: FontWeight.w900,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily),
+                  style: textStyle,
+                  // style: TextStyle(
+                  //     // fontSize: 16,
+                  //     fontSize: height * 0.0211,
+                  //     fontWeight: FontWeight.w900,
+                  //     fontFamily: nunitoFontFamily),
                 ),
               ),
               SizedBox(
@@ -99,19 +95,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 height: height * 0.01975,
               ),
               CustomTextField(
-                  hintText: 'Name',
-                  controller: _nameController,
-                  onSubmit: _onSubmit,
-                  textInputType: TextInputType.text),
+                hintText: 'Name',
+                controller: nameController,
+                onSubmit: _onSubmit,
+                fontFamily: nunitoFontFamily,
+              ),
               SizedBox(
                 // height: 20,
                 height: height * 0.0264,
               ),
               CustomTextField(
                 hintText: 'Class',
-                controller: _classController,
+                controller: classController,
                 textInputType: TextInputType.number,
                 readOnly: true,
+                fontFamily: nunitoFontFamily,
                 onClassSelected: _onClassSelected,
                 isClassTextField: true,
               ),
@@ -120,10 +118,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 height: height * 0.0264,
               ),
               CustomTextField(
-                  hintText: 'Parent\'s Email',
-                  controller: _parentsEmailController,
-                  onSubmit: _onSubmit,
-                  textInputType: TextInputType.text),
+                hintText: 'Parent\'s Email',
+                controller: parentsEmailController,
+                onSubmit: _onSubmit,
+                fontFamily: nunitoFontFamily,
+              ),
               SizedBox(
                 // height: 30,
                 height: height * 0.0395,
@@ -136,12 +135,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 width: width,
                 child: Text(
                   'Choose your Avatar',
-                  style: TextStyle(
-                      // fontSize: 16,
-                      fontSize: height * 0.0211,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily,
-                      fontWeight: FontWeight.w900),
+                  style: textStyle,
                 ),
               ),
               SizedBox(
@@ -156,19 +150,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildAvatar(1, height, width),
-                    _buildAvatar(2, height, width),
-                    _buildAvatar(3, height, width),
+                    _buildAvatar(1, height, width, backgroundColor),
+                    _buildAvatar(2, height, width, backgroundColor),
+                    _buildAvatar(3, height, width, backgroundColor),
                   ],
                 ),
               ),
-              SizedBox(
-                // height: 50,
-                height: height * 0.0659,
-              ),
+              thirdGap(height),
               CustomButton(
-                onButtonPressed: _onClick,
-                buttonName: 'CONTINUE',
+                onButtonPressed: onClick,
+                buttonName: buttonName(),
                 height: height * 0.0922,
                 width: width * 0.817,
               )
@@ -179,30 +170,56 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
+  Widget thirdGap(double height) {
+    return SizedBox(
+      // height: 50,
+      height: height * 0.0659,
+    );
+  }
+
+  String buttonName() {
+    return 'CONTINUE';
+  }
+
   void _onSubmit(String value) async {
-    await _removeSystemNavBar();
+    await removeSystemNavBar();
   }
 
   void _onClassSelected(int? value) {
     setState(() {
-      _classController.text = value.toString();
+      classController.text = value.toString();
     });
   }
 
-  Future<void> _removeSystemNavBar() async {
+  Future<void> removeSystemNavBar() async {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
         overlays: [SystemUiOverlay.top]);
   }
 
-  Future<bool> _saveUserDetails(
-      String name, int userClass, String parentEmail) async {
+  void onClick() async {
+    String name = nameController.value.text;
+    String cNo = classController.value.text;
+    String parentEmail = parentsEmailController.value.text;
+    if (name != '' && cNo != '' && parentEmail != '') {
+      int classNo = int.parse(cNo);
+      bool hasUserDetailsSavedSuccessfully = await _saveUserDetails(
+          name, classNo, parentEmail, selectedAvatar);
+
+      if (hasUserDetailsSavedSuccessfully) {
+        log('user details has successfully stored in memory $hasUserDetailsSavedSuccessfully');
+        await removeSystemNavBar();
+        _goToHomePage(name, classNo, parentEmail);
+      }
+    }
+  }
+  Future<bool> _saveUserDetails(String name,int userClass,String  parentEmail,int avatarNo)async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool hasNameSavedSuccessfully =
         await sharedPreferences.setString('userName', name);
     bool hasClassSavedSuccessfully =
         await sharedPreferences.setInt('classNo', userClass);
     bool hasAvatarSavedSuccessfully =
-        await sharedPreferences.setInt('avatarNo', _selectedAvatar);
+        await sharedPreferences.setInt('avatarNo', avatarNo);
     bool hasParentEmailSavedSuccessfully =
         await sharedPreferences.setString('parentEmail', parentEmail);
 
@@ -212,35 +229,59 @@ class _DetailsScreenState extends State<DetailsScreen> {
         hasParentEmailSavedSuccessfully == true;
   }
 
-  void _onClick() async {
-    String name = _nameController.value.text;
-    String cNo = _classController.value.text;
-    String parentEmail = _parentsEmailController.value.text;
-    if (name != '' && cNo != '' && parentEmail != '') {
-      int classNo = int.parse(cNo);
-      bool hasUserDetailsSavedSuccessfully =
-          await _saveUserDetails(name, classNo, parentEmail);
-
-      if (hasUserDetailsSavedSuccessfully) {
-        log('user details has successfully stored in memory $hasUserDetailsSavedSuccessfully');
-        await _removeSystemNavBar();
-        _goToHomePage(name, classNo);
-      }
-    }
+// This method is for its subclass (for override)
+  Widget gap(double height) {
+    return SizedBox(
+      height: height * 0.1106,
+    );
   }
 
-  void _goToHomePage(String name, int classNo) {
+// This method is for its subclass (for override)
+  Widget secondGap(double height) {
+    return SizedBox(
+      height: height * 0.01449,
+    );
+  }
+
+//  This method is for its subclass (for override)
+  Widget buildTextWidget(double height, double width, [String? fontFamily]) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          // horizontal: 5
+          horizontal: width * 0.014),
+      child: SizedBox(
+        // height: 88,
+        height: height * 0.1158,
+        // alignment: Alignment.center,
+        // width: 280,
+        width: width,
+        child: Text(
+          'Lorem Ipsum Dolar',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontFamily: fontFamily,
+              fontWeight: FontWeight.w900,
+              // fontSize: 32
+              fontSize: height * 0.04215),
+        ),
+      ),
+    );
+  }
+
+  void _goToHomePage(String name, int classNo, String parentEmail) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
       return HomeScreen(
         name: name,
         userClassNo: classNo,
-        avatarNo: _selectedAvatar,
+        avatarNo: selectedAvatar,
+        parentEmail: parentEmail,
       );
     }));
   }
 
-  Widget _buildAvatar(int avatarNo, double height, double width) {
-    bool isAvatarSelected = _selectedAvatar == avatarNo;
+  Widget _buildAvatar(
+      int avatarNo, double height, double width, Color backgroundColor) {
+    bool isAvatarSelected = selectedAvatar == avatarNo;
     return Stack(
       children: [
         Container(
@@ -259,10 +300,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       )
                   : null),
           child: InkWell(
-              highlightColor: Theme.of(context).backgroundColor,
+              // highlightColor: Theme.of(context).backgroundColor,
+              highlightColor: backgroundColor,
               onTap: () {
                 setState(() {
-                  _selectedAvatar = avatarNo;
+                  selectedAvatar = avatarNo;
                 });
               },
               child: SvgPicture.asset('assets/images/avatar$avatarNo.svg')),

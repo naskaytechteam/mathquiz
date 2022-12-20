@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '/widgets/on_boarding_screen_widgets/skip_button.dart';
+import 'on_boarding_image.dart';
 
 class OnBoardingPage2 extends StatelessWidget {
   // final VoidCallback onSkip;
@@ -19,38 +19,46 @@ class OnBoardingPage2 extends StatelessWidget {
           //height: 23.58
           height: height * 0.031,
         ),
-        SizedBox(
-          height: height * 0.45,
-          width: width,
-          // color: Colors.red,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: SvgPicture.asset(
-                  'assets/images/onboardingbackground2.svg',
-                  // height: 316
-                  // width:280,
-                  width: width * 0.778,
-                  height: height * 0.4158,
-                ),
-              ),
-              Positioned(
-                  // bottom: 32.9,
-                  bottom: height * 0.0433,
-                  child: SvgPicture.asset(
-                    'assets/images/onboardingimage2.svg',
-                    // height: 311.52,
-                    // width: 182.5,
-                    width: width * 0.507,
-                    height: height * 0.41,
-                  ))
-            ],
-          ),
+        OnBoardingImage(
+          firstImageHeight: height * 0.4158,
+          firstImageWidth: width * 0.778,
+          firstBottom: 0, firstLeft: 0, firstRight: 0, imageNo: 2,
+          secondImageHeight: height * 0.41,
+          secondImageWidth: width * 0.507,
+          secondBottom: height * 0.0433,
         ),
+        // SizedBox(
+        //   height: height * 0.45,
+        //   width: width,
+        //   // color: Colors.red,
+        //   child: Stack(
+        //     alignment: Alignment.center,
+        //     children: [
+        //       Positioned(
+        //         bottom: 0,
+        //         left: 0,
+        //         right: 0,
+        //         child: SvgPicture.asset(
+        //           'assets/images/onboardingbackground2.svg',
+        //           // height: 316
+        //           // width:280,
+        //           width: width * 0.778,
+        //           height: height * 0.4158,
+        //         ),
+        //       ),
+        //       Positioned(
+        //           // bottom: 32.9,
+        //           bottom: height * 0.0433,
+        //           child: SvgPicture.asset(
+        //             'assets/images/onboardingimage2.svg',
+        //             // height: 311.52,
+        //             // width: 182.5,
+        //             width: width * 0.507,
+        //             height: height * 0.41,
+        //           ))
+        //     ],
+        //   ),
+        // ),
         SizedBox(
             // height: 19,
             height: height * 0.025),

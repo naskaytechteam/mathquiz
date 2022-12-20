@@ -6,11 +6,11 @@ class TodayTopicContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
+    final Size size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
 
-    String? nunitoFamily = Theme.of(context).textTheme.headline2?.fontFamily;
+    final String? nunitoFamily = Theme.of(context).textTheme.headline2?.fontFamily;
 
     return Container(
       height: height * 0.24869,

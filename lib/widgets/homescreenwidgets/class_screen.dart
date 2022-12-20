@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mathquiz/widgets/common_widgets/custom_button.dart';
 import '/widgets/topics.dart';
 import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
 import '/database/db_helper.dart';
 import '/provider/template_factory.dart';
-import '/screens/profile_screen.dart';
 import 'class_screen_widgets/view_all.dart';
 import 'class_screen_widgets/today_topic_container.dart';
 
@@ -12,56 +12,44 @@ class ClassScreen extends StatelessWidget {
   final String name;
   final int userClassNo;
   final int avatarNo;
+  final VoidCallback onProfileButtonClick;
 
   const ClassScreen(
       {required this.name,
       required this.userClassNo,
       required this.avatarNo,
+      required this.onProfileButtonClick,
       super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
+    final Size size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
+    final String? nunitoFontFamily =
+        Theme.of(context).textTheme.headline2?.fontFamily;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
+      child: Column(
+        children: [
+          _buildNameContainer(height, width, context, nunitoFontFamily),
+          _buildGap( height * 0.0566),
+          const TodayTopicContainer(),
+          _buildGap(height * 0.0514),
+          _buildTakeATextContainer(height, width, context, nunitoFontFamily),
+          _buildGap(height * 0.01975),
+          for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
+            _buildClassRow(height, width, i, context),
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.11112),
-        child: Column(
-          children: [
-            _buildNameContainer(height, width, context),
-            SizedBox(
-              height: height * 0.0566,
-            ),
-            const TodayTopicContainer(),
-            SizedBox(
-              height: height * 0.0514,
-            ),
-            _buildTakeATextContainer(height, width, context),
-            SizedBox(
-              // height: 15,
-              height: height * 0.01975,
-            ),
-            for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
-              _buildClassRow(height, width, i, context),
-            // SizedBox(
-            // height: 30,
-            // height: height * 0.0395,
-            // ),
-            const ResumeYourLesson(),
-            SizedBox(
-              height: height * 0.03,
-            )
-          ],
-        ),
+          const ResumeYourLesson(),
+         _buildGap(height * 0.03),
+        ],
       ),
     );
   }
 
   Widget _buildClassContainer(
       double height, double width, int classNo, BuildContext context) {
-    Color backgroundColor = Theme.of(context).backgroundColor;
     bool isClassSelected = classNo == userClassNo;
     return Align(
       child: SizedBox(
@@ -70,85 +58,51 @@ class ClassScreen extends StatelessWidget {
         // width: 130,
         width: width * 0.36112,
         child: Column(children: [
-          InkWell(
-            onTap: () async {
-              NavigatorState state = Navigator.of(context);
-
-              List<int> quesTypesList =
-                  await TemplateFactory().getQuesTypes(classNo);
-
-              state.push(MaterialPageRoute(builder: (_) {
-                return Topics(
-                  classNo: classNo,
-                  quesTypeList: quesTypesList,
-                );
-              }));
-            },
-            // onTap: () => _onClassSelected(classNo),
-            highlightColor: backgroundColor,
-            splashColor: backgroundColor,
-            child: Align(
-              child: Container(
-                alignment: Alignment.center,
-                // height: 137,
-                height: height * 0.1803,
-                // width: 137,
-                width: width * 0.38056,
-                // width: width * 0.3806,
-                decoration: BoxDecoration(
-                    color: isClassSelected
-                        ? const Color.fromRGBO(241, 196, 15, 1)
-                        : const Color.fromRGBO(236, 240, 241, 1),
-                    borderRadius: BorderRadius.circular(
-                        // 25
-                        height * 0.033),
-                    boxShadow: [
-                      BoxShadow(
-                          color: isClassSelected
-                              ? const Color.fromRGBO(242, 176, 16, 1)
-                              : const Color.fromRGBO(189, 195, 199, 1),
-                          offset: Offset(
-                              0,
-                              // 7
-                              height * 0.0093))
-                    ]),
-                child: SizedBox(
-                  // height: 65,
-                  height: height * 0.0856,
-                  // width: 28,
-                  width: width * 0.078,
-                  child: Text(
-                    classNo.toString(),
-                    style: TextStyle(
-                        // fontSize: 48,
-                        fontSize: height * 0.06316,
-                        fontWeight: FontWeight.w900,
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily),
-                  ),
-                ),
-              ),
-            ),
+          CustomButton(
+            onButtonPressed: () => _onClassSelected(context, classNo),
+            height: height * 0.1803,
+            width: width * 0.38056,
+            backgroundColor: isClassSelected
+                ? const Color.fromRGBO(241, 196, 15, 1)
+                : const Color.fromRGBO(236, 240, 241, 1),
+            shadowColor: isClassSelected
+                ? const Color.fromRGBO(242, 176, 16, 1)
+                : const Color.fromRGBO(189, 195, 199, 1),
+            shadowHeight: height * 0.0093,
+            buttonName: classNo.toString(),
+            fontSize: height * 0.06316,
+            textColor: Colors.black,
           ),
+          _buildGap(height * 0.01449),
           SizedBox(
-            // height: 11,
-            height: height * 0.01449,
-          ),
-          Container(
             width: width,
-            alignment: Alignment.center,
+            // alignment: Alignment.center,
             // height: 15,
             height: height * 0.01975,
-
             child: isClassSelected
                 ? Text(
                     'Your Class $classNo',
+                    textAlign: TextAlign.center,
                   )
-                : Text('class $classNo'),
+                : Text(
+                    'class $classNo',
+                    textAlign: TextAlign.center,
+                  ),
           ),
         ]),
       ),
     );
+  }
+
+  void _onClassSelected(BuildContext context, int classNo) async {
+    NavigatorState state = Navigator.of(context);
+    List<int> quesTypesList = await TemplateFactory().getQuesTypes(classNo);
+    state.push(MaterialPageRoute(builder: (_) {
+      return Topics(
+        classNo: classNo,
+        quesTypeList: quesTypesList,
+      );
+    }));
   }
 
   Widget _buildClassRow(
@@ -175,7 +129,7 @@ class ClassScreen extends StatelessWidget {
   }
 
   Widget _buildNameContainer(
-      double height, double width, BuildContext context) {
+      double height, double width, BuildContext context, String? fontFamily) {
     return SizedBox(
       height: height * 0.1,
       width: width,
@@ -191,8 +145,7 @@ class ClassScreen extends StatelessWidget {
               TextSpan(
                   text: 'Good evening\n',
                   style: TextStyle(
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily,
+                      fontFamily: fontFamily,
                       // fontSize: 14,
                       fontSize: height * 0.0185,
                       color: const Color.fromRGBO(51, 51, 51, 1)),
@@ -210,7 +163,7 @@ class ClassScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => _goToProfilePage(context),
+            onTap: onProfileButtonClick,
             child: SvgPicture.asset(
               'assets/images/avatar$avatarNo.svg',
               // height: 59,
@@ -224,8 +177,12 @@ class ClassScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildGap(double height) {
+    return SizedBox(height: height);
+  }
+
   Widget _buildTakeATextContainer(
-      double height, double width, BuildContext context) {
+      double height, double width, BuildContext context, String? fontFamily) {
     return SizedBox(
       height: height * 0.029,
       width: width,
@@ -235,7 +192,7 @@ class ClassScreen extends StatelessWidget {
           Text(
             'Take a Test',
             style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
+                fontFamily: fontFamily,
                 fontWeight: FontWeight.w900,
                 // fontSize: 16
                 fontSize: height * 0.0211),
@@ -249,7 +206,7 @@ class ClassScreen extends StatelessWidget {
             child: Text(
               'View all',
               style: TextStyle(
-                  fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
+                  fontFamily: fontFamily,
                   // fontSize: 12,
                   fontSize: height * 0.0158,
                   fontWeight: FontWeight.w600),
@@ -258,12 +215,5 @@ class ClassScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _goToProfilePage(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return ProfileScreen(
-          name: name, classNo: userClassNo, avatarNo: avatarNo);
-    }));
   }
 }
