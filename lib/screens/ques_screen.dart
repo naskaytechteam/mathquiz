@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import '/screens/score_screen.dart';
 import '/widgets/common_widgets/custom_divider.dart';
-import '/screens/review_answer_screen.dart';
 import '/widgets/common_widgets/custom_app_bar.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '../widgets/quesscreenswidgets/options.dart';
@@ -201,14 +201,9 @@ class _QuesScreenState extends State<QuesScreen> {
   // }
 
   void _showScore() {
-    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-    //   return ScoreScreen(
-    //     questionNo: _questionNo,
-    //     questions: widget.questions,
-    //   );
-    // }));
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-      return ReviewAnswerScreen(
+      return ScoreScreen(
+        // questionNo: _questionNo,
         questions: widget.questions,
       );
     }));
