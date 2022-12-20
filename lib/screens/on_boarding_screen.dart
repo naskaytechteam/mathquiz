@@ -7,6 +7,8 @@ import '/widgets/common_widgets/custom_button.dart';
 import '/screens/details_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
+
+  static const String routeName = "/screens/onboarding";
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +33,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     double width = size.width;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
