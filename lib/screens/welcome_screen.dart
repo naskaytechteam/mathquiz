@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '/screens/home_screen.dart';
-import 'on_boarding_screen.dart';
+
+import './on_boarding_screen.dart';
+import '../screens/home_screen.dart';
+import '../utils/user_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -14,27 +15,20 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
-    _moveToNextPageAccordingToUserData();
+    Future.delayed(
+        const Duration(milliseconds: 300),
+        () => _pushNextPage(UserPreferences.isGuestUser()
+            ? const OnBoardingScreen()
+            : const HomeScreen()));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String? nunitoFamily = Theme
-        .of(context)
-        .textTheme
-        .headline2
-        ?.fontFamily;
-
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     double width = size.width;
     double height = size.height;
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .backgroundColor,
       body: SizedBox(
         child: Stack(
           children: [
@@ -51,9 +45,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     'Welcome to',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: height * 0.0264,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: nunitoFamily),
+                        fontSize: height * 0.0264, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
@@ -66,10 +58,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Align(
                 child: SizedBox(
                   width: width,
-                  // height: 78,
                   height: height * 0.1027,
-                  // alignment: Alignment.center,
-                  // color: Colors.red,
                   child: Text.rich(
                     TextSpan(
                         text: 'Olym',
@@ -78,7 +67,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           fontStyle: FontStyle.italic,
                           // fontSize: 57,
                           fontSize: height * 0.075,
-                          fontFamily: nunitoFamily,
                           color: const Color.fromRGBO(231, 76, 60, 1),
                         ),
                         children: const [
@@ -91,31 +79,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-              ), //389 364.65
+              ),
             ),
             Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: SvgPicture.asset(
-                  'assets/images/welcomeimage.svg',
-                  // height: 190,
-                  height: height * 0.25,
-                  // width: 228,
-                  width: width * 0.6334,
-                ))
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SvgPicture.asset(
+                'assets/images/splash_image.svg',
+                // height: 190,
+                height: height * 0.25,
+                // width: 228,
+                width: width * 0.6334,
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void _goToNextPage(Widget nextPage) async {
-    NavigatorState navigatorState = Navigator.of(context);
-    await Future.delayed(const Duration(milliseconds: 300));
-    navigatorState.pushReplacement(PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 4),
-        pageBuilder: (_, animation, secondAnimation) {
+  Future<void> _pushNextPage(Widget nextPage) async {
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+        transitionDuration: const Duration(seconds: 2),
+        pageBuilder: (_, __, ___) {
           return nextPage;
         },
         transitionsBuilder: (_, animation, secondAnimation, widget) {
