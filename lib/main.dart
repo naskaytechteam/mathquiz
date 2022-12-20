@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mathquiz/screens/welcome_screen.dart';
+
+import '/screens/welcome_screen.dart';
+import 'utils/user_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  UserPreferences.initSharedPrefs();
   //this line is here because of stop unwanted rebuilding widget from MediaQery class
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
       overlays: [SystemUiOverlay.top]);
@@ -13,7 +16,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   static const String primaryFontFamily = 'Inconsolata';
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,6 @@ class MyApp extends StatelessWidget {
             headline2: TextStyle(fontFamily: 'Nunito')),
       ),
       home: const WelcomeScreen(),
-      // home: ProfileScreen(userName: 'Taylor', userClassNo: 4, userParentEmail: '', userAvatar: 1,),
-      // home: ProfileScreen(name: 'Taylor', classNo: 4, avatarNo: 1, parentEmail: '',),
-      // home: DetailsScreen(),
-      // home: HomeScreen(name: '',),
-
     );
   }
 }

@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathquiz/utils/user_preferences.dart';
+
+import '/screens/home_screen.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_textfield.dart';
-import '/screens/home_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final String? name;
-  final int? classNo;
-  final String? parentEmail;
-  final int? avatarNo;
-
-  const DetailsScreen(
-      {this.name, this.classNo, this.parentEmail, this.avatarNo, Key? key})
-      : super(key: key);
+  const DetailsScreen({Key? key}) : super(key: key);
 
   @override
   State<DetailsScreen> createState() => DetailsScreenState();
@@ -196,86 +189,29 @@ class DetailsScreenState extends State<DetailsScreen> {
         overlays: [SystemUiOverlay.top]);
   }
 
-  void onClick() async {
-    String name = nameController.value.text;
-    String cNo = classController.value.text;
-    String parentEmail = parentsEmailController.value.text;
-    if (name != '' && cNo != '' && parentEmail != '') {
-      int classNo = int.parse(cNo);
-      bool hasUserDetailsSavedSuccessfully = await _saveUserDetails(
-          name, classNo, parentEmail, selectedAvatar);
+  void _saveUserDetails(
+      String name, int userClass, String parentEmail) {
+         UserPreferences.setName(name);
+         UserPreferences.setClass(userClass);
+         UserPreferences.setParentEmail(parentEmail);
+         UserPreferences.setAvatar(_selectedAvatar);
+  }
 
-      if (hasUserDetailsSavedSuccessfully) {
-        log('user details has successfully stored in memory $hasUserDetailsSavedSuccessfully');
-        await removeSystemNavBar();
-        _goToHomePage(name, classNo, parentEmail);
-      }
+  void _onClick() async {
+    String name = _nameController.value.text;
+    String cNo = _classController.value.text;
+    String parentEmail = _parentsEmailController.value.text;
+    if (name.isNotEmpty && cNo.isNotEmpty && parentEmail.isNotEmpty) {
+      int classNo = int.parse(cNo);
+      _saveUserDetails(name, classNo, parentEmail);
+      await _removeSystemNavBar();
+      _goToHomePage();
     }
   }
-  Future<bool> _saveUserDetails(String name,int userClass,String  parentEmail,int avatarNo)async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bool hasNameSavedSuccessfully =
-        await sharedPreferences.setString('userName', name);
-    bool hasClassSavedSuccessfully =
-        await sharedPreferences.setInt('classNo', userClass);
-    bool hasAvatarSavedSuccessfully =
-        await sharedPreferences.setInt('avatarNo', avatarNo);
-    bool hasParentEmailSavedSuccessfully =
-        await sharedPreferences.setString('parentEmail', parentEmail);
 
-    return hasNameSavedSuccessfully == true &&
-        hasClassSavedSuccessfully == true &&
-        hasAvatarSavedSuccessfully == true &&
-        hasParentEmailSavedSuccessfully == true;
-  }
-
-// This method is for its subclass (for override)
-  Widget gap(double height) {
-    return SizedBox(
-      height: height * 0.1106,
-    );
-  }
-
-// This method is for its subclass (for override)
-  Widget secondGap(double height) {
-    return SizedBox(
-      height: height * 0.01449,
-    );
-  }
-
-//  This method is for its subclass (for override)
-  Widget buildTextWidget(double height, double width, [String? fontFamily]) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          // horizontal: 5
-          horizontal: width * 0.014),
-      child: SizedBox(
-        // height: 88,
-        height: height * 0.1158,
-        // alignment: Alignment.center,
-        // width: 280,
-        width: width,
-        child: Text(
-          'Lorem Ipsum Dolar',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontFamily: fontFamily,
-              fontWeight: FontWeight.w900,
-              // fontSize: 32
-              fontSize: height * 0.04215),
-        ),
-      ),
-    );
-  }
-
-  void _goToHomePage(String name, int classNo, String parentEmail) {
+  void _goToHomePage() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return HomeScreen(
-        name: name,
-        userClassNo: classNo,
-        avatarNo: selectedAvatar,
-        parentEmail: parentEmail,
-      );
+      return const HomeScreen();
     }));
   }
 

@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '/screens/profile_screen.dart';
+
 import '/screens/setting_screen.dart';
 import '../widgets/homescreenwidgets/class_screen.dart';
 import '../widgets/homescreenwidgets/ranking_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String name;
-  final int userClassNo;
-  final int avatarNo;
-  final String parentEmail;
-
-  const HomeScreen(
-      {required this.name,
-      required this.userClassNo,
-      required this.avatarNo,
-      required this.parentEmail,
-      Key? key})
-      : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -25,18 +14,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _screenIndex = 0;
-  late String _name = widget.name;
-  late int _classNo = widget.userClassNo;
-  late int _avatarNo = widget.avatarNo;
-  late String _parentEmail = widget.parentEmail;
 
+  //why do we need late?
   late final List<Widget> _screens = [
-    ClassScreen(
-      name: _name,
-      onProfileButtonClick: _onProfileButtonClick,
-      userClassNo: _classNo,
-      avatarNo: _avatarNo,
-    ),
+    ClassScreen(),
     const RankingScreen(),
     SettingScreen(onProfileButtonClick: _onProfileButtonClick)
   ];

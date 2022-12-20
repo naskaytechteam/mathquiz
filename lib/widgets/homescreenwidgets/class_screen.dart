@@ -14,12 +14,10 @@ class ClassScreen extends StatelessWidget {
   final int avatarNo;
   final VoidCallback onProfileButtonClick;
 
-  const ClassScreen(
-      {required this.name,
-      required this.userClassNo,
-      required this.avatarNo,
-      required this.onProfileButtonClick,
-      super.key});
+  ClassScreen({super.key})
+      : userClassNo = UserPreferences.getClass()!,
+        name = UserPreferences.getName()!,
+        avatarNo = UserPreferences.getAvatar()!;
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +92,7 @@ class ClassScreen extends StatelessWidget {
     );
   }
 
+  //Needs review
   void _onClassSelected(BuildContext context, int classNo) async {
     NavigatorState state = Navigator.of(context);
     List<int> quesTypesList = await TemplateFactory().getQuesTypes(classNo);
