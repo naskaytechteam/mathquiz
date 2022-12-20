@@ -11,31 +11,26 @@ class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
 
   @override
-  State<DetailsScreen> createState() => DetailsScreenState();
+  State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
-  int selectedAvatar = _defaultSelectedAvatar;
-  TextEditingController classController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController parentsEmailController = TextEditingController();
+  int _selectedAvatar = _defaultSelectedAvatar;
+  final TextEditingController _classController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _parentsEmailController = TextEditingController();
 
   void _disposeAllControllers() {
-    nameController.dispose();
-    classController.dispose();
-    parentsEmailController.dispose();
+    _nameController.dispose();
+    _classController.dispose();
+    _parentsEmailController.dispose();
   }
 
   @override
   void dispose() {
     _disposeAllControllers();
     super.dispose();
-  }
-
-// This method is for its subclass (for override)
-  AppBar? appBar(double height) {
-    return null;
   }
 
   @override
@@ -54,7 +49,6 @@ class DetailsScreenState extends State<DetailsScreen> {
         fontWeight: FontWeight.w900);
 
     return Scaffold(
-      appBar: appBar(height),
       backgroundColor: backgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -64,9 +58,36 @@ class DetailsScreenState extends State<DetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              gap(height),
-              buildTextWidget(height, width, nunitoFontFamily),
-              secondGap(height),
+              SizedBox(
+                // height: 84,
+                height: height * 0.1106,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    // horizontal: 5
+                    horizontal: width * 0.014),
+                child: SizedBox(
+                  // height: 88,
+                  height: height * 0.1158,
+                  // alignment: Alignment.center,
+                  // width: 280,
+                  width: width,
+                  child: Text(
+                    'Lorem Ipsum Dolar',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.headline2?.fontFamily,
+                        fontWeight: FontWeight.w900,
+                        // fontSize: 32
+                        fontSize: height * 0.04215),
+                  ),
+                ),
+              ),
+              SizedBox(
+                // height: 11,
+                height: height * 0.01449,
+              ),
               SizedBox(
                 // height: 22,
                 height: height * 0.029,
@@ -89,7 +110,7 @@ class DetailsScreenState extends State<DetailsScreen> {
               ),
               CustomTextField(
                 hintText: 'Name',
-                controller: nameController,
+                controller: _nameController,
                 onSubmit: _onSubmit,
                 fontFamily: nunitoFontFamily,
               ),
@@ -99,7 +120,7 @@ class DetailsScreenState extends State<DetailsScreen> {
               ),
               CustomTextField(
                 hintText: 'Class',
-                controller: classController,
+                controller: _classController,
                 textInputType: TextInputType.number,
                 readOnly: true,
                 fontFamily: nunitoFontFamily,
@@ -111,11 +132,10 @@ class DetailsScreenState extends State<DetailsScreen> {
                 height: height * 0.0264,
               ),
               CustomTextField(
-                hintText: 'Parent\'s Email',
-                controller: parentsEmailController,
-                onSubmit: _onSubmit,
-                fontFamily: nunitoFontFamily,
-              ),
+                  hintText: 'Parent\'s Email',
+                  controller: _parentsEmailController,
+                  onSubmit: _onSubmit,
+                  fontFamily: nunitoFontFamily),
               SizedBox(
                 // height: 30,
                 height: height * 0.0395,
@@ -149,10 +169,13 @@ class DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
               ),
-              thirdGap(height),
+              SizedBox(
+                // height: 50,
+                height: height * 0.0659,
+              ),
               CustomButton(
-                onButtonPressed: onClick,
-                buttonName: buttonName(),
+                onButtonPressed: _onClick,
+                buttonName: 'CONTINUE',
                 height: height * 0.0922,
                 width: width * 0.817,
               )
@@ -163,38 +186,26 @@ class DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  Widget thirdGap(double height) {
-    return SizedBox(
-      // height: 50,
-      height: height * 0.0659,
-    );
-  }
-
-  String buttonName() {
-    return 'CONTINUE';
-  }
-
   void _onSubmit(String value) async {
-    await removeSystemNavBar();
+    await _removeSystemNavBar();
   }
 
   void _onClassSelected(int? value) {
     setState(() {
-      classController.text = value.toString();
+      _classController.text = value.toString();
     });
   }
 
-  Future<void> removeSystemNavBar() async {
+  Future<void> _removeSystemNavBar() async {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
         overlays: [SystemUiOverlay.top]);
   }
 
-  void _saveUserDetails(
-      String name, int userClass, String parentEmail) {
-         UserPreferences.setName(name);
-         UserPreferences.setClass(userClass);
-         UserPreferences.setParentEmail(parentEmail);
-         UserPreferences.setAvatar(_selectedAvatar);
+  void _saveUserDetails(String name, int userClass, String parentEmail) {
+    UserPreferences.setName(name);
+    UserPreferences.setClass(userClass);
+    UserPreferences.setParentEmail(parentEmail);
+    UserPreferences.setAvatar(_selectedAvatar);
   }
 
   void _onClick() async {
@@ -217,7 +228,7 @@ class DetailsScreenState extends State<DetailsScreen> {
 
   Widget _buildAvatar(
       int avatarNo, double height, double width, Color backgroundColor) {
-    bool isAvatarSelected = selectedAvatar == avatarNo;
+    bool isAvatarSelected = _selectedAvatar == avatarNo;
     return Stack(
       children: [
         Container(
@@ -236,11 +247,10 @@ class DetailsScreenState extends State<DetailsScreen> {
                       )
                   : null),
           child: InkWell(
-              // highlightColor: Theme.of(context).backgroundColor,
               highlightColor: backgroundColor,
               onTap: () {
                 setState(() {
-                  selectedAvatar = avatarNo;
+                  _selectedAvatar = avatarNo;
                 });
               },
               child: SvgPicture.asset('assets/images/avatar$avatarNo.svg')),
