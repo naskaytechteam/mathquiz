@@ -41,8 +41,10 @@ class Topics extends StatelessWidget {
           ),
           _buildGap(height * 0.01975),
           CustomGridView(
-              totalHeight: height * 0.75, mainAxisExtent: height * 0.21448,
+            totalHeight: height * 0.75,
+            mainAxisExtent: height * 0.218,
             onButtonClick: _goToQuesScreen,
+            itemCount: quesTypeList.length,
           ),
         ],
       ),
