@@ -79,11 +79,11 @@ class CustomGridView extends StatelessWidget {
                 // color: Colors.red,
                 margin: EdgeInsets.only(
                     right:
-                        // 21
-                        width * 0.0584),
-                alignment: Alignment.center,
+                    // 21
+                    width * 0.0584),
+                alignment: Alignment.topCenter,
                 // height: 15,
-                height: height * 0.01975,
+                height: height * 0.026,
                 child: Text(
                     isTopicScreen
                         ? TemplateType.values[index].name
