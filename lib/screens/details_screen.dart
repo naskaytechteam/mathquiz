@@ -34,7 +34,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
+    final Size size = mediaQueryData.size;
     final double height = size.height;
     final double width = size.width;
     // final ThemeData theme = ;
