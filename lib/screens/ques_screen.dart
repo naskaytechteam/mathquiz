@@ -67,7 +67,7 @@ class _QuesScreenState extends State<QuesScreen> {
                   ),
                 ),
               ),
-              _gap(height * 0.05264),
+              _gap(height * 0.02),
               Options(
                 option: widget.questions[_quesIndex].options,
                 onOptionSelected: _onOptionSelected,
