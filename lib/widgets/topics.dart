@@ -42,7 +42,7 @@ class Topics extends StatelessWidget {
           CustomGridView(
             totalHeight: height * 0.75,
             mainAxisExtent: height * 0.218,
-            onButtonClick: _goToQuesScreen,
+            onButtonClick: _onButtonClick,
             itemCount: quesTypeList.length,
           ),
         ],
@@ -76,9 +76,14 @@ class Topics extends StatelessWidget {
         await TemplateFactory().generateQuestions(templateType);
     _removeProgressIndicator(navigatorState);
     if (questions.isNotEmpty) {
-      navigatorState.push(MaterialPageRoute(builder: (_) {
-        return QuesScreen(templateType: templateType, questions: questions);
-      }));
+      _goToQuesScreen(questions, navigatorState, templateType);
     }
+  }
+
+  void _goToQuesScreen(List<Question> questions, NavigatorState navigatorState,
+      TemplateType templateType) {
+    navigatorState.push(MaterialPageRoute(builder: (_) {
+      return QuesScreen(templateType: templateType, questions: questions);
+    }));
   }
 }
