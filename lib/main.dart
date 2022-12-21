@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '/screens/welcome_screen.dart';
+import '/screens/splash_screen.dart';
 import 'utils/user_preferences.dart';
 
 void main() async {
