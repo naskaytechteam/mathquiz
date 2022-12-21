@@ -45,6 +45,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         // fontSize: 16,
         fontSize: height * 0.0211,
         fontWeight: FontWeight.w900);
+    final bool isSystemBarShowing = mediaQueryData.viewPadding.bottom > 0;
 
     return Scaffold(
       // backgroundColor: backgroundColor,
