@@ -243,23 +243,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     int classNo = int.parse(_classController.value.text);
     String name = _nameController.value.text;
     String parentEmail = _parentEmailController.value.text;
-
-    if (widget.name == name &&
-        widget.classNo == classNo &&
-        widget.avatarNo == _avatarNo) {
-      navigatorState.pop();
-    } else {
-      if (name != '' && parentEmail != '') {
-        bool hasUserDetailsSaved = await _saveUserDetails(
-            name, classNo, parentEmail, _avatarNo);
-        if (hasUserDetailsSaved) {
-          navigatorState.pop({
-            'userName': name,
-            'classNo': classNo,
-            'avatarNo': _avatarNo,
-            'parentEmail': parentEmail
-          });
-        }
+    if (_hasDetailsChanged(name, classNo, parentEmail)) {
+      if (name == '' || _isValidEmail(parentEmail)) {
+        return;
       }
     }
   }
