@@ -65,7 +65,8 @@ class Options extends StatelessWidget {
                   height: height * 0.0856,
                   alignment: Alignment.center,
                   // width: 58,
-                  width: width * 0.16112,
+                  width: width,
+                  // width: width * 0.16112,
                   child: Text(
                     option[index].toString(),
                     style: TextStyle(
