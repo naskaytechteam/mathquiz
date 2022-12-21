@@ -50,15 +50,20 @@ class _QuesScreenState extends State<QuesScreen> {
                 // height: height * 0.18,
                 // width: width,
                 // height: 102,
-                height: height * 0.13422,
+                // height: height * 0.13422,
+                height: height * 0.16422,
+
                 // width: 295,
                 width: width * 0.81945,
-                child: AutoSizeText(
-                  question.question,
-                  style: TextStyle(
-                    // fontSize: 20,
-                    fontSize: height * 0.02632,
-                    fontWeight: FontWeight.w600,
+                child: SingleChildScrollView(
+                  physics:const BouncingScrollPhysics(),
+                  child: Text(
+                    question.question,
+                    style: TextStyle(
+                      // fontSize: 20,
+                      fontSize: height * 0.02632,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
