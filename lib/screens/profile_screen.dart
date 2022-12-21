@@ -32,10 +32,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    _nameController = TextEditingController(text: widget.name);
-    _classController = TextEditingController(text: widget.classNo.toString());
-    _parentEmailController = TextEditingController(text: widget.parentEmail);
-    _avatarNo = widget.avatarNo;
+    _nameController = TextEditingController(text: UserPreferences.getName());
+    _classController =
+        TextEditingController(text: '${UserPreferences.getClass()}');
+    _parentEmailController =
+        TextEditingController(text: UserPreferences.getParentEmail());
+    _avatarNo = UserPreferences.getAvatar()!;
 
     super.initState();
   }
@@ -232,6 +234,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _removeSystemBars() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
         overlays: []);
+  }
+
+  bool _hasDetailsChanged(String name, int classNo, String parentEmail) {
+    return UserPreferences.getName() == name &&
+        UserPreferences.getClass() == classNo &&
+        UserPreferences.getParentEmail() == parentEmail &&
+        UserPreferences.getAvatar() == _avatarNo;
   }
 
   void _onClick() async {
