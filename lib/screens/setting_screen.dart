@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mathquiz/screens/profile_screen.dart';
 import '/widgets/common_widgets/custom_button.dart';
 
 class SettingScreen extends StatelessWidget {
-  final VoidCallback onProfileButtonClick;
-  const SettingScreen({required this.onProfileButtonClick,
+  // final VoidCallback onProfileButtonClick;
+  const SettingScreen({/*required this.onProfileButtonClick,*/
     Key? key}) : super(key: key);
 
   @override
@@ -105,7 +106,10 @@ class SettingScreen extends StatelessWidget {
       textColor: Colors.black45,
       onButtonPressed: () {
         if (buttonText == 'Your Profile') {
-          onProfileButtonClick();
+          // onProfileButtonClick();
+          Navigator.of(context).push(MaterialPageRoute(builder: (_){
+            return const ProfileScreen();
+          }));
         }
       },
       backgroundColor: const Color.fromRGBO(236, 240, 241, 1),
