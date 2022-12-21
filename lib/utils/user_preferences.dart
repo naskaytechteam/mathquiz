@@ -51,6 +51,10 @@ class UserPreferences {
     //TODO for future: Guest user might also need an authToken to track history, will need to figure this out later.
     //user is guest user when he has entered his name, class, & parent's email but does not have an auth token
     //TODO implement logic
-    return false;
+    //we should check only one of them or not
+    return getName() == null &&
+        getClass() == null &&
+        getAvatar() == null &&
+        getParentEmail() == null;
   }
 }
