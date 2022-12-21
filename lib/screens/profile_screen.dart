@@ -225,12 +225,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
-  void _onAvatarSelected(int avatarNo) {
-    setState(() {
-      _avatarNo = avatarNo;
-    });
-  }
-
   Future<void> _removeSystemBars() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
         overlays: []);
