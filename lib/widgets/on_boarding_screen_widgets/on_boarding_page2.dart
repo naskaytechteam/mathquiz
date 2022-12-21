@@ -22,7 +22,10 @@ class OnBoardingPage2 extends StatelessWidget {
         OnBoardingImage(
           firstImageHeight: height * 0.4158,
           firstImageWidth: width * 0.778,
-          firstBottom: 0, firstLeft: 0, firstRight: 0, imageNo: 2,
+          firstBottom: 0,
+          firstLeft: 0,
+          firstRight: 0,
+          imageNo: 2,
           secondImageHeight: height * 0.41,
           secondImageWidth: width * 0.507,
           secondBottom: height * 0.0433,
@@ -75,9 +78,7 @@ class OnBoardingPage2 extends StatelessWidget {
                   // fontSize: 32,
                   fontSize: height * 0.0422,
                   color: const Color.fromRGBO(52, 73, 94, 1),
-                  fontWeight: FontWeight.w900,
-                  fontFamily:
-                      Theme.of(context).textTheme.headline2!.fontFamily),
+                  fontWeight: FontWeight.w900),
               textAlign: TextAlign.center,
             ),
           ),
@@ -94,10 +95,10 @@ class OnBoardingPage2 extends StatelessWidget {
           child: Text(
             'Lorem ipsum dolor  consectetur  sed do eiusmod  ut labore et dolore aliqua.',
             style: TextStyle(
-                // fontSize: 16,
-                fontSize: height * 0.0211,
-                fontWeight: FontWeight.w500,
-                fontFamily: Theme.of(context).textTheme.headline2?.fontFamily),
+              // fontSize: 16,
+              fontSize: height * 0.0211,
+              fontWeight: FontWeight.w500,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

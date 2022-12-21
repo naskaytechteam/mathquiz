@@ -6,14 +6,12 @@ class RankingContainer extends StatelessWidget {
   final Color shadowColor;
   final String detailName;
   final String detailNo;
-  final String? fontFamily;
 
   const RankingContainer(
       {required this.containerColor,
       required this.detailName,
       required this.detailNo,
       required this.shadowColor,
-        this.fontFamily,
       Key? key})
       : super(key: key);
 
@@ -47,7 +45,6 @@ class RankingContainer extends StatelessWidget {
                     // fontSize: 16,
                     fontSize: height * 0.0211,
                     color: Colors.white,
-                    fontFamily: fontFamily,
                     fontWeight: FontWeight.w700),
               ),
             ),
@@ -60,7 +57,6 @@ class RankingContainer extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontFamily: fontFamily,
                     // fontSize: 48
                     fontSize: height * 0.06316),
               ),

@@ -11,13 +11,11 @@ class RankingScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    final String? nunitoFontFamily =
-        Theme.of(context).textTheme.headline2?.fontFamily;
     final TextStyle commonTextStyle = TextStyle(
-        fontWeight: FontWeight.w900,
-        // fontSize: 16,
-        fontSize: height * 0.0211,
-        fontFamily: nunitoFontFamily);
+      fontWeight: FontWeight.w900,
+      // fontSize: 16,
+      fontSize: height * 0.0211,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,10 +33,10 @@ class RankingScreen extends StatelessWidget {
             child: Text(
               'All Your',
               style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  // fontSize: 14,
-                  fontSize: height * 0.0185,
-                  fontFamily: nunitoFontFamily),
+                fontWeight: FontWeight.w600,
+                // fontSize: 14,
+                fontSize: height * 0.0185,
+              ),
             ),
           ),
         ),
@@ -51,10 +49,10 @@ class RankingScreen extends StatelessWidget {
             width: width * 0.398,
             child: Text('Rankings',
                 style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    // fontSize: 32,
-                    fontSize: height * 0.04215,
-                    fontFamily: nunitoFontFamily)),
+                  fontWeight: FontWeight.w900,
+                  // fontSize: 32,
+                  fontSize: height * 0.04215,
+                )),
           ),
         ),
         SizedBox(
@@ -84,27 +82,24 @@ class RankingScreen extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
             scrollDirection: Axis.horizontal,
-            children: [
+            children: const [
               RankingContainer(
-                containerColor: const Color.fromRGBO(241, 196, 15, 1),
-                shadowColor: const Color.fromRGBO(243, 156, 18, 1),
+                containerColor: Color.fromRGBO(241, 196, 15, 1),
+                shadowColor: Color.fromRGBO(243, 156, 18, 1),
                 detailName: 'Total Test Given',
                 detailNo: '12',
-                fontFamily: nunitoFontFamily,
               ),
               RankingContainer(
-                containerColor: const Color.fromRGBO(46, 204, 113, 1),
-                shadowColor: const Color.fromRGBO(39, 174, 96, 1),
+                containerColor: Color.fromRGBO(46, 204, 113, 1),
+                shadowColor: Color.fromRGBO(39, 174, 96, 1),
                 detailName: 'Lessons Completed',
                 detailNo: '57',
-                fontFamily: nunitoFontFamily,
               ),
               RankingContainer(
-                containerColor: const Color.fromRGBO(52, 152, 219, 1),
-                shadowColor: const Color.fromRGBO(41, 128, 185, 1),
+                containerColor: Color.fromRGBO(52, 152, 219, 1),
+                shadowColor: Color.fromRGBO(41, 128, 185, 1),
                 detailName: 'Average Score',
                 detailNo: '7/10',
-                fontFamily: nunitoFontFamily,
               )
             ],
           ),
@@ -135,11 +130,12 @@ class RankingScreen extends StatelessWidget {
           // height: 30,
           height: height * 0.0395,
         ),
-        _buildYouScoredContainer(height, width, nunitoFontFamily)
+        _buildYouScoredContainer(height, width)
       ],
     );
   }
-  Widget _buildYouScoredContainer(double height,double width,String? fontFamily){
+
+  Widget _buildYouScoredContainer(double height, double width) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: /* 40*/ width * 0.11112),
       child: SizedBox(
@@ -160,7 +156,7 @@ class RankingScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: const Color.fromRGBO(52, 152, 219, 1),
                       borderRadius:
-                      BorderRadius.circular(/*25*/ height * 0.033),
+                          BorderRadius.circular(/*25*/ height * 0.033),
                       boxShadow: [
                         BoxShadow(
                             offset: Offset(0, /*9*/ height * 0.0119),
@@ -170,7 +166,7 @@ class RankingScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              // left: 123,
+                // left: 123,
                 left: width * 0.3417,
                 // top: 25,
                 height: height * 0.033,
@@ -188,7 +184,7 @@ class RankingScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              // top: 40,
+                // top: 40,
                 top: height * 0.0527,
                 // left: 21,
                 left: width * 0.0584,
@@ -201,14 +197,14 @@ class RankingScreen extends StatelessWidget {
                     'You Scored',
                     style: TextStyle(
                       // fontSize: 14,
-                        fontSize: height * 0.0185,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: fontFamily),
+                      fontSize: height * 0.0185,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 )),
             Positioned(
-              // left: 21,
+                // left: 21,
                 left: width * 0.0584,
                 // top: 57,
                 top: height * 0.075,
@@ -219,15 +215,14 @@ class RankingScreen extends StatelessWidget {
                   child: Text(
                     '9/10',
                     style: TextStyle(
-                      // fontSize: 48,
+                        // fontSize: 48,
                         fontSize: height * 0.06316,
                         color: const Color.fromRGBO(241, 196, 15, 1),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: fontFamily),
+                        fontWeight: FontWeight.bold),
                   ),
                 )),
             Positioned(
-              // top: 113,
+                // top: 113,
                 top: height * 0.1487,
                 // left: 24,
                 left: width * 0.0667,
@@ -238,7 +233,6 @@ class RankingScreen extends StatelessWidget {
                         color: Colors.white,
                         // fontSize: 12,
                         fontSize: height * 0.0158,
-                        fontFamily: fontFamily,
                         fontWeight: FontWeight.w700),
                   ),
                 ))

@@ -33,10 +33,8 @@ class _QuesScreenState extends State<QuesScreen> {
     final double width = size.width;
     final Question question = widget.questions[_quesIndex];
     final bool isFirstQuestion = _quesIndex == 0;
-    final String? nunitoFontFamily=Theme.of(context).textTheme.headline2?.fontFamily;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       appBar: CustomAppBar(
         title: widget.templateType.name,
         height: height * 0.1,
@@ -47,7 +45,7 @@ class _QuesScreenState extends State<QuesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-             _gap(height * 0.033),
+              _gap(height * 0.033),
               SizedBox(
                 // height: height * 0.18,
                 // width: width,
@@ -58,11 +56,10 @@ class _QuesScreenState extends State<QuesScreen> {
                 child: AutoSizeText(
                   question.question,
                   style: TextStyle(
-                      // fontSize: 20,
-                      fontSize: height * 0.02632,
-                      fontWeight: FontWeight.w600,
-                      fontFamily:
-                          nunitoFontFamily),
+                    // fontSize: 20,
+                    fontSize: height * 0.02632,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               _gap(height * 0.05264),
@@ -92,7 +89,6 @@ class _QuesScreenState extends State<QuesScreen> {
                               color: const Color.fromRGBO(231, 76, 60, 1),
                               // fontSize: 20,
                               fontSize: height * 0.02632,
-                              fontFamily: nunitoFontFamily,
                               fontWeight: FontWeight.w900),
                         ),
                       ),

@@ -10,8 +10,6 @@ class TodayTopicContainer extends StatelessWidget {
     final double height = size.height;
     final double width = size.width;
 
-    final String? nunitoFamily = Theme.of(context).textTheme.headline2?.fontFamily;
-
     return Container(
       height: height * 0.24869,
       width: width * 0.81945,
@@ -51,8 +49,7 @@ class TodayTopicContainer extends StatelessWidget {
                   'Today’s Topic',
                   style: TextStyle(
                       fontSize: height * 0.0211,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: nunitoFamily),
+                      fontWeight: FontWeight.w700),
                 )),
           ),
           Positioned(
@@ -65,7 +62,6 @@ class TodayTopicContainer extends StatelessWidget {
                 'Probability \nTheory',
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily: nunitoFamily,
                     // fontSize: 24,
                     fontSize: height * 0.03158,
                     fontWeight: FontWeight.w900),

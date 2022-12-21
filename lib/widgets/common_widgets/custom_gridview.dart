@@ -31,8 +31,6 @@ class CustomGridView extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    final String? nunitoFontFamily =
-        Theme.of(context).textTheme.headline2?.fontFamily;
     return SizedBox(
       // height: 234,
       height: totalHeight,
@@ -91,8 +89,7 @@ class CustomGridView extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         // fontSize: 14,
-                        fontSize: height * 0.0185,
-                        fontFamily: nunitoFontFamily)),
+                        fontSize: height * 0.0185)),
               ),
             ],
           );

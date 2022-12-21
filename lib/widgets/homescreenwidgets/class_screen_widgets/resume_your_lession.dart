@@ -33,8 +33,6 @@ class ResumeYourLesson extends StatelessWidget {
                 style: TextStyle(
                     fontSize: height * 0.03158,
                     fontWeight: FontWeight.w900,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline2?.fontFamily,
                     color: const Color.fromRGBO(241, 196, 15, 1)),
               ),
             ),
@@ -50,8 +48,6 @@ class ResumeYourLesson extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: height * 0.0211,
-                    fontFamily:
-                        Theme.of(context).textTheme.headline2?.fontFamily,
                     fontWeight: FontWeight.w700),
               ),
             ),

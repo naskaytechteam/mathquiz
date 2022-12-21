@@ -79,7 +79,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Colors.black,
                 // fontSize: 18,
                 fontSize: height * 0.02369,
-                fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
                 fontWeight: FontWeight.w600)),
       ),
       body: Padding(
@@ -102,9 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: TextStyle(
                       // fontSize: 16,
                       fontSize: height * 0.0211,
-                      fontWeight: FontWeight.w900,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily),
+                      fontWeight: FontWeight.w900),
                 ),
               ),
               SizedBox(
@@ -157,8 +154,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: TextStyle(
                       // fontSize: 16,
                       fontSize: height * 0.0211,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily,
                       fontWeight: FontWeight.w900),
                 ),
               ),
@@ -304,7 +299,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: const Color.fromRGBO(189, 195, 199, 1),
         // fontSize: 20,
         fontSize: height * 0.0264,
-        fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
         fontWeight: FontWeight.w700);
   }
 }

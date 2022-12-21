@@ -24,23 +24,21 @@ class ClassScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    final String? nunitoFontFamily =
-        Theme.of(context).textTheme.headline2?.fontFamily;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
       child: Column(
         children: [
-          _buildNameContainer(height, width, context, nunitoFontFamily),
-          _buildGap( height * 0.0566),
+          _buildNameContainer(height, width, context),
+          _buildGap(height * 0.0566),
           const TodayTopicContainer(),
           _buildGap(height * 0.0514),
-          _buildTakeATextContainer(height, width, context, nunitoFontFamily),
+          _buildTakeATextContainer(height, width, context),
           _buildGap(height * 0.01975),
           for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
             _buildClassRow(height, width, i, context),
-
           const ResumeYourLesson(),
-         _buildGap(height * 0.03),
+          _buildGap(height * 0.03),
         ],
       ),
     );
@@ -128,7 +126,10 @@ class ClassScreen extends StatelessWidget {
   }
 
   Widget _buildNameContainer(
-      double height, double width, BuildContext context, String? fontFamily) {
+    double height,
+    double width,
+    BuildContext context,
+  ) {
     return SizedBox(
       height: height * 0.1,
       width: width,
@@ -144,7 +145,6 @@ class ClassScreen extends StatelessWidget {
               TextSpan(
                   text: 'Good evening\n',
                   style: TextStyle(
-                      fontFamily: fontFamily,
                       // fontSize: 14,
                       fontSize: height * 0.0185,
                       color: const Color.fromRGBO(51, 51, 51, 1)),
@@ -162,7 +162,7 @@ class ClassScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: onProfileButtonClick,
+            // onTap: onProfileButtonClick,
             child: SvgPicture.asset(
               'assets/images/avatar$avatarNo.svg',
               // height: 59,
@@ -181,7 +181,10 @@ class ClassScreen extends StatelessWidget {
   }
 
   Widget _buildTakeATextContainer(
-      double height, double width, BuildContext context, String? fontFamily) {
+    double height,
+    double width,
+    BuildContext context,
+  ) {
     return SizedBox(
       height: height * 0.029,
       width: width,
@@ -191,7 +194,6 @@ class ClassScreen extends StatelessWidget {
           Text(
             'Take a Test',
             style: TextStyle(
-                fontFamily: fontFamily,
                 fontWeight: FontWeight.w900,
                 // fontSize: 16
                 fontSize: height * 0.0211),
@@ -205,7 +207,6 @@ class ClassScreen extends StatelessWidget {
             child: Text(
               'View all',
               style: TextStyle(
-                  fontFamily: fontFamily,
                   // fontSize: 12,
                   fontSize: height * 0.0158,
                   fontWeight: FontWeight.w600),

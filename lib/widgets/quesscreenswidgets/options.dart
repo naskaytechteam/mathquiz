@@ -71,9 +71,7 @@ class Options extends StatelessWidget {
                     style: TextStyle(
                         // fontSize: 20,
                         fontSize: height * 0.02632,
-                        fontWeight: FontWeight.w900,
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily),
+                        fontWeight: FontWeight.w900,),
                   ),
                 ),
               ),

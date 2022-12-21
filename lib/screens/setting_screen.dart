@@ -28,8 +28,6 @@ class SettingScreen extends StatelessWidget {
                   style: TextStyle(
                       // fontSize: 14,
                       fontSize: height * 0.0185,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily,
                       fontWeight: FontWeight.w600),
                   children: [
                     TextSpan(

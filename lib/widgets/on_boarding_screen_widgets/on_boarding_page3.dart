@@ -13,11 +13,11 @@ class OnBoardingPage3 extends StatelessWidget {
       children: [
         SizedBox(height: height * 0.05),
         OnBoardingImage(
-            firstImageHeight: height * 0.2922,
-            secondImageHeight: height * 0.403,
-            firstImageWidth: width * 0.7028,
-            secondImageWidth: width * 0.5456,
-            imageNo: 3,
+          firstImageHeight: height * 0.2922,
+          secondImageHeight: height * 0.403,
+          firstImageWidth: width * 0.7028,
+          secondImageWidth: width * 0.5456,
+          imageNo: 3,
           firstBottom: 0,
           secondBottom: height * 0.0433,
         ),
@@ -67,12 +67,11 @@ class OnBoardingPage3 extends StatelessWidget {
             child: Text(
               'Custom Math problems',
               style: TextStyle(
-                  // fontSize: 32,
-                  fontSize: height * 0.0422,
-                  color: const Color.fromRGBO(52, 73, 94, 1),
-                  fontWeight: FontWeight.w900,
-                  fontFamily:
-                      Theme.of(context).textTheme.headline2!.fontFamily),
+                // fontSize: 32,
+                fontSize: height * 0.0422,
+                color: const Color.fromRGBO(52, 73, 94, 1),
+                fontWeight: FontWeight.w900,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -89,10 +88,10 @@ class OnBoardingPage3 extends StatelessWidget {
           child: Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             style: TextStyle(
-                // fontSize: 16,
-                fontSize: height * 0.0211,
-                fontWeight: FontWeight.w500,
-                fontFamily: Theme.of(context).textTheme.headline2?.fontFamily),
+              // fontSize: 16,
+              fontSize: height * 0.0211,
+              fontWeight: FontWeight.w500,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

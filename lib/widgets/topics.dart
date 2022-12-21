@@ -35,7 +35,6 @@ class Topics extends StatelessWidget {
               style: TextStyle(
                   // fontSize: 16,
                   fontSize: height * 0.0211,
-                  fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
                   fontWeight: FontWeight.w900),
             ),
           ),

@@ -10,7 +10,6 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
   final void Function(int? value)? onClassSelected;
   final void Function(String value)? onSubmit;
-  final String? fontFamily;
 
   const CustomTextField(
       {required this.hintText,
@@ -19,7 +18,6 @@ class CustomTextField extends StatelessWidget {
       this.onSubmit,
       this.readOnly = false,
       this.textInputType=TextInputType.text,
-        this.fontFamily,
       this.isClassTextField = false,
       Key? key})
       : super(key: key);
@@ -56,7 +54,6 @@ class CustomTextField extends StatelessWidget {
                 color: const Color.fromRGBO(189, 195, 199, 1),
                 // fontSize: 20,
                 fontSize: height * 0.0264,
-                fontFamily: fontFamily,
                 fontWeight: FontWeight.w700),
             hintText: hintText,
             border: InputBorder.none,
@@ -70,7 +67,7 @@ class CustomTextField extends StatelessWidget {
     return DropdownButton<int>(
       underline: const SizedBox(),
       elevation: 0,
-      focusColor: Theme.of(context).backgroundColor,
+      focusColor: Theme.of(context).colorScheme.background,
       alignment: Alignment.center,
       icon: SvgPicture.asset(
         'assets/images/dropdown.svg',

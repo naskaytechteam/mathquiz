@@ -18,13 +18,10 @@ class ScoreScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    final String? nunitoFontFamily =
-        Theme.of(context).textTheme.headline2?.fontFamily;
     // final TemplateFactory templateFactory = TemplateFactory();
     final int correctAnswer = _getCorrectAnswer();
-    final double answerInPersent=correctAnswer*questions.length/100;
+    final double answerInPersent = correctAnswer * questions.length / 100;
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -59,7 +56,6 @@ class ScoreScreen extends StatelessWidget {
                     'Well Done!',
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontFamily: nunitoFontFamily,
                         fontSize:
                             // 32
                             height * 0.04215),
@@ -93,7 +89,7 @@ class ScoreScreen extends StatelessWidget {
                     // percent: 0.7,
                     percent: answerInPersent,
                     // percent: 0.4,
-                    arcBackgroundColor:const Color.fromRGBO(236, 240, 241, 1),
+                    arcBackgroundColor: const Color.fromRGBO(236, 240, 241, 1),
                     arcType: ArcType.FULL,
                     circularStrokeCap: CircularStrokeCap.round,
                     backgroundColor: Colors.transparent,
@@ -112,10 +108,10 @@ class ScoreScreen extends StatelessWidget {
                   child: Text(
                     'You answered',
                     style: TextStyle(
-                        // fontSize: 18,
-                        fontSize: height * 0.0237,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: nunitoFontFamily),
+                      // fontSize: 18,
+                      fontSize: height * 0.0237,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               )),
@@ -131,10 +127,10 @@ class ScoreScreen extends StatelessWidget {
                     '$correctAnswer/${questions.length}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        // fontSize: 64,
-                        fontSize: height * 0.0843,
-                        fontWeight: FontWeight.w800,
-                        fontFamily: nunitoFontFamily),
+                      // fontSize: 64,
+                      fontSize: height * 0.0843,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               )),
@@ -150,10 +146,10 @@ class ScoreScreen extends StatelessWidget {
                     'questions correctly',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        // fontSize: 14,
-                        fontSize: height * 0.0185,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: nunitoFontFamily),
+                      // fontSize: 14,
+                      fontSize: height * 0.0185,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               )),
@@ -188,21 +184,27 @@ class ScoreScreen extends StatelessWidget {
                         width,
                         const Color.fromRGBO(241, 196, 15, 1),
                         const Color.fromRGBO(243, 156, 18, 1),
-                        'try_again',1,context),
+                        'try_again',
+                        1,
+                        context),
                     _buildCustomContainer(
                         'Review Answers',
                         height,
                         width,
                         const Color.fromRGBO(52, 152, 219, 1),
                         const Color.fromRGBO(41, 128, 185, 1),
-                        'review',2,context),
+                        'review',
+                        2,
+                        context),
                     _buildCustomContainer(
                         'Generate PDF',
                         height,
                         width,
                         const Color.fromRGBO(231, 76, 60, 1),
                         const Color.fromRGBO(192, 57, 43, 1),
-                        'pdf',3,context),
+                        'pdf',
+                        3,
+                        context),
                   ],
                 ),
               ),
@@ -212,6 +214,7 @@ class ScoreScreen extends StatelessWidget {
       ),
     );
   }
+
 //need to change
   int _getCorrectAnswer() {
     int answer = 0;
@@ -224,8 +227,15 @@ class ScoreScreen extends StatelessWidget {
     return answer;
   }
 
-  Widget _buildCustomContainer(String buttonText, double height, double width,
-      Color backgroundColor, Color shadowColor, String imageName,int containerNo,BuildContext context) {
+  Widget _buildCustomContainer(
+      String buttonText,
+      double height,
+      double width,
+      Color backgroundColor,
+      Color shadowColor,
+      String imageName,
+      int containerNo,
+      BuildContext context) {
     return SizedBox(
         height: height * 0.2014,
         // width: 93,
@@ -235,15 +245,15 @@ class ScoreScreen extends StatelessWidget {
             height: height * 0.125,
             // width: 93,
             width: width * 0.2584,
-            onButtonPressed: (){
-             switch(containerNo){
-               case 1:
-                 break;
-               case 2:
-                 Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                   return ReviewAnswerScreen(questions: questions);
-                 }));
-             }
+            onButtonPressed: () {
+              switch (containerNo) {
+                case 1:
+                  break;
+                case 2:
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                    return ReviewAnswerScreen(questions: questions);
+                  }));
+              }
             },
             backgroundColor: backgroundColor,
             shadowColor: shadowColor,
@@ -264,70 +274,6 @@ class ScoreScreen extends StatelessWidget {
           ),
         ]));
   }
-
-  // Widget _buildScoreButton(BuildContext context, Color backgroundColor,
-  //     Color shadowColor, int buttonIndex, double height, double width) {
-  //   const List<String> buttonNames = [
-  //     'Try Again',
-  //     'Review Answers',
-  //     'Generate PDF'
-  //   ];
-  //   const List<String> iconsName = ['try_again', 'review', 'pdf'];
-  //
-  //   return Container(
-  //     height: 155,
-  //     // height: height * 0.20132,
-  //     // width: 93,
-  //     // color: Colors.yellow,
-  //     width: width * 0.25834,
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         CustomButton(
-  //           // isScoreScreenButton: true,
-  //           // height: 95,
-  //           height: height * 0.125,
-  //           // width: 93,
-  //           width: width * 0.25834,
-  //           onButtonPressed: () {
-  //             if (buttonIndex == 0) {
-  //               showTryAgainDialog(context);
-  //             } else if (buttonIndex == 1) {
-  //               // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-  //               // return ReviewAnswerScreen(
-  //               //   questions: questions,
-  //               // );
-  //               // }));
-  //             } else if (buttonIndex == 3) {}
-  //           },
-  //           backgroundColor: backgroundColor,
-  //           shadowColor: shadowColor,
-  //           child:
-  //               SvgPicture.asset('assets/images/${iconsName[buttonIndex]}.svg'),
-  //         ),
-  //         SizedBox(
-  //           // height: 20,
-  //           height: height * 0.0264,
-  //         ),
-  //         Container(
-  //           height: 38,
-  //           width: 55,
-  //           child: Text(
-  //             buttonNames[buttonIndex],
-  //             textAlign: TextAlign.center,
-  //             style: TextStyle(
-  //               fontFamily: Theme.of(context).textTheme.headline2?.fontFamily,
-  //               fontWeight: FontWeight.w700,
-  //               // fontSize: 14
-  //               fontSize: height * 0.0185,
-  //             ),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
 
   void showTryAgainDialog(BuildContext context) {
     showDialog(
@@ -351,19 +297,16 @@ class ScoreScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 54,
                       width: 226,
                       child: Text(
                         'Are you sure you want to try again?',
                         style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: Theme.of(context)
-                                .textTheme
-                                .headline2
-                                ?.fontFamily),
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -402,8 +345,8 @@ class ScoreScreen extends StatelessWidget {
         });
   }
 
-  // void _goToHomePage(BuildContext context) {
-  //   TemplateFactory().resetScore();
-  //   Navigator.pop(context);
-  // }
+// void _goToHomePage(BuildContext context) {
+//   TemplateFactory().resetScore();
+//   Navigator.pop(context);
+// }
 }

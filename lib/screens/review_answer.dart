@@ -36,7 +36,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     bool isFirstQuestion = _quesIndex == 0;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       appBar: CustomAppBar(
         title: 'Question ${_quesIndex + 1}',
         height: height * 0.1,
@@ -63,9 +62,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                   style: TextStyle(
                       // fontSize: 20,
                       fontSize: height * 0.0264,
-                      fontWeight: FontWeight.w600,
-                      fontFamily:
-                          Theme.of(context).textTheme.headline2?.fontFamily),
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               SizedBox(
@@ -98,10 +95,6 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                               color: const Color.fromRGBO(52, 152, 219, 1),
                               // fontSize: 20,
                               fontSize: height * 0.02632,
-                              fontFamily: Theme.of(context)
-                                  .textTheme
-                                  .headline2
-                                  ?.fontFamily,
                               fontWeight: FontWeight.w900),
                         ),
                       ),
@@ -151,7 +144,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
             // crossAxisSpacing: 15,
             crossAxisSpacing: width * 0.04167,
             // childAspectRatio: 137 / 137
-            mainAxisExtent: /*140*/height * 0.18422),
+            mainAxisExtent: /*140*/ height * 0.18422),
         itemBuilder: (_, index) {
           Color backgroundColor = const Color.fromRGBO(236, 240, 241, 1);
           Color shadowColor = const Color.fromRGBO(189, 195, 199, 1);
@@ -201,13 +194,10 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                     child: Text(
                       option.toString(),
                       style: TextStyle(
-                          // fontSize: 20,
-                          fontSize: height * 0.0264,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: Theme.of(context)
-                              .textTheme
-                              .headline2
-                              ?.fontFamily),
+                        // fontSize: 20,
+                        fontSize: height * 0.0264,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ),
                 ),

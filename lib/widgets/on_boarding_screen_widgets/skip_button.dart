@@ -25,7 +25,6 @@ class SkipButton extends StatelessWidget {
             style: TextStyle(
               color: const Color.fromRGBO(127, 140, 141, 1),
               fontSize: height * 0.0225,
-              fontFamily: Theme.of(context).textTheme.headline2!.fontFamily,
               // fontWeight: FontWeight.w700
             ),
           ),

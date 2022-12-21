@@ -19,8 +19,6 @@ class ReviewAnswerScreen extends StatelessWidget {
     final double width = size.width;
     final TemplateFactory templateFactory = TemplateFactory();
     final int classNo = templateFactory.classNo;
-    final String? nunitoFontFamily =
-        Theme.of(context).textTheme.headline2?.fontFamily;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -39,7 +37,6 @@ class ReviewAnswerScreen extends StatelessWidget {
               child: Text(
                 'Class $classNo - ${templateFactory.currentTemplateType.name}',
                 style: TextStyle(
-                    fontFamily: nunitoFontFamily,
                     fontWeight: FontWeight.w900,
                     // fontSize: 16
                     fontSize: height * 0.0211),
@@ -59,7 +56,6 @@ class ReviewAnswerScreen extends StatelessWidget {
                 ]),
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontFamily: nunitoFontFamily,
                     // fontSize: 18
                     fontSize: height * 0.02369),
               ),
@@ -81,7 +77,7 @@ class ReviewAnswerScreen extends StatelessWidget {
                     return CustomButton(
                       height: height * 0.11053,
                       width: width,
-                      onButtonPressed: ()=>_onButtonClick(context, index),
+                      onButtonPressed: () => _onButtonClick(context, index),
                       backgroundColor: const Color.fromRGBO(236, 240, 241, 1),
                       shadowColor: isAnswerCorrect
                           ? const Color.fromRGBO(39, 174, 96, 1)
@@ -93,10 +89,10 @@ class ReviewAnswerScreen extends StatelessWidget {
                         title: Text(
                           'Q.${index + 1}',
                           style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              // fontSize: 20,
-                              fontSize: height * 0.0264,
-                              fontFamily: nunitoFontFamily),
+                            fontWeight: FontWeight.w900,
+                            // fontSize: 20,
+                            fontSize: height * 0.0264,
+                          ),
                         ),
                         leading: SvgPicture.asset(
                           'assets/images/$image.svg',
@@ -115,9 +111,8 @@ class ReviewAnswerScreen extends StatelessWidget {
     );
   }
 
-  void _onButtonClick(BuildContext context,int index) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) {
+  void _onButtonClick(BuildContext context, int index) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return ReviewAnswer(
         questions: questions,
         quesIndex: index,

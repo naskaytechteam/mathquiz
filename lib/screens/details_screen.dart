@@ -38,18 +38,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    final ThemeData theme = Theme.of(context);
-
-    final String? nunitoFontFamily = theme.textTheme.headline2?.fontFamily;
-    final Color backgroundColor = theme.backgroundColor;
+    // final ThemeData theme = ;
+    //
+    final Color backgroundColor = Theme.of(context).colorScheme.background;
     final TextStyle textStyle = TextStyle(
         // fontSize: 16,
         fontSize: height * 0.0211,
-        fontFamily: nunitoFontFamily,
         fontWeight: FontWeight.w900);
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      // backgroundColor: backgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(
             // horizontal: 40
@@ -76,8 +74,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     'Lorem Ipsum Dolar',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily:
-                            Theme.of(context).textTheme.headline2?.fontFamily,
                         fontWeight: FontWeight.w900,
                         // fontSize: 32
                         fontSize: height * 0.04215),
@@ -112,7 +108,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 hintText: 'Name',
                 controller: _nameController,
                 onSubmit: _onSubmit,
-                fontFamily: nunitoFontFamily,
               ),
               SizedBox(
                 // height: 20,
@@ -123,7 +118,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 controller: _classController,
                 textInputType: TextInputType.number,
                 readOnly: true,
-                fontFamily: nunitoFontFamily,
                 onClassSelected: _onClassSelected,
                 isClassTextField: true,
               ),
@@ -132,10 +126,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 height: height * 0.0264,
               ),
               CustomTextField(
-                  hintText: 'Parent\'s Email',
-                  controller: _parentsEmailController,
-                  onSubmit: _onSubmit,
-                  fontFamily: nunitoFontFamily),
+                hintText: 'Parent\'s Email',
+                controller: _parentsEmailController,
+                onSubmit: _onSubmit,
+              ),
               SizedBox(
                 // height: 30,
                 height: height * 0.0395,
