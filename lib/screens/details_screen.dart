@@ -59,7 +59,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             children: [
               SizedBox(
                 // height: 84,
-                height: height * 0.1106,
+                height: isSystemBarShowing ? height * 0.05 : height * 0.1106,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -108,7 +108,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               CustomTextField(
                 hintText: 'Name',
                 controller: _nameController,
-                onSubmit: _onSubmit,
+                // onSubmit: _onSubmit,
               ),
               SizedBox(
                 // height: 20,
@@ -129,7 +129,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               CustomTextField(
                 hintText: 'Parent\'s Email',
                 controller: _parentsEmailController,
-                onSubmit: _onSubmit,
+                // onSubmit: _onSubmit,
               ),
               SizedBox(
                 // height: 30,
@@ -181,9 +181,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  void _onSubmit(String value) async {
-    await _removeSystemNavBar();
-  }
+  // void _onSubmit(String value) async {
+  //   await _removeSystemNavBar();
+  // }
 
   void _onClassSelected(int? value) {
     setState(() {
