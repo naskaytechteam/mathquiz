@@ -12,7 +12,6 @@ class ClassScreen extends StatelessWidget {
   final String name;
   final int userClassNo;
   final int avatarNo;
-  final VoidCallback onProfileButtonClick;
 
   ClassScreen({super.key})
       : userClassNo = UserPreferences.getClass()!,
@@ -178,6 +177,11 @@ class ClassScreen extends StatelessWidget {
             ),
           ),
           InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return const ProfileScreen();
+              }));
+            },
             // onTap: onProfileButtonClick,
             child: SvgPicture.asset(
               'assets/images/avatar$avatarNo.svg',
