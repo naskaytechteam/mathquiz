@@ -90,10 +90,26 @@ class ClassScreen extends StatelessWidget {
     );
   }
 
+  void _showProgressIndicator(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
+
+  void _removeProgressIndicator(NavigatorState state) {
+    state.pop();
+  }
+
   //Needs review
   void _onClassSelected(BuildContext context, int classNo) async {
     NavigatorState state = Navigator.of(context);
+    _showProgressIndicator(context);
     List<int> quesTypesList = await TemplateFactory().getQuesTypes(classNo);
+    _removeProgressIndicator(state);
     state.push(MaterialPageRoute(builder: (_) {
       return Topics(
         classNo: classNo,
