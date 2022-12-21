@@ -128,7 +128,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   controller: _parentEmailController,
                   // onSubmit: _onSubmit,
                   textInputType: TextInputType.text),
-
               SizedBox(
                 // height: 30,
                 height: height * 0.0395,
@@ -164,7 +163,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     avatar(1, height, width),
                     avatar(2, height, width),
                     avatar(3, height, width),
-
                   ],
                 ),
               ),
@@ -184,8 +182,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
   Widget avatar(int avatarNo, double height, double width) {
-    bool isAvatarSelected = widget.avatarNo == avatarNo;
+    bool isAvatarSelected = _avatarNo == avatarNo;
     return Stack(
       children: [
         Container(
@@ -198,11 +197,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               color: Colors.red,
               border: isAvatarSelected
                   ? Border.all(
-                  color:const Color.fromRGBO(46, 204, 113, 1),
-                  // width: 4
-                  width: width * 0.0112
-                // width: height* 0.0053
-              )
+                      color: const Color.fromRGBO(46, 204, 113, 1),
+                      // width: 4
+                      width: width * 0.0112
+                      // width: height* 0.0053
+                      )
                   : null),
           child: InkWell(
               highlightColor: Theme.of(context).backgroundColor,
@@ -223,7 +222,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-
 
   Future<void> _removeSystemBars() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
@@ -247,30 +245,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (name == '' || _isValidEmail(parentEmail)) {
         return;
       }
+      _saveUserDetails(name, classNo, parentEmail);
     }
-  }
-  Future<bool> _saveUserDetails(String name,int userClass,String  parentEmail,int avatarNo)async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bool hasNameSavedSuccessfully =
-    await sharedPreferences.setString('userName', name);
-    bool hasClassSavedSuccessfully =
-    await sharedPreferences.setInt('classNo', userClass);
-    bool hasAvatarSavedSuccessfully =
-    await sharedPreferences.setInt('avatarNo', avatarNo);
-    bool hasParentEmailSavedSuccessfully =
-    await sharedPreferences.setString('parentEmail', parentEmail);
-
-    return hasNameSavedSuccessfully == true &&
-        hasClassSavedSuccessfully == true &&
-        hasAvatarSavedSuccessfully == true &&
-        hasParentEmailSavedSuccessfully == true;
+    navigatorState.pop();
   }
 
-
-  // Widget avatar(int avatarNo, double height, double width) {
-  //   bool isAvatarSelected = _avatarNo == avatarNo;
-  //   return
-  // }
+  void _saveUserDetails(String name, int userClass, String parentEmail) {
+    UserPreferences.setName(name);
+    UserPreferences.setAvatar(_avatarNo);
+    UserPreferences.setClass(userClass);
+    UserPreferences.setParentEmail(parentEmail);
+  }
 
   TextStyle labelStyle(double height) {
     return TextStyle(
@@ -278,5 +263,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // fontSize: 20,
         fontSize: height * 0.0264,
         fontWeight: FontWeight.w700);
+  }
+
+  bool _isValidEmail(String email) {
+    final RegExp pattern = RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\$');
+    return pattern.hasMatch(email);
   }
 }
