@@ -6,18 +6,7 @@ import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_textfield.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String name;
-  final int classNo;
-  final int avatarNo;
-  final String parentEmail;
-
-  const ProfileScreen(
-      {required this.name,
-      required this.classNo,
-      required this.avatarNo,
-      required this.parentEmail,
-      Key? key})
-      : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
