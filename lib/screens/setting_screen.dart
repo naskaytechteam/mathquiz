@@ -41,11 +41,11 @@ class SettingScreen extends StatelessWidget {
             ),
           ),
           _gap(height * 0.04737),
-          _buildCustomButton(height, width, 'Your Profile'),
+          _buildCustomButton(height, width, 'Your Profile',context),
           _gap(height * 0.03158),
-          _buildCustomButton(height, width, 'App Version'),
+          _buildCustomButton(height, width, 'App Version',context),
           _gap(height * 0.03158),
-          _buildCustomButton(height, width, 'Privacy Policy'),
+          _buildCustomButton(height, width, 'Privacy Policy',context),
           _gap(height * 0.033),
           SizedBox(
             // height: 80,
@@ -95,7 +95,7 @@ class SettingScreen extends StatelessWidget {
   }
 
   Widget _buildCustomButton(
-      double height, double width, String buttonText) {
+      double height, double width, String buttonText,BuildContext context) {
     return CustomButton(
       // height: 70,
       height: height * 0.0922,
