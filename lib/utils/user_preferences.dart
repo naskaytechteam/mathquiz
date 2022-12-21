@@ -47,7 +47,7 @@ class UserPreferences {
     return _sharedPreferences.getInt(_avatar);
   }
 
-  static bool isGuestUser() {
+  static bool isNewUser() {
     //TODO for future: Guest user might also need an authToken to track history, will need to figure this out later.
     //user is guest user when he has entered his name, class, & parent's email but does not have an auth token
     //TODO implement logic

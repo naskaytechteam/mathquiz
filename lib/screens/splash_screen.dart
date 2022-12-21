@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(
         const Duration(milliseconds: 300),
-        () => _pushNextPage(UserPreferences.isGuestUser()
+        () => _pushNextPage(UserPreferences.isNewUser()
             ? const OnBoardingScreen()
             : const HomeScreen()));
     super.initState();
