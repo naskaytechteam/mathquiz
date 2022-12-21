@@ -206,12 +206,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
     String name = _nameController.value.text;
     String cNo = _classController.value.text;
     String parentEmail = _parentsEmailController.value.text;
-    if (name.isNotEmpty && cNo.isNotEmpty && parentEmail.isNotEmpty) {
+    if (name.isNotEmpty && cNo.isNotEmpty && _isValidEmail(parentEmail)) {
       int classNo = int.parse(cNo);
       _saveUserDetails(name, classNo, parentEmail);
       await _removeSystemNavBar();
       _goToHomePage();
     }
+  }
+
+  bool _isValidEmail(String email) {
+    final RegExp pattern = RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\$');
+    return pattern.hasMatch(email);
   }
 
   void _goToHomePage() {
