@@ -203,10 +203,7 @@ class ClassScreen extends StatelessWidget {
   }
 
   Widget _buildTakeATextContainer(
-    double height,
-    double width,
-    BuildContext context,
-  ) {
+      double height, double width, BuildContext context) {
     return SizedBox(
       height: height * 0.029,
       width: width,
