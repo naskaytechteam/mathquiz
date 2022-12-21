@@ -39,7 +39,7 @@ class Options extends StatelessWidget {
 
           return Align(
             child: InkWell(
-              highlightColor: Theme.of(context).backgroundColor,
+              highlightColor: Theme.of(context).colorScheme.background,
               onTap: () =>onOptionSelected(index),
               child: Container(
                 alignment: Alignment.center,
