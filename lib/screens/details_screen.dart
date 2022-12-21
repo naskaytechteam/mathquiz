@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mathquiz/utils/user_preferences.dart';
-
+import '/utils/user_preferences.dart';
 import '/screens/home_screen.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_textfield.dart';
