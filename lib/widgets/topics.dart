@@ -53,12 +53,28 @@ class Topics extends StatelessWidget {
   Widget _buildGap(double height) {
     return SizedBox(height: height);
   }
-//need to use ProgressBar
-  void _goToQuesScreen(BuildContext context, int index) async {
+
+  void _showProgressIndicator(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+  }
+
+  void _removeProgressIndicator(NavigatorState state) {
+    state.pop();
+  }
+
+  void _onButtonClick(BuildContext context, int index) async {
     NavigatorState navigatorState = Navigator.of(context);
     TemplateType templateType = TemplateType.values[index];
+    _showProgressIndicator(context);
     List<Question> questions =
         await TemplateFactory().generateQuestions(templateType);
+    _removeProgressIndicator(navigatorState);
     if (questions.isNotEmpty) {
       navigatorState.push(MaterialPageRoute(builder: (_) {
         return QuesScreen(templateType: templateType, questions: questions);
