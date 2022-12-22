@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import '/widgets/score_screen_widgets/pdf_design.dart';
 import '/screens/review_answer_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '/widgets/common_widgets/custom_button.dart';
