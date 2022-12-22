@@ -71,12 +71,8 @@ class DbHelper {
     return join(await getDatabasesPath(), 'sqlite.db');
   }
 
-  Future<File> _getFile() async {
-    File file = File(await _getPath());
-    if (!await file.exists()) {
-      return file.create();
-    }
-    return file;
+  Future<File> _createFile(File file) async {
+    return file.create();
   }
 
   Future<Uint8List> _getAssetsDBFile() async {
@@ -93,8 +89,10 @@ class DbHelper {
   }
 
   Future<Database> _getDatabase() async {
-    File file = await _getFile();
-    await _writeData(file);
+    File file = File(await _getPath());
+    if (!await file.exists()) {
+      await _writeData(await _createFile(file));
+    }
     return await openDatabase(file.path, version: 1);
   }
 
