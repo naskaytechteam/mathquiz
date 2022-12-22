@@ -50,6 +50,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
   percent_indicator: ^4.2.2
+  mailer: ^5.3.0
 
 
 
