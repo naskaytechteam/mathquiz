@@ -23,7 +23,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
-  int _selectedAvatar = UserPreferences.getAvatar() ?? _defaultSelectedAvatar;
+
   final TextEditingController _classController =
       TextEditingController(text: UserPreferences.getClass()?.toString());
   final TextEditingController _nameController =
@@ -32,18 +32,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       TextEditingController(text: UserPreferences.getParentEmail());
 
   late DetailScreenType type;
-
-  void _disposeAllControllers() {
-    _nameController.dispose();
-    _classController.dispose();
-    _parentsEmailController.dispose();
-  }
-
-  @override
-  void dispose() {
-    _disposeAllControllers();
-    super.dispose();
-  }
+  int _selectedAvatar = UserPreferences.getAvatar() ?? _defaultSelectedAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -224,9 +213,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  // void _onSubmit(String value) async {
-  //   await _removeSystemNavBar();
-  // }
+  void _disposeAllControllers() {
+    _nameController.dispose();
+    _classController.dispose();
+    _parentsEmailController.dispose();
+  }
+
+  @override
+  void dispose() {
+    _disposeAllControllers();
+    super.dispose();
+  }
 
   void _onClassSelected(int? value) {
     setState(() {
