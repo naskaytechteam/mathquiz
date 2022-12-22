@@ -363,7 +363,7 @@ class ScoreScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 54,
                       width: 226,
                       child: Text(
