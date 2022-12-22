@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '/screens/setting_screen.dart';
 import '../widgets/homescreenwidgets/class_screen.dart';
 import '../widgets/homescreenwidgets/ranking_screen.dart';
@@ -59,35 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // void _onProfileButtonClick() async {
-  //   dynamic result =
-  //       await Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-  //     return const ProfileScreen();
-  //   }));
-  //   if (result != null) {
-  //     setState(() {
-  //       _setNewUserData(result);
-  //     });
-  //   }
-  // }
-
-  // void _setNewUserData(Map result) {
-  //   _name = result['userName'];
-  //   _classNo = result['classNo'];
-  //   _avatarNo = result['avatarNo'];
-  //   _parentEmail = result['parentEmail'];
-  //   _replaceOldDetailsWithNew();
-  // }
-
-//need to change
-//   void _replaceOldDetailsWithNew() {
-//     _screens[0] = ClassScreen(
-//         name: _name,
-//         userClassNo: _classNo,
-//         avatarNo: _avatarNo,
-//         onProfileButtonClick: _onProfileButtonClick);
-//   }
 
   Color _bottomNavBarIconColor({required int iconIndex}) {
     return _screenIndex == iconIndex
