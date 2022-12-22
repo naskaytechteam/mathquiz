@@ -31,7 +31,7 @@ class ScoreScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: SvgPicture.asset(
@@ -81,6 +81,7 @@ class ScoreScreen extends StatelessWidget {
                 // width: 112,
                 width: width * 0.3112,
               )),
+          //todo check scrollbar logic for lcm(small) ques
           Positioned(
               top: height * 0.14,
               child: Align(
@@ -263,6 +264,10 @@ class ScoreScreen extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                     return ReviewAnswerScreen(questions: questions);
                   }));
+                  break;
+                case 3:
+                  _sendPdfToParentEmail(context);
+                  break;
               }
             },
             backgroundColor: backgroundColor,
@@ -283,6 +288,45 @@ class ScoreScreen extends StatelessWidget {
             ),
           ),
         ]));
+  }
+
+  void _showSnackBar(BuildContext context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  void _showProgressBar(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return const Center(child: CircularProgressIndicator());
+        });
+  }
+
+  Message buildMessage(String username, File file, String parentEmail) {
+    return Message()
+      ..from = Address(username, 'Your name')
+      ..recipients.add(parentEmail)
+      ..subject = 'enter subject'
+      ..text = 'enter text'
+      ..attachments = [FileAttachment(file)];
+  }
+
+  void _sendPdfToParentEmail(BuildContext context) async {
+    _showProgressBar(context);
+    String pdfPath = await PdfDesign.makePdf(questions);
+    File file = File(pdfPath);
+    String username = 'email';
+    String password = 'email-pass';
+    final smtpServer = gmail(username, password);
+    Message message = buildMessage(username, file, 'parentEmail');
+
+    try {
+      await send(message, smtpServer);
+      Navigator.of(context).pop();
+      _showSnackBar(context, 'pdf has successfully sent to your parent Email ');
+    } on MailerException catch (e) {
+      _showSnackBar(context, 'error occured in pdf sending $e');
+    }
   }
 
   void showTryAgainDialog(BuildContext context) {
