@@ -1,8 +1,9 @@
 import '../model/question_template.dart';
 
 class TemplateParser {
-  static QuestionTemplate _questionTemplate(Map<String, Object?> map) {
-    return QuestionTemplate.fromMap(map);
+  static List<QuestionTemplate> questionsTemplateList(
+      List<Map<String, Object?>> map) {
+    return map.map((e) => QuestionTemplate.fromMap(e)).toList();
   }
 
   static List<QuestionTemplate> questionsTemplateList(List<Map<String, Object?>> l) {
