@@ -26,12 +26,17 @@ class ScoreScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          SvgPicture.asset(
-            'assets/images/cross.svg',
-            // height: 22,
-            height: height * 0.029,
-            // width: 22,
-            width: width * 0.0612,
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: SvgPicture.asset(
+              'assets/images/cross.svg',
+              // height: 22,
+              height: height * 0.029,
+              // width: 22,
+              width: width * 0.0612,
+            ),
           ),
           SizedBox(
             width: width * 0.065,
@@ -248,6 +253,7 @@ class ScoreScreen extends StatelessWidget {
             onButtonPressed: () {
               switch (containerNo) {
                 case 1:
+                  Navigator.pop(context);
                   break;
                 case 2:
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) {
