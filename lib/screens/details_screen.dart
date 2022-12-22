@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '/utils/user_preferences.dart';
+
 import '/screens/home_screen.dart';
+import '/utils/user_preferences.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_textfield.dart';
 
+enum DetailScreenType {
+  userDetailType,
+  profileScreenType,
+}
+
 class DetailsScreen extends StatefulWidget {
+  static const String routeName = '/screens/userDetails';
+
   const DetailsScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,10 +23,15 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
-  int _selectedAvatar = _defaultSelectedAvatar;
-  final TextEditingController _classController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _parentsEmailController = TextEditingController();
+  int _selectedAvatar = UserPreferences.getAvatar() ?? _defaultSelectedAvatar;
+  final TextEditingController _classController =
+      TextEditingController(text: UserPreferences.getClass()?.toString());
+  final TextEditingController _nameController =
+      TextEditingController(text: UserPreferences.getName());
+  final TextEditingController _parentsEmailController =
+      TextEditingController(text: UserPreferences.getParentEmail());
+
+  late DetailScreenType type;
 
   void _disposeAllControllers() {
     _nameController.dispose();
@@ -34,6 +47,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    type = ModalRoute.of(context)?.settings.arguments as DetailScreenType;
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     final Size size = mediaQueryData.size;
     final double height = size.height;
@@ -49,6 +63,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     return Scaffold(
       // backgroundColor: backgroundColor,
+      appBar: type == DetailScreenType.profileScreenType
+          ? AppBar(
+              elevation: 0,
+              leading: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(
+                  Icons.chevron_left,
+                  // size: 40,
+                  size: height * 0.05264,
+                  // color: Colors.green,
+                  color: const Color.fromRGBO(231, 76, 60, 1),
+                ),
+              ),
+              centerTitle: true,
+              title: Text('Your Profile',
+                  style: TextStyle(
+                      color: Colors.black,
+                      // fontSize: 18,
+                      fontSize: height * 0.02369,
+                      fontWeight: FontWeight.w600)),
+            )
+          : null,
       body: Padding(
         padding: EdgeInsets.symmetric(
             // horizontal: 40
@@ -61,26 +99,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 // height: 84,
                 height: isSystemBarShowing ? height * 0.05 : height * 0.1106,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    // horizontal: 5
-                    horizontal: width * 0.014),
-                child: SizedBox(
-                  // height: 88,
-                  height: height * 0.1158,
-                  // alignment: Alignment.center,
-                  // width: 280,
-                  width: width,
-                  child: Text(
-                    'Lorem Ipsum Dolar',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        // fontSize: 32
-                        fontSize: height * 0.04215),
+              if (type == DetailScreenType.userDetailType)
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      // horizontal: 5
+                      horizontal: width * 0.014),
+                  child: SizedBox(
+                    // height: 88,
+                    height: height * 0.1158,
+                    // alignment: Alignment.center,
+                    // width: 280,
+                    width: width,
+                    child: Text(
+                      'Lorem Ipsum Dolar',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          // fontSize: 32
+                          fontSize: height * 0.04215),
+                    ),
                   ),
                 ),
-              ),
               SizedBox(
                 // height: 11,
                 height: height * 0.01449,
@@ -173,7 +212,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 buttonName: 'CONTINUE',
                 height: height * 0.0922,
                 width: width * 0.817,
-              )
+              ),
+              SizedBox(
+                // height: 50,
+                height: height * 0.0659,
+              ),
             ],
           ),
         ),
