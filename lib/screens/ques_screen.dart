@@ -10,20 +10,44 @@ import '/provider/template_factory.dart';
 class QuesScreen extends StatefulWidget {
   final TemplateType templateType;
   final List<Question> questions;
+  final int? quesIndex;
 
   const QuesScreen(
-      {required this.templateType, required this.questions, Key? key})
+      {required this.templateType,
+      required this.questions,
+      this.quesIndex,
+      Key? key})
       : super(key: key);
 
   @override
   State<QuesScreen> createState() => _QuesScreenState();
 }
 
-class _QuesScreenState extends State<QuesScreen> {
+class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
   static const _noOptionSelectedIndex = -1;
-  int _optionSelectedIndex = _noOptionSelectedIndex;
-  int _quesIndex = 0;
-  bool _isOptionSelected = false;
+  late int _quesIndex = widget.quesIndex ?? 0;
+  late int _optionSelectedIndex =
+      widget.questions[_quesIndex].selectedOptionIndex ??
+          _noOptionSelectedIndex;
+
+  late bool _isOptionSelected =
+      widget.questions[_quesIndex].selectedOptionIndex != null;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    TemplateFactory factory = TemplateFactory();
+    if (AppLifecycleState.paused == state) {
+      await factory.saveQuesDetails(_quesIndex, widget.questions);
+    } else if (AppLifecycleState.resumed == state) {
+      factory.deleteSavedData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +79,7 @@ class _QuesScreenState extends State<QuesScreen> {
                 // width: 295,
                 width: width * 0.81945,
                 child: SingleChildScrollView(
-                  physics:const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Text(
                     question.question,
                     style: TextStyle(
@@ -124,13 +148,14 @@ class _QuesScreenState extends State<QuesScreen> {
   }
 
   void _onOptionSelected(int index) {
+    _setSelectedOptionIndex(index);
     setState(() {
       _optionHasSelected(index: index);
     });
   }
 
-  void _setSelectedOptionIndex() {
-    widget.questions[_quesIndex].setSelectedOptionIndex = _optionSelectedIndex;
+  void _setSelectedOptionIndex(int index) {
+    widget.questions[_quesIndex].setSelectedOptionIndex = index;
   }
 
   bool _isNextQuestionOptionSelected() {
@@ -151,6 +176,9 @@ class _QuesScreenState extends State<QuesScreen> {
       }
       setState(() {});
       return;
+    }
+    if (widget.quesIndex != null) {
+      TemplateFactory().deleteSavedData();
     }
     _showScore();
   }

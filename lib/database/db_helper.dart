@@ -9,12 +9,63 @@ import '../provider/template_factory.dart';
 class DbHelper {
   static Database? _database;
   static const int totalClass = 6;
-
+  static const String question = 'question';
+  static const String option1 = 'option1';
+  static const String option2 = 'option2';
+  static const String option3 = 'option3';
+  static const String option4 = 'option4';
+  static const String selectedIndex = 'selectedOptionIndex';
+  static const String answer = 'answer';
+  static const String index = '_index';
+  static const String classNo='classNo';
+  static const String quesType='quesType';
 
   Future<Database> get database async {
     _database ??= await _getDatabase();
     return _database!;
   }
+
+  Future<void> saveQuizData(int quesIndex, Question questions,int classNum,int questype) async {
+    Database db = await database;
+    await db.insert(
+      'save_quiz',
+      {
+        index: quesIndex,
+        question: questions.question,
+        answer: questions.answer,
+        selectedIndex: questions.selectedOptionIndex,
+        option1: questions.options[0],
+        option2: questions.options[1],
+        option3: questions.options[2],
+        option4: questions.options[3],
+        classNo:classNum,
+        quesType:questype
+      },
+    );
+  }
+
+  Future<void> deleteSavedData() async {
+    Database db = await database;
+    db.delete('save_quiz');
+  }
+
+  // Future<List<Question>> get getQuestions async {
+  //   Database db = await database;
+  //   List<Map<String, Object?>> getSavedData = await db.query('save_quiz');
+  //   return TemplateParser.questionsList(getSavedData);
+  // }
+  Future<List<Map<String, Object?>>> getSavedQuizData() async {
+    Database db = await database;
+
+    return db.query('save_quiz');
+  }
+
+  // Future<int?> get getIndex async {
+  //   Database db = await database;
+  //   List<Map<String, Object?>> list =
+  //       await db.rawQuery('select _index from save_quiz');
+  //   return list.isNotEmpty ? list[0]['_index'] as int : null;
+  // }
 
   Future<String> _getPath() async {
     return join(await getDatabasesPath(), 'sqlite.db');

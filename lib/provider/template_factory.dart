@@ -28,6 +28,10 @@ class TemplateFactory {
 
   int get classNo => _classNo!;
 
+  set classNo(int classNo) {
+    _classNo = _classNo;
+  }
+
   TemplateFactory._();
 
   TemplateType get currentTemplateType => _currentTemplateType!;
@@ -45,6 +49,29 @@ class TemplateFactory {
   void resetScore() {
     _score = 0;
   }
+
+  // Future<List<Question>> get getSavedQuizQuestions {
+  //   return DbHelper().getQuestions;
+  // }
+
+  Future<void> saveQuesDetails(int index, List<Question> questions) async {
+    questions.forEach((element) async {
+      await DbHelper().saveQuizData(
+          index, element, _classNo!, _currentTemplateType!.index);
+    });
+  }
+
+  void deleteSavedData() {
+    DbHelper().deleteSavedData();
+  }
+
+  Future<List<Map<String, Object?>>> getSavedQuizData() async {
+    return DbHelper().getSavedQuizData();
+  }
+
+  // Future<int?> get getIndex {
+  //   return DbHelper().getIndex;
+  // }
 
   Future<List<Question>> _convertTemplatesToQuestions() async {
     return List.generate(_templateList!.length, (index) {
