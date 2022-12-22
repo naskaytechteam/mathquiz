@@ -3,7 +3,7 @@ import 'package:function_tree/function_tree.dart';
 import '../database/db_helper.dart';
 import '../model/question.dart';
 import '../model/question_template.dart';
-import '../model/util.dart';
+import '../utils/util.dart';
 
 /// Init random values first, get answer from formula but just use the formula
 /// to calculate answer, don't initialize it or anything, for simple questions
@@ -127,17 +127,17 @@ class TemplateFactory {
   num _getAnswer(QuestionTemplate template) {
     var formula = template.formula;
     if (_currentTemplateType == TemplateType.hcf) {
-      int hcf = Util.hcf(template.values);
+      int hcf = Utils.hcf(template.values);
       formula = formula.replaceAll('hcf', '$hcf');
     } else if (_currentTemplateType == TemplateType.lcm) {
-      int lcm = Util.lcm(template.values);
+      int lcm = Utils.lcm(template.values);
       formula = formula.replaceAll('lcm', '$lcm');
     } else if (_currentTemplateType == TemplateType.ratio) {
       //need to refactor ratio question
     } else if (_currentTemplateType ==
         TemplateType.ascendingdescendingdifference) {
-      int asc = Util.reduceList(values: template.values);
-      int des = Util.reduceList(
+      int asc = Utils.reduceList(values: template.values);
+      int des = Utils.reduceList(
           values: template.values, sortOrder: SortOrder.descending);
       formula = formula
           .replaceAll('ascending', asc.toString())
