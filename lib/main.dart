@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '/screens/details_screen.dart';
 import '/screens/splash_screen.dart';
 import 'utils/user_preferences.dart';
 
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      routes: {
+        DetailsScreen.routeName: (_) => const DetailsScreen(),
+      },
       theme: ThemeData(
         fontFamily: primaryFontFamily,
         //background color

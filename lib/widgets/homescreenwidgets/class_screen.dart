@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '/screens/profile_screen.dart';
-import 'package:mathquiz/widgets/common_widgets/custom_button.dart';
-import '../../utils/user_preferences.dart';
-import '/widgets/topics.dart';
-import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
+
 import '/database/db_helper.dart';
 import '/provider/template_factory.dart';
-import 'class_screen_widgets/view_all.dart';
+import '/screens/details_screen.dart';
+import '/widgets/common_widgets/custom_button.dart';
+import '/widgets/topics.dart';
+import '../../utils/user_preferences.dart';
+import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
 import 'class_screen_widgets/today_topic_container.dart';
+import 'class_screen_widgets/view_all.dart';
 
 class ClassScreen extends StatelessWidget {
   final String name;
@@ -180,9 +181,8 @@ class ClassScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return const ProfileScreen();
-              }));
+              Navigator.of(context).pushNamed(DetailsScreen.routeName,
+                  arguments: DetailScreenType.profileScreenType);
             },
             // onTap: onProfileButtonClick,
             child: SvgPicture.asset(
