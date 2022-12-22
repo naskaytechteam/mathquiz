@@ -70,7 +70,7 @@ class SettingScreen extends StatelessWidget {
                 _buildShareContainer(
                     height,
                     width,
-                    'Whatsapp',
+                    'whatsapp',
                     const Color.fromRGBO(46, 204, 113, 1),
                     const Color.fromRGBO(39, 174, 96, 1))
               ],
