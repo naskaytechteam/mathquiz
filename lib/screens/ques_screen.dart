@@ -163,7 +163,7 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
   }
 
   void _onNextButtonClick() {
-    _setSelectedOptionIndex();
+    // _setSelectedOptionIndex();
     if (_quesIndex < widget.questions.length - 1) {
       _increaseIndex();
       // we are making this check because we have 2 scenario
