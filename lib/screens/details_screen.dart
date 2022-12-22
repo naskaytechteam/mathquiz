@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '/screens/home_screen.dart';
 import '/utils/user_preferences.dart';
+import '/utils/util.dart';
 import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/common_widgets/custom_textfield.dart';
 
@@ -41,17 +41,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final Size size = mediaQueryData.size;
     final double height = size.height;
     final double width = size.width;
-    // final ThemeData theme = ;
-    //
     final Color backgroundColor = Theme.of(context).colorScheme.background;
-    final TextStyle textStyle = TextStyle(
-        // fontSize: 16,
-        fontSize: height * 0.0211,
-        fontWeight: FontWeight.w900);
+    final TextStyle textStyle =
+        TextStyle(fontSize: height * 0.0211, fontWeight: FontWeight.w900);
     final bool isSystemBarShowing = mediaQueryData.viewPadding.bottom > 0;
 
     return Scaffold(
-      // backgroundColor: backgroundColor,
       appBar: type == DetailScreenType.profileScreenType
           ? AppBar(
               elevation: 0,
@@ -61,9 +56,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 },
                 child: Icon(
                   Icons.chevron_left,
-                  // size: 40,
                   size: height * 0.05264,
-                  // color: Colors.green,
                   color: const Color.fromRGBO(231, 76, 60, 1),
                 ),
               ),
@@ -77,69 +70,48 @@ class _DetailsScreenState extends State<DetailsScreen> {
             )
           : null,
       body: Padding(
-        padding: EdgeInsets.symmetric(
-            // horizontal: 40
-            horizontal: width * 0.1112),
+        padding: EdgeInsets.symmetric(horizontal: width * 0.1112),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                // height: 84,
                 height: isSystemBarShowing ? height * 0.05 : height * 0.1106,
               ),
               if (type == DetailScreenType.userDetailType)
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      // horizontal: 5
-                      horizontal: width * 0.014),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.014),
                   child: SizedBox(
-                    // height: 88,
                     height: height * 0.1158,
-                    // alignment: Alignment.center,
-                    // width: 280,
                     width: width,
                     child: Text(
                       'Lorem Ipsum Dolar',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
-                          // fontSize: 32
                           fontSize: height * 0.04215),
                     ),
                   ),
                 ),
               SizedBox(
-                // height: 11,
                 height: height * 0.01449,
               ),
               SizedBox(
-                // height: 22,
                 height: height * 0.029,
-                // width: 142,
-                // width: width*0.3945,
                 width: width,
                 child: Text(
                   'Enter your Details',
                   style: textStyle,
-                  // style: TextStyle(
-                  //     // fontSize: 16,
-                  //     fontSize: height * 0.0211,
-                  //     fontWeight: FontWeight.w900,
-                  //     fontFamily: nunitoFontFamily),
                 ),
               ),
               SizedBox(
-                // height: 15,
                 height: height * 0.01975,
               ),
               CustomTextField(
                 hintText: 'Name',
                 controller: _nameController,
-                // onSubmit: _onSubmit,
               ),
               SizedBox(
-                // height: 20,
                 height: height * 0.0264,
               ),
               CustomTextField(
@@ -151,23 +123,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 isClassTextField: true,
               ),
               SizedBox(
-                // height: 20,
                 height: height * 0.0264,
               ),
               CustomTextField(
                 hintText: 'Parent\'s Email',
                 controller: _parentsEmailController,
-                // onSubmit: _onSubmit,
               ),
               SizedBox(
-                // height: 30,
                 height: height * 0.0395,
               ),
               SizedBox(
-                // height: 22,
                 height: height * 0.029,
-                // width: 153,
-                // width: width* 0.425,
                 width: width,
                 child: Text(
                   'Choose your Avatar',
@@ -175,14 +141,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
               SizedBox(
-                // height: 15,
                 height: height * 0.01975,
               ),
               SizedBox(
-                // height: 80,
                 height: height * 0.1053,
                 width: width,
-                // color: Colors.yellow,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -193,7 +156,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
               SizedBox(
-                // height: 50,
                 height: height * 0.0659,
               ),
               CustomButton(
@@ -203,7 +165,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 width: width * 0.817,
               ),
               SizedBox(
-                // height: 50,
                 height: height * 0.0659,
               ),
             ],
@@ -231,11 +192,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     });
   }
 
-  Future<void> _removeSystemNavBar() async {
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
-        overlays: [SystemUiOverlay.top]);
-  }
-
   void _saveUserDetails(String name, int userClass, String parentEmail) {
     UserPreferences.setName(name);
     UserPreferences.setClass(userClass);
@@ -250,7 +206,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (name.isNotEmpty && cNo.isNotEmpty && _isValidEmail(parentEmail)) {
       int classNo = int.parse(cNo);
       _saveUserDetails(name, classNo, parentEmail);
-      await _removeSystemNavBar();
+      await Utils.hideSystemNavBar();
       _goToHomePage();
     }
   }
@@ -261,9 +217,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _goToHomePage() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return const HomeScreen();
-    }));
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
   }
 
   Widget _buildAvatar(
@@ -272,19 +226,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Stack(
       children: [
         Container(
-          // height: 70,
           height: height * 0.0922,
-          // width: 70,
           width: width * 0.1945,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: isAvatarSelected
                   ? Border.all(
                       color: const Color.fromRGBO(46, 204, 113, 1),
-                      // width: 4
-                      width: width * 0.0112
-                      // width: height* 0.0053
-                      )
+                      width: width * 0.0112)
                   : null),
           child: InkWell(
               highlightColor: backgroundColor,
