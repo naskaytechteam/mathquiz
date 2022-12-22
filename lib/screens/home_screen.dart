@@ -6,6 +6,9 @@ import '../widgets/homescreenwidgets/class_screen.dart';
 import '../widgets/homescreenwidgets/ranking_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+
+  static const String routeName = '/screens/home';
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override

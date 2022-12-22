@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '/screens/details_screen.dart';
+import '/screens/home_screen.dart';
 import '/screens/splash_screen.dart';
 import 'utils/user_preferences.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         DetailsScreen.routeName: (_) => const DetailsScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
       },
       theme: ThemeData(
         appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
