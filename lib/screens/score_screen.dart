@@ -24,7 +24,8 @@ class ScoreScreen extends StatelessWidget {
     final double width = size.width;
     // final TemplateFactory templateFactory = TemplateFactory();
     final int correctAnswer = _getCorrectAnswer();
-    final double answerInPersent = correctAnswer * questions.length / 100;
+    final double answerInPercent = correctAnswer / questions.length;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -55,14 +56,16 @@ class ScoreScreen extends StatelessWidget {
             // top: 40,
             top: height * 0.053,
             child: Align(
-              child: SizedBox(
+              child: Container(
+                  alignment: Alignment.center,
                   // height: 44,
                   height: height * 0.0579,
                   // width: 170,
-                  width: width * 0.47,
+                  width: width,
+                  // width: width * 0.47,
                   // color: Colors.red,
                   child: Text(
-                    'Well Done!',
+                    _getTextAccordingToAnswer(),
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize:
@@ -83,7 +86,8 @@ class ScoreScreen extends StatelessWidget {
               )),
           //todo check scrollbar logic for lcm(small) ques
           Positioned(
-              top: height * 0.14,
+              // top: height * 0.14,
+              bottom: height * 0.436,
               child: Align(
                 child: Container(
                   height: height * 0.35,
@@ -91,14 +95,14 @@ class ScoreScreen extends StatelessWidget {
                   // color: Colors.white.withOpacity(0.3),
                   alignment: Alignment.bottomCenter,
                   child: CircularPercentIndicator(
-                    radius: 120.0,
+                    // radius: 120,
+                    radius: height * 0.158,
                     animation: true,
                     animationDuration: 2000,
-                    lineWidth: 10.0,
-                    // percent: 0.5,
-                    // percent: 0.7,
-                    percent: answerInPersent,
-                    // percent: 0.4,
+                    // lineWidth: 10,
+                    lineWidth: height * 0.0132,
+                    // percent: answerInPresent,
+                    percent: answerInPercent,
                     arcBackgroundColor: const Color.fromRGBO(236, 240, 241, 1),
                     arcType: ArcType.FULL,
                     circularStrokeCap: CircularStrokeCap.round,
@@ -108,11 +112,12 @@ class ScoreScreen extends StatelessWidget {
                 ),
               )),
           Positioned(
-              top: height * 0.25,
+              // top: height * 0.25,
+              bottom: height * 0.642,
               right: 0,
               left: 0,
               child: Align(
-                child: Container(
+                child: SizedBox(
                   width: width * 0.35,
                   // color: Colors.red,
                   child: Text(
@@ -126,7 +131,8 @@ class ScoreScreen extends StatelessWidget {
                 ),
               )),
           Positioned(
-              top: height * 0.29,
+              // top: height * 0.29,
+              bottom: height * 0.536,
               right: 0,
               left: 0,
               child: Align(
@@ -145,7 +151,8 @@ class ScoreScreen extends StatelessWidget {
                 ),
               )),
           Positioned(
-              top: height * 0.39,
+              // top: height * 0.39,
+              bottom: height * 0.486,
               right: 0,
               left: 0,
               child: Align(
@@ -189,7 +196,7 @@ class ScoreScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildCustomContainer(
-                        'Try Again',
+                        'Try\n Again',
                         height,
                         width,
                         const Color.fromRGBO(241, 196, 15, 1),
@@ -224,6 +231,11 @@ class ScoreScreen extends StatelessWidget {
       ),
     );
   }
+
+  // String _getTextAccordingToAnswer(int answer,int totalQuestion){
+  //   if(totalQuestion/2==answer||)
+  //   return '';
+  // }
 
 //need to change
   int _getCorrectAnswer() {
@@ -277,14 +289,15 @@ class ScoreScreen extends StatelessWidget {
           ),
           SizedBox(height: height * 0.02),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
             // color: Colors.red,
             width: width,
             height: height * 0.05,
             child: Text(
               buttonText,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: height * 0.018),
+              style: TextStyle(
+                  fontSize: height * 0.018, fontWeight: FontWeight.w700),
             ),
           ),
         ]));
@@ -344,7 +357,6 @@ class ScoreScreen extends StatelessWidget {
                 height: 228,
                 width: 295,
                 decoration: BoxDecoration(
-                  // color: Colors.yellow,
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.circular(25),
                 ),
