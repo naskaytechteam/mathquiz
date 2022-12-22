@@ -204,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                   : null),
           child: InkWell(
-              highlightColor: Theme.of(context).backgroundColor,
+              highlightColor: Theme.of(context).colorScheme.background,
               onTap: () {
                 setState(() {
                   _avatarNo = avatarNo;

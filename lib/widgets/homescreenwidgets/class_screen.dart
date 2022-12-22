@@ -179,6 +179,7 @@ class ClassScreen extends StatelessWidget {
             ),
           ),
           InkWell(
+            highlightColor: Theme.of(context).colorScheme.background,
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                 return const ProfileScreen();
