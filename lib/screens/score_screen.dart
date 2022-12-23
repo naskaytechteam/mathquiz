@@ -314,7 +314,7 @@ class ScoreScreen extends StatelessWidget {
                   }));
                   break;
                 case 3:
-                  _sendPdfToParentEmail(context);
+                  _onPdfButtonClick(context);
                   break;
               }
             },
@@ -339,8 +339,8 @@ class ScoreScreen extends StatelessWidget {
         ]));
   }
 
-  void _showSnackBar(BuildContext context, String text) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+  void _showSnackBar(ScaffoldMessengerState state, String text) {
+    state.showSnackBar(SnackBar(content: Text(text)));
   }
 
   void _showProgressBar(BuildContext context) {
@@ -349,6 +349,9 @@ class ScoreScreen extends StatelessWidget {
         builder: (_) {
           return const Center(child: CircularProgressIndicator());
         });
+  }
+  Future<void> _sendPdfToParentEmail(Message message, SmtpServer smtpServer) async async{
+    send(message, smtpServer);
   }
 
   Message buildMessage(String username, File file, String parentEmail) {
@@ -360,7 +363,7 @@ class ScoreScreen extends StatelessWidget {
       ..attachments = [FileAttachment(file)];
   }
 
-  void _sendPdfToParentEmail(BuildContext context) async {
+  void _onPdfButtonClick(BuildContext context) async {
     _showProgressBar(context);
     String pdfPath = await PdfDesign.makePdf(questions);
     File file = File(pdfPath);
@@ -370,11 +373,11 @@ class ScoreScreen extends StatelessWidget {
     Message message = buildMessage(username, file, 'parentEmail');
 
     try {
-      await send(message, smtpServer);
-      Navigator.of(context).pop();
-      _showSnackBar(context, 'pdf has successfully sent to your parent Email ');
+      await _sendPdfToParentEmail(message, smtpServer);
+      navigatorState.pop();
+      _showSnackBar(state, 'pdf has successfully sent to your parent Email ');
     } on MailerException catch (e) {
-      _showSnackBar(context, 'error occured in pdf sending $e');
+      _showSnackBar(state, 'error occurred in pdf sending $e');
     }
   }
 
