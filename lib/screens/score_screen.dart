@@ -26,7 +26,7 @@ class ScoreScreen extends StatelessWidget {
     final double height = size.height;
     final double width = size.width;
     // final TemplateFactory templateFactory = TemplateFactory();
-    final int correctAnswer = _getCorrectAnswer();
+    final int correctAnswer = _getTotalCorrectAnswer();
     final double answerInPercent = correctAnswer / questions.length;
 
     return Scaffold(
