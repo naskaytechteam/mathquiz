@@ -426,22 +426,8 @@ class ScoreScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomButton(
-                              buttonName: 'NO',
-                              height: 70,
-                              width: 122,
-                              onButtonPressed: () {
-                                Navigator.of(context).pop();
-                              }),
-                          CustomButton(
-                            buttonName: 'YES',
-                            height: 70,
-                            width: 122,
-                            onButtonPressed: () {},
-                            backgroundColor:
-                                const Color.fromRGBO(46, 204, 113, 1),
-                            shadowColor: const Color.fromRGBO(39, 174, 96, 1),
-                          )
+                          _buildDialogButton(_buttonTextNo, context),
+                          _buildDialogButton(_buttonTextYes, context)
                         ],
                       ),
                     )
@@ -453,8 +439,17 @@ class ScoreScreen extends StatelessWidget {
         });
   }
 
-// void _goToHomePage(BuildContext context) {
-//   TemplateFactory().resetScore();
-//   Navigator.pop(context);
-// }
+  Widget _buildDialogButton(String buttonText, BuildContext context) {
+    return CustomButton(
+        buttonName: buttonText,
+        height: 70,
+        width: 122,
+        backgroundColor: buttonText == _buttonTextYes
+            ? const Color.fromRGBO(46, 204, 113, 1)
+            : const Color.fromRGBO(231, 76, 60, 1),
+        shadowColor: buttonText == _buttonTextYes
+            ? const Color.fromRGBO(39, 174, 96, 1)
+            : const Color.fromRGBO(192, 57, 43, 1),
+        onButtonPressed: () => _onDialogButtonClick(context, buttonText));
+  }
 }
