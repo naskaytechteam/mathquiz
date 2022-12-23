@@ -15,6 +15,8 @@ import '../model/question.dart';
 class ScoreScreen extends StatelessWidget {
   // final int questionNo;
   final List<Question> questions;
+  static const String _buttonTextNo = 'NO';
+  static const String _buttonTextYes = 'YES';
 
   const ScoreScreen(
       {/*required this.questionNo,*/ required this.questions, Key? key})
@@ -87,7 +89,6 @@ class ScoreScreen extends StatelessWidget {
                 // width: 112,
                 width: width * 0.3112,
               )),
-          //todo check scrollbar logic for lcm(small) ques
           Positioned(
               // top: height * 0.14,
               bottom: height * 0.436,
