@@ -417,7 +417,7 @@ class ScoreScreen extends StatelessWidget {
                       ),
                     ),
                     // SizedBox(height: 39,),
-                    Container(
+                    SizedBox(
                       height: 80,
                       width: 254,
                       // color: Colors.red,
