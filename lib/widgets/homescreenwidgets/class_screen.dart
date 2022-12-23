@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '/screens/profile_screen.dart';
@@ -25,11 +27,11 @@ class ClassScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
       child: Column(
         children: [
+          if (Platform.isIOS) SizedBox(height: height * 0.05),
           _buildNameContainer(height, width, context),
           _buildGap(height * 0.0566),
           const TodayTopicContainer(),
