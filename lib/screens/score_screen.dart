@@ -68,7 +68,7 @@ class ScoreScreen extends StatelessWidget {
                   // width: width * 0.47,
                   // color: Colors.red,
                   child: Text(
-                    _getTextAccordingToAnswer(),
+                    _getTextAccordingToAnswer(correctAnswer),
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize:
@@ -110,7 +110,7 @@ class ScoreScreen extends StatelessWidget {
                     arcType: ArcType.FULL,
                     circularStrokeCap: CircularStrokeCap.round,
                     backgroundColor: Colors.transparent,
-                    progressColor: Colors.red,
+                    progressColor: __getProgressAccordingToScore(correctAnswer),
                   ),
                 ),
               )),
@@ -178,7 +178,7 @@ class ScoreScreen extends StatelessWidget {
             right: 0,
             bottom: height * 0.28,
             child: SvgPicture.asset(
-              'assets/images/onboardingimage1.svg',
+              _getImageAccordingToScore(correctAnswer),
               // height: 137,
               height: height * 0.1803,
               // width: 89,
@@ -235,13 +235,46 @@ class ScoreScreen extends StatelessWidget {
     );
   }
 
-  // String _getTextAccordingToAnswer(int answer,int totalQuestion){
-  //   if(totalQuestion/2==answer||)
-  //   return '';
-  // }
+  Color __getProgressAccordingToScore(int answer) {
+    double value = _getPercentageValue(answer);
+    if (value < 41) {
+      return Colors.red;
+    } else if (value < 71) {
+      return Colors.yellow;
+    } else {
+      return Colors.green;
+    }
+  }
 
-//need to change
-  int _getCorrectAnswer() {
+  String _getImageAccordingToScore(int answer) {
+    int? image;
+    double value = _getPercentageValue(answer);
+    if (value < 41) {
+      image = 1;
+    } else if (value < 71) {
+      image = 2;
+    } else {
+      image = 3;
+    }
+    return 'assets/images/scorescreenimage$image.svg';
+  }
+
+  double _getPercentageValue(int answer) {
+    return answer / questions.length * 100;
+  }
+
+  String _getTextAccordingToAnswer(int answer) {
+    double value = _getPercentageValue(answer);
+    if (value < 41) {
+      return 'We can do Better';
+    } else if (value < 71) {
+      return 'Nice Try';
+    } else {
+      return 'Well Done!';
+    }
+  }
+
+  int _getTotalCorrectAnswer() {
     int answer = 0;
     for (int i = 0; i < questions.length; i++) {
       int selectedIndex = questions[i].selectedOptionIndex!;
