@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import '/provider/template_factory.dart';
 import '/screens/ques_screen.dart';
 import '/widgets/score_screen_widgets/pdf_design.dart';
@@ -352,11 +351,6 @@ class ScoreScreen extends StatelessWidget {
         });
   }
 
-  Future<void> _sendPdfToParentEmail(
-      Message message, SmtpServer smtpServer) async {
-    send(message, smtpServer);
-  }
-
   Message buildMessage(String username, File file, String parentEmail) {
     return Message()
       ..from = Address(username, 'Your name')
@@ -377,7 +371,7 @@ class ScoreScreen extends StatelessWidget {
     final smtpServer = gmail(username, password);
     final Message message = buildMessage(username, file, 'parentEmail');
     try {
-      await _sendPdfToParentEmail(message, smtpServer);
+      await send(message, smtpServer);
       navigatorState.pop();
       _showSnackBar(state, 'pdf has successfully sent to your parent Email ');
     } on MailerException catch (e) {
