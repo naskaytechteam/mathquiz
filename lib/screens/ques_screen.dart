@@ -56,6 +56,7 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
     final double width = size.width;
     final Question question = widget.questions[_quesIndex];
     final bool isFirstQuestion = _quesIndex == 0;
+    final bool isLastQuestion = _quesIndex == widget.questions.length - 1;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -121,7 +122,7 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
                         ),
                       ),
                     CustomButton(
-                      buttonName: 'Next',
+                      buttonName: isLastQuestion ? 'FINISH' : 'NEXT',
                       // height: 70,
                       height: height * 0.0922,
                       // width: 130,

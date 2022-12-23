@@ -99,7 +99,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                         ),
                       ),
                     CustomButton(
-                      buttonName: 'Next',
+                      buttonName:isLastQuestion? 'FINISH':'NEXT',
                       // height: 70,
                       height: height * 0.0922,
                       // width: 130,
