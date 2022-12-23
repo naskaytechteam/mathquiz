@@ -97,7 +97,8 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
                 onOptionSelected: _onOptionSelected,
                 optionSelectedIndex: _optionSelectedIndex,
               ),
-              _gap(height * 0.11843),
+              // _gap(height * 0.11843),
+              _gap(height * 0.09),
               const CustomDivider(),
               _gap(height * 0.033),
               SizedBox(
