@@ -350,7 +350,9 @@ class ScoreScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         });
   }
-  Future<void> _sendPdfToParentEmail(Message message, SmtpServer smtpServer) async async{
+
+  Future<void> _sendPdfToParentEmail(
+      Message message, SmtpServer smtpServer) async {
     send(message, smtpServer);
   }
 
