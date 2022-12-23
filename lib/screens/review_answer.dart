@@ -29,11 +29,12 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
-    Question question = widget.questions[_quesIndex];
-    bool isFirstQuestion = _quesIndex == 0;
+    final Size size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
+    final Question question = widget.questions[_quesIndex];
+    final bool isFirstQuestion = _quesIndex == 0;
+    final bool isLastQuestion=_quesIndex==widget.questions.length-1;
 
     return Scaffold(
       appBar: CustomAppBar(
