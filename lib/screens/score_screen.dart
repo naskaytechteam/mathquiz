@@ -306,7 +306,7 @@ class ScoreScreen extends StatelessWidget {
             onButtonPressed: () {
               switch (containerNo) {
                 case 1:
-                  Navigator.pop(context);
+                  _showTryAgainDialog(context);
                   break;
                 case 2:
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) {
@@ -378,7 +378,7 @@ class ScoreScreen extends StatelessWidget {
     }
   }
 
-  void showTryAgainDialog(BuildContext context) {
+  void _showTryAgainDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (_) {
