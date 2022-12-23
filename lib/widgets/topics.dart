@@ -22,30 +22,35 @@ class Topics extends StatelessWidget {
         title: 'Class $classNo',
         height: height * 0.1,
       ),
-      body: Column(
-        children: [
-          _buildGap(height * 0.04737),
-          Container(
-            // height: 22,
-            height: height * 0.029,
-            width: width,
-            padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
-            child: Text(
-              'Topics',
-              style: TextStyle(
-                  // fontSize: 16,
-                  fontSize: height * 0.0211,
-                  fontWeight: FontWeight.w900),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildGap(height * 0.04737),
+            Container(
+              // height: 22,
+              height: height * 0.029,
+              width: width,
+              padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
+              child: Text(
+                'Topics',
+                style: TextStyle(
+                    // fontSize: 16,
+                    fontSize: height * 0.0211,
+                    fontWeight: FontWeight.w900),
+              ),
             ),
-          ),
-          _buildGap(height * 0.01975),
-          CustomGridView(
-            totalHeight: height * 0.75,
-            mainAxisExtent: height * 0.218,
-            onButtonClick: _onButtonClick,
-            itemCount: quesTypeList.length,
-          ),
-        ],
+            _buildGap(height * 0.01975),
+            CustomGridView(
+              totalHeight: height * 0.75,
+              mainAxisExtent: height * 0.218,
+              onButtonClick: (index) {
+                _onButtonClick(
+                    context, TemplateType.values[quesTypeList[index]]);
+              },
+              itemCount: quesTypeList.length,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -68,9 +73,8 @@ class Topics extends StatelessWidget {
     state.pop();
   }
 
-  void _onButtonClick(BuildContext context, int index) async {
+  void _onButtonClick(BuildContext context, TemplateType templateType) async {
     NavigatorState navigatorState = Navigator.of(context);
-    TemplateType templateType = TemplateType.values[index];
     _showProgressIndicator(context);
     List<Question> questions =
         await TemplateFactory().generateQuestions(templateType);

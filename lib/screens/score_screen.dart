@@ -1,5 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+import '/provider/template_factory.dart';
+import '/screens/ques_screen.dart';
+import '/widgets/score_screen_widgets/pdf_design.dart';
 import '/screens/review_answer_screen.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '/widgets/common_widgets/custom_button.dart';
@@ -8,6 +14,8 @@ import '../model/question.dart';
 class ScoreScreen extends StatelessWidget {
   // final int questionNo;
   final List<Question> questions;
+  static const String _buttonTextNo = 'NO';
+  static const String _buttonTextYes = 'YES';
 
   const ScoreScreen(
       {/*required this.questionNo,*/ required this.questions, Key? key})
@@ -19,19 +27,25 @@ class ScoreScreen extends StatelessWidget {
     final double height = size.height;
     final double width = size.width;
     // final TemplateFactory templateFactory = TemplateFactory();
-    final int correctAnswer = _getCorrectAnswer();
-    final double answerInPersent = correctAnswer * questions.length / 100;
+    final int correctAnswer = _getTotalCorrectAnswer();
+    final double answerInPercent = correctAnswer / questions.length;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          SvgPicture.asset(
-            'assets/images/cross.svg',
-            // height: 22,
-            height: height * 0.029,
-            // width: 22,
-            width: width * 0.0612,
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: SvgPicture.asset(
+              'assets/images/cross.svg',
+              // height: 22,
+              height: height * 0.029,
+              // width: 22,
+              width: width * 0.0612,
+            ),
           ),
           SizedBox(
             width: width * 0.065,
@@ -46,14 +60,16 @@ class ScoreScreen extends StatelessWidget {
             // top: 40,
             top: height * 0.053,
             child: Align(
-              child: SizedBox(
+              child: Container(
+                  alignment: Alignment.center,
                   // height: 44,
                   height: height * 0.0579,
                   // width: 170,
-                  width: width * 0.47,
+                  width: width,
+                  // width: width * 0.47,
                   // color: Colors.red,
                   child: Text(
-                    'Well Done!',
+                    _getTextAccordingToAnswer(correctAnswer),
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize:
@@ -73,7 +89,8 @@ class ScoreScreen extends StatelessWidget {
                 width: width * 0.3112,
               )),
           Positioned(
-              top: height * 0.14,
+              // top: height * 0.14,
+              bottom: height * 0.436,
               child: Align(
                 child: Container(
                   height: height * 0.35,
@@ -81,28 +98,29 @@ class ScoreScreen extends StatelessWidget {
                   // color: Colors.white.withOpacity(0.3),
                   alignment: Alignment.bottomCenter,
                   child: CircularPercentIndicator(
-                    radius: 120.0,
+                    // radius: 120,
+                    radius: height * 0.158,
                     animation: true,
                     animationDuration: 2000,
-                    lineWidth: 10.0,
-                    // percent: 0.5,
-                    // percent: 0.7,
-                    percent: answerInPersent,
-                    // percent: 0.4,
+                    // lineWidth: 10,
+                    lineWidth: height * 0.0132,
+                    // percent: answerInPresent,
+                    percent: answerInPercent,
                     arcBackgroundColor: const Color.fromRGBO(236, 240, 241, 1),
                     arcType: ArcType.FULL,
                     circularStrokeCap: CircularStrokeCap.round,
                     backgroundColor: Colors.transparent,
-                    progressColor: Colors.red,
+                    progressColor: __getProgressAccordingToScore(correctAnswer),
                   ),
                 ),
               )),
           Positioned(
-              top: height * 0.25,
+              // top: height * 0.25,
+              bottom: height * 0.642,
               right: 0,
               left: 0,
               child: Align(
-                child: Container(
+                child: SizedBox(
                   width: width * 0.35,
                   // color: Colors.red,
                   child: Text(
@@ -116,7 +134,8 @@ class ScoreScreen extends StatelessWidget {
                 ),
               )),
           Positioned(
-              top: height * 0.29,
+              // top: height * 0.29,
+              bottom: height * 0.536,
               right: 0,
               left: 0,
               child: Align(
@@ -135,11 +154,12 @@ class ScoreScreen extends StatelessWidget {
                 ),
               )),
           Positioned(
-              top: height * 0.39,
+              // top: height * 0.39,
+              bottom: height * 0.486,
               right: 0,
               left: 0,
               child: Align(
-                child: Container(
+                child: SizedBox(
                   width: width * 0.4,
                   height: height * 0.05,
                   child: Text(
@@ -158,7 +178,7 @@ class ScoreScreen extends StatelessWidget {
             right: 0,
             bottom: height * 0.28,
             child: SvgPicture.asset(
-              'assets/images/onboardingimage1.svg',
+              _getImageAccordingToScore(correctAnswer),
               // height: 137,
               height: height * 0.1803,
               // width: 89,
@@ -179,7 +199,7 @@ class ScoreScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildCustomContainer(
-                        'Try Again',
+                        'Try\n Again',
                         height,
                         width,
                         const Color.fromRGBO(241, 196, 15, 1),
@@ -215,8 +235,46 @@ class ScoreScreen extends StatelessWidget {
     );
   }
 
-//need to change
-  int _getCorrectAnswer() {
+  Color __getProgressAccordingToScore(int answer) {
+    double value = _getPercentageValue(answer);
+    if (value < 41) {
+      return Colors.red;
+    } else if (value < 71) {
+      return Colors.yellow;
+    } else {
+      return Colors.green;
+    }
+  }
+
+  String _getImageAccordingToScore(int answer) {
+    int? image;
+    double value = _getPercentageValue(answer);
+    if (value < 41) {
+      image = 1;
+    } else if (value < 71) {
+      image = 2;
+    } else {
+      image = 3;
+    }
+    return 'assets/images/scorescreenimage$image.svg';
+  }
+
+  double _getPercentageValue(int answer) {
+    return answer / questions.length * 100;
+  }
+
+  String _getTextAccordingToAnswer(int answer) {
+    double value = _getPercentageValue(answer);
+    if (value < 41) {
+      return 'We can do Better';
+    } else if (value < 71) {
+      return 'Nice Try';
+    } else {
+      return 'Well Done!';
+    }
+  }
+
+  int _getTotalCorrectAnswer() {
     int answer = 0;
     for (int i = 0; i < questions.length; i++) {
       int selectedIndex = questions[i].selectedOptionIndex!;
@@ -248,11 +306,16 @@ class ScoreScreen extends StatelessWidget {
             onButtonPressed: () {
               switch (containerNo) {
                 case 1:
+                  _showTryAgainDialog(context);
                   break;
                 case 2:
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                     return ReviewAnswerScreen(questions: questions);
                   }));
+                  break;
+                case 3:
+                  _onPdfButtonClick(context);
+                  break;
               }
             },
             backgroundColor: backgroundColor,
@@ -262,20 +325,96 @@ class ScoreScreen extends StatelessWidget {
           ),
           SizedBox(height: height * 0.02),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
             // color: Colors.red,
             width: width,
             height: height * 0.05,
             child: Text(
               buttonText,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: height * 0.018),
+              style: TextStyle(
+                  fontSize: height * 0.018, fontWeight: FontWeight.w700),
             ),
           ),
         ]));
   }
 
-  void showTryAgainDialog(BuildContext context) {
+  void _showSnackBar(ScaffoldMessengerState state, String text) {
+    state.showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  void _showProgressBar(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return const Center(child: CircularProgressIndicator());
+        });
+  }
+
+  Message buildMessage(String username, File file, String parentEmail) {
+    return Message()
+      ..from = Address(username, 'Your name')
+      ..recipients.add(parentEmail)
+      ..subject = 'enter subject'
+      ..text = 'enter text'
+      ..attachments = [FileAttachment(file)];
+  }
+
+  void _onPdfButtonClick(BuildContext context) async {
+    _showProgressBar(context);
+    final ScaffoldMessengerState state = ScaffoldMessenger.of(context);
+    final NavigatorState navigatorState = Navigator.of(context);
+    final String pdfPath = await PdfDesign.makePdf(questions);
+    final File file = File(pdfPath);
+    const String username = 'email';
+    const String password = 'email-pass';
+    final smtpServer = gmail(username, password);
+    final Message message = buildMessage(username, file, 'parentEmail');
+    try {
+      await send(message, smtpServer);
+      navigatorState.pop();
+      _showSnackBar(state, 'pdf has successfully sent to your parent Email ');
+    } on MailerException catch (e) {
+      navigatorState.pop();
+      _showSnackBar(state, 'error occurred in pdf sending $e');
+    }
+  }
+
+  void _tryAgainQuiz(BuildContext context) async {
+    NavigatorState navigatorState = Navigator.of(context);
+    TemplateFactory templateFactory = TemplateFactory();
+    _showProgressBar(context);
+    TemplateType templateType = templateFactory.currentTemplateType;
+    List<Question> questions =
+        await templateFactory.generateQuestions(templateType);
+    navigatorState.pop();
+    if (questions.isNotEmpty) {
+      _goToQuesScreen(navigatorState, templateType, questions);
+    }
+  }
+
+  void _goToQuesScreen(NavigatorState navigatorState, TemplateType templateType,
+      List<Question> questions) {
+    navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
+      return QuesScreen(templateType: templateType, questions: questions);
+    }));
+  }
+
+  void _onDialogButtonClick(BuildContext context, String buttonName) {
+    if (buttonName == _buttonTextNo) {
+      _pop(context);
+      return;
+    }
+    _pop(context);
+    _tryAgainQuiz(context);
+  }
+
+  void _pop(BuildContext context) {
+    NavigatorState navigatorState = Navigator.of(context);
+    navigatorState.pop();
+  }
+
+  void _showTryAgainDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (_) {
@@ -290,14 +429,13 @@ class ScoreScreen extends StatelessWidget {
                 height: 228,
                 width: 295,
                 decoration: BoxDecoration(
-                  // color: Colors.yellow,
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 54,
                       width: 226,
                       child: Text(
@@ -311,29 +449,15 @@ class ScoreScreen extends StatelessWidget {
                       ),
                     ),
                     // SizedBox(height: 39,),
-                    Container(
+                    SizedBox(
                       height: 80,
                       width: 254,
                       // color: Colors.red,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomButton(
-                              buttonName: 'NO',
-                              height: 70,
-                              width: 122,
-                              onButtonPressed: () {
-                                Navigator.of(context).pop();
-                              }),
-                          CustomButton(
-                            buttonName: 'YES',
-                            height: 70,
-                            width: 122,
-                            onButtonPressed: () {},
-                            backgroundColor:
-                                const Color.fromRGBO(46, 204, 113, 1),
-                            shadowColor: const Color.fromRGBO(39, 174, 96, 1),
-                          )
+                          _buildDialogButton(_buttonTextNo, context),
+                          _buildDialogButton(_buttonTextYes, context)
                         ],
                       ),
                     )
@@ -345,8 +469,17 @@ class ScoreScreen extends StatelessWidget {
         });
   }
 
-// void _goToHomePage(BuildContext context) {
-//   TemplateFactory().resetScore();
-//   Navigator.pop(context);
-// }
+  Widget _buildDialogButton(String buttonText, BuildContext context) {
+    return CustomButton(
+        buttonName: buttonText,
+        height: 70,
+        width: 122,
+        backgroundColor: buttonText == _buttonTextYes
+            ? const Color.fromRGBO(46, 204, 113, 1)
+            : const Color.fromRGBO(231, 76, 60, 1),
+        shadowColor: buttonText == _buttonTextYes
+            ? const Color.fromRGBO(39, 174, 96, 1)
+            : const Color.fromRGBO(192, 57, 43, 1),
+        onButtonPressed: () => _onDialogButtonClick(context, buttonText));
+  }
 }

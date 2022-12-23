@@ -8,14 +8,14 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isClassTextField;
   final bool readOnly;
+  final String? Function(String?)? validator;
   final void Function(int? value)? onClassSelected;
-  final void Function(String value)? onSubmit;
 
   const CustomTextField(
       {required this.hintText,
+      this.validator,
       required this.controller,
       this.onClassSelected,
-      this.onSubmit,
       this.readOnly = false,
       this.textInputType=TextInputType.text,
       this.isClassTextField = false,
@@ -27,40 +27,36 @@ class CustomTextField extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    return Container(
-      // height: 70,
-      height: height * 0.0922,
-      width: width,
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(
-          // left: 24
-          left: width * 0.0667),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              // 25
-              height * 0.033),
-          border: Border.all(
-            color: const Color.fromRGBO(44, 62, 80, 1),
-            // width: 3
-            width: width * 0.0084,
-          )),
-      child: TextField(
-        keyboardType: textInputType,
-        controller: controller,
-        onSubmitted: onSubmit,
-        readOnly: readOnly,
-        decoration: InputDecoration(
-            hintStyle: TextStyle(
-                color: const Color.fromRGBO(189, 195, 199, 1),
-                // fontSize: 20,
-                fontSize: height * 0.0264,
-                fontWeight: FontWeight.w700),
-            hintText: hintText,
-            border: InputBorder.none,
-            suffixIcon:
-                isClassTextField ? _dropDownWidget(context, height) : null),
-      ),
+    return TextFormField(
+      keyboardType: textInputType,
+      controller: controller,
+      // onSubmitted: onSubmit,
+      validator: validator,
+      readOnly: readOnly,
+      decoration: InputDecoration(
+          prefix: SizedBox(
+            width: width * 0.0667,
+          ),
+          hintStyle: TextStyle(
+              color: const Color.fromRGBO(189, 195, 199, 1),
+              // fontSize: 20,
+              fontSize: height * 0.0264,
+              fontWeight: FontWeight.w700),
+          hintText: hintText,
+          focusedBorder: _buildInputBorder(width, height),
+          enabledBorder: _buildInputBorder(width, height),
+          errorBorder: _buildInputBorder(width, height, Colors.red),
+          border: _buildInputBorder(width, height),
+          suffixIcon:
+              isClassTextField ? _dropDownWidget(context, height) : null),
     );
+  }
+
+  InputBorder _buildInputBorder(double width, double height,
+      [Color color = const Color.fromRGBO(44, 62, 80, 1)]) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(height * 0.033),
+        borderSide: BorderSide(color: color, width: width * 0.0084));
   }
 
   Widget _dropDownWidget(BuildContext context, double height) {

@@ -107,27 +107,70 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(
                 height: height * 0.01975,
               ),
-              CustomTextField(
-                hintText: 'Name',
-                controller: _nameController,
-              ),
-              SizedBox(
-                height: height * 0.0264,
-              ),
-              CustomTextField(
-                hintText: 'Class',
-                controller: _classController,
-                textInputType: TextInputType.number,
-                readOnly: true,
-                onClassSelected: _onClassSelected,
-                isClassTextField: true,
-              ),
-              SizedBox(
-                height: height * 0.0264,
-              ),
-              CustomTextField(
-                hintText: 'Parent\'s Email',
-                controller: _parentsEmailController,
+              Align(
+                child: SizedBox(
+                  // height: height * 0.33,
+                  // height: height*0.4,
+                  width: width,
+                  // color: Colors.red,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          hintText: 'Name',
+                          controller: _nameController,
+                          validator: (value) {
+                            if (value == null || value == '') {
+                              print('name == bull');
+                              return 'Please Enter your Name';
+                            }
+                            return null;
+                          },
+                          // onSubmit: _onSubmit,
+                        ),
+                        SizedBox(
+                          // height: 20,
+                          height: height * 0.0264,
+                        ),
+                        CustomTextField(
+                          hintText: 'Class',
+                          controller: _classController,
+                          textInputType: TextInputType.number,
+                          readOnly: true,
+                          validator: (value) {
+                            if (value == '') {
+                              print('Class == bull');
+                              return 'Please Select your Class';
+                            }
+                            return null;
+                          },
+                          onClassSelected: _onClassSelected,
+                          isClassTextField: true,
+                        ),
+                        SizedBox(
+                          // height: 20,
+                          height: height * 0.0264,
+                        ),
+                        CustomTextField(
+                          hintText: 'Parent\'s Email',
+                          validator: (value) {
+                            if (value == null) {
+                              print('email == bull');
+                              return 'Please Enter your Parent Email';
+                            } else if (!_isValidEmail(value)) {
+                              print('Email is Not Valid');
+                              return 'Please Enter Valid Email';
+                            }
+                            return null;
+                          },
+                          controller: _parentsEmailController,
+                          // onSubmit: _onSubmit,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: height * 0.0395,

@@ -112,7 +112,7 @@ class ReviewAnswerScreen extends StatelessWidget {
   }
 
   void _onButtonClick(BuildContext context, int index) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
       return ReviewAnswer(
         questions: questions,
         quesIndex: index,
