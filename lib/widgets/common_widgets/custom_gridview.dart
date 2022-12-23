@@ -6,7 +6,7 @@ class CustomGridView extends StatelessWidget {
   final int? itemCount;
   final double totalHeight;
   final double mainAxisExtent;
-  final Function(BuildContext context, int index)? onButtonClick;
+  final Function(int index)? onButtonClick;
   final bool isTopicScreen;
   final String? buttonName;
   final double? containerHeight;
@@ -63,9 +63,8 @@ class CustomGridView extends StatelessWidget {
                 shadowHeight: height * 0.0093,
                 textColor: Colors.black,
                 fontSize: fontSize,
-                onButtonPressed: onButtonClick == null
-                    ? null
-                    : () => onButtonClick!(context, index),
+                onButtonPressed:
+                    onButtonClick == null ? null : () => onButtonClick!(index),
                 margin: EdgeInsets.only(right: width * 0.0584),
               ),
               SizedBox(

@@ -43,7 +43,10 @@ class Topics extends StatelessWidget {
             CustomGridView(
               totalHeight: height * 0.75,
               mainAxisExtent: height * 0.218,
-              onButtonClick: _onButtonClick,
+              onButtonClick: (index) {
+                _onButtonClick(
+                    context, TemplateType.values[quesTypeList[index]]);
+              },
               itemCount: quesTypeList.length,
             ),
           ],
@@ -70,9 +73,8 @@ class Topics extends StatelessWidget {
     state.pop();
   }
 
-  void _onButtonClick(BuildContext context, int index) async {
+  void _onButtonClick(BuildContext context, TemplateType templateType) async {
     NavigatorState navigatorState = Navigator.of(context);
-    TemplateType templateType = TemplateType.values[index];
     _showProgressIndicator(context);
     List<Question> questions =
         await TemplateFactory().generateQuestions(templateType);

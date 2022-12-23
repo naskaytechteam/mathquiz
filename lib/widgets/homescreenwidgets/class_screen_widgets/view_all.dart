@@ -47,7 +47,9 @@ class ViewAll extends StatelessWidget {
               containerWidth: width * 0.38056,
               fontSize: height * 0.06316,
               itemCount: DbHelper.totalClass,
-              onButtonClick: _onClassSelected,
+              onButtonClick: (index) {
+                _onClassSelected(context, index);
+              },
             )
             // gridView(height, width,context)
           ],
