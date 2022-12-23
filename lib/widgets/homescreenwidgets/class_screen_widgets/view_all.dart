@@ -19,37 +19,39 @@ class ViewAll extends StatelessWidget {
         title: 'Take a Test',
         height: height * 0.1,
       ),
-      body: Column(
-        children: [
-          _buildGap(height * 0.04737),
-          Padding(
-            padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
-            child: SizedBox(
-              // height: 22,
-              height: height * 0.029,
-              width: width,
-              child: Text(
-                'Select a Class',
-                style: TextStyle(
-                    // fontSize: 16,
-                    fontSize: height * 0.0211,
-                    fontWeight: FontWeight.w900),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildGap(height * 0.04737),
+            Padding(
+              padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
+              child: SizedBox(
+                // height: 22,
+                height: height * 0.029,
+                width: width,
+                child: Text(
+                  'Select a Class',
+                  style: TextStyle(
+                      // fontSize: 16,
+                      fontSize: height * 0.0211,
+                      fontWeight: FontWeight.w900),
+                ),
               ),
             ),
-          ),
-          _buildGap(height * 0.01975),
-          CustomGridView(
-            totalHeight: height * 0.75,
-            mainAxisExtent: height * 0.24606,
-            isTopicScreen: false,
-            containerHeight: height * 0.1803,
-            containerWidth: width * 0.38056,
-            fontSize: height * 0.06316,
-            itemCount: DbHelper.totalClass,
-            onButtonClick: _onClassSelected,
-          )
-          // gridView(height, width,context)
-        ],
+            _buildGap(height * 0.01975),
+            CustomGridView(
+              totalHeight: height * 0.75,
+              mainAxisExtent: height * 0.24606,
+              isTopicScreen: false,
+              containerHeight: height * 0.1803,
+              containerWidth: width * 0.38056,
+              fontSize: height * 0.06316,
+              itemCount: DbHelper.totalClass,
+              onButtonClick: _onClassSelected,
+            )
+            // gridView(height, width,context)
+          ],
+        ),
       ),
     );
   }

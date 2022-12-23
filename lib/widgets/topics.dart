@@ -22,30 +22,32 @@ class Topics extends StatelessWidget {
         title: 'Class $classNo',
         height: height * 0.1,
       ),
-      body: Column(
-        children: [
-          _buildGap(height * 0.04737),
-          Container(
-            // height: 22,
-            height: height * 0.029,
-            width: width,
-            padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
-            child: Text(
-              'Topics',
-              style: TextStyle(
-                  // fontSize: 16,
-                  fontSize: height * 0.0211,
-                  fontWeight: FontWeight.w900),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildGap(height * 0.04737),
+            Container(
+              // height: 22,
+              height: height * 0.029,
+              width: width,
+              padding: EdgeInsets.only(left: /*40*/ width * 0.1112),
+              child: Text(
+                'Topics',
+                style: TextStyle(
+                    // fontSize: 16,
+                    fontSize: height * 0.0211,
+                    fontWeight: FontWeight.w900),
+              ),
             ),
-          ),
-          _buildGap(height * 0.01975),
-          CustomGridView(
-            totalHeight: height * 0.75,
-            mainAxisExtent: height * 0.218,
-            onButtonClick: _onButtonClick,
-            itemCount: quesTypeList.length,
-          ),
-        ],
+            _buildGap(height * 0.01975),
+            CustomGridView(
+              totalHeight: height * 0.75,
+              mainAxisExtent: height * 0.218,
+              onButtonClick: _onButtonClick,
+              itemCount: quesTypeList.length,
+            ),
+          ],
+        ),
       ),
     );
   }
