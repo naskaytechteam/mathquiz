@@ -14,8 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _screenIndex = 0;
 
-  //why do we need late?
-  late final List<Widget> _screens = [
+  final List<Widget> _screens = [
     ClassScreen(),
     const RankingScreen(),
     const SettingScreen()
