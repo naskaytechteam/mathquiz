@@ -375,6 +375,7 @@ class ScoreScreen extends StatelessWidget {
       navigatorState.pop();
       _showSnackBar(state, 'pdf has successfully sent to your parent Email ');
     } on MailerException catch (e) {
+      navigatorState.pop();
       _showSnackBar(state, 'error occurred in pdf sending $e');
     }
   }
