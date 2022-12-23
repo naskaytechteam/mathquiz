@@ -365,13 +365,14 @@ class ScoreScreen extends StatelessWidget {
 
   void _onPdfButtonClick(BuildContext context) async {
     _showProgressBar(context);
-    String pdfPath = await PdfDesign.makePdf(questions);
-    File file = File(pdfPath);
-    String username = 'email';
-    String password = 'email-pass';
+    final ScaffoldMessengerState state = ScaffoldMessenger.of(context);
+    final NavigatorState navigatorState = Navigator.of(context);
+    final String pdfPath = await PdfDesign.makePdf(questions);
+    final File file = File(pdfPath);
+    const String username = 'email';
+    const String password = 'email-pass';
     final smtpServer = gmail(username, password);
-    Message message = buildMessage(username, file, 'parentEmail');
-
+    final Message message = buildMessage(username, file, 'parentEmail');
     try {
       await _sendPdfToParentEmail(message, smtpServer);
       navigatorState.pop();
