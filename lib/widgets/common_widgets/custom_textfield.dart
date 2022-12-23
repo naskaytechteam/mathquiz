@@ -8,11 +8,13 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isClassTextField;
   final bool readOnly;
+  final String? Function(String?)? validator;
   final void Function(int? value)? onClassSelected;
   final void Function(String value)? onSubmit;
 
   const CustomTextField(
       {required this.hintText,
+      this.validator,
       required this.controller,
       this.onClassSelected,
       this.onSubmit,
