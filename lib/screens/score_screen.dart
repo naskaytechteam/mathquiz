@@ -159,7 +159,7 @@ class ScoreScreen extends StatelessWidget {
               right: 0,
               left: 0,
               child: Align(
-                child: Container(
+                child: SizedBox(
                   width: width * 0.4,
                   height: height * 0.05,
                   child: Text(
