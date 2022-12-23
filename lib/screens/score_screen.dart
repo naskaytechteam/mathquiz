@@ -384,6 +384,40 @@ class ScoreScreen extends StatelessWidget {
     }
   }
 
+  void _tryAgainQuiz(BuildContext context) async {
+    NavigatorState navigatorState = Navigator.of(context);
+    TemplateFactory templateFactory = TemplateFactory();
+    _showProgressBar(context);
+    TemplateType templateType = templateFactory.currentTemplateType;
+    List<Question> questions =
+        await templateFactory.generateQuestions(templateType);
+    navigatorState.pop();
+    if (questions.isNotEmpty) {
+      _goToQuesScreen(navigatorState, templateType, questions);
+    }
+  }
+
+  void _goToQuesScreen(NavigatorState navigatorState, TemplateType templateType,
+      List<Question> questions) {
+    navigatorState.pushReplacement(MaterialPageRoute(builder: (_) {
+      return QuesScreen(templateType: templateType, questions: questions);
+    }));
+  }
+
+  void _onDialogButtonClick(BuildContext context, String buttonName) {
+    if (buttonName == _buttonTextNo) {
+      _pop(context);
+      return;
+    }
+    _pop(context);
+    _tryAgainQuiz(context);
+  }
+
+  void _pop(BuildContext context) {
+    NavigatorState navigatorState = Navigator.of(context);
+    navigatorState.pop();
+  }
+
   void _showTryAgainDialog(BuildContext context) {
     showDialog(
         context: context,
