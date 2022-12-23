@@ -52,6 +52,13 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
+  InputBorder _buildInputBorder(double width, double height,
+      [Color color = const Color.fromRGBO(44, 62, 80, 1)]) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(height * 0.033),
+        borderSide: BorderSide(color: color, width: width * 0.0084));
+  }
+
   Widget _dropDownWidget(BuildContext context, double height) {
     return DropdownButton<int>(
       underline: const SizedBox(),
