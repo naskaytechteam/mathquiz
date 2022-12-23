@@ -125,7 +125,9 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
       setState(() {
         _quesIndex++;
       });
+      return;
     }
+    Navigator.of(context).pop();
   }
 
   Widget _buildOption(double height, double width) {
