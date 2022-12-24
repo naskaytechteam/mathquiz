@@ -24,6 +24,8 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   static const _defaultSelectedAvatar = 1;
 
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _classController =
       TextEditingController(text: UserPreferences.getClass()?.toString());
   final TextEditingController _nameController =
@@ -117,6 +119,36 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
+                        TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: _nameController,
+                          // onSubmitted: onSubmit,
+                          validator: (value) => value?.isEmpty ?? 'Please Enter your Name';
+                            if (value == null || value == '') {
+                              print('name == bull');
+                              return 'Please Enter your Name';
+                            }
+                            return null;
+                          },
+                          readOnly: readOnly,
+                          onSaved: ,
+                          decoration: InputDecoration(
+                              prefix: SizedBox(
+                                width: width * 0.0667,
+                              ),
+                              hintStyle: TextStyle(
+                                  color: const Color.fromRGBO(189, 195, 199, 1),
+                                  // fontSize: 20,
+                                  fontSize: height * 0.0264,
+                                  fontWeight: FontWeight.w700),
+                              hintText: hintText,
+                              focusedBorder: _buildInputBorder(width, height),
+                              enabledBorder: _buildInputBorder(width, height),
+                              errorBorder: _buildInputBorder(width, height, Colors.red),
+                              border: _buildInputBorder(width, height),
+                              suffixIcon:
+                              isClassTextField ? _dropDownWidget(context, height) : null),
+                        )
                         CustomTextField(
                           hintText: 'Name',
                           controller: _nameController,
@@ -243,11 +275,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _onClick() async {
-    String name = _nameController.value.text;
-    String cNo = _classController.value.text;
-    String parentEmail = _parentsEmailController.value.text;
-    if (name.isNotEmpty && cNo.isNotEmpty && _isValidEmail(parentEmail)) {
-      int classNo = int.parse(cNo);
+    if (_formKey.currentState!.validate()) {
+      int classNo = int.parse(cNo);_formKey.currentState!.save();
       _saveUserDetails(name, classNo, parentEmail);
       await Utils.hideSystemNavBar();
       _goToHomePage();
