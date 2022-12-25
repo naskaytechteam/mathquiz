@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '/utils/text_utils.dart';
 
+import '../database/db_helper.dart';
 import '/screens/home_screen.dart';
 import '/utils/user_preferences.dart';
 import '/utils/util.dart';
 import '/widgets/common_widgets/custom_button.dart';
-import '/widgets/common_widgets/custom_textfield.dart';
 
 enum DetailScreenType {
   userDetailType,
@@ -109,7 +110,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(
                 height: height * 0.01975,
               ),
-              Align(
+              Center(
                 child: SizedBox(
                   // height: height * 0.33,
                   // height: height*0.4,
@@ -123,81 +124,46 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           keyboardType: TextInputType.name,
                           controller: _nameController,
                           // onSubmitted: onSubmit,
-                          validator: (value) => value?.isEmpty ?? 'Please Enter your Name';
-                            if (value == null || value == '') {
-                              print('name == bull');
-                              return 'Please Enter your Name';
-                            }
-                            return null;
-                          },
-                          readOnly: readOnly,
-                          onSaved: ,
-                          decoration: InputDecoration(
-                              prefix: SizedBox(
-                                width: width * 0.0667,
-                              ),
-                              hintStyle: TextStyle(
-                                  color: const Color.fromRGBO(189, 195, 199, 1),
-                                  // fontSize: 20,
-                                  fontSize: height * 0.0264,
-                                  fontWeight: FontWeight.w700),
-                              hintText: hintText,
-                              focusedBorder: _buildInputBorder(width, height),
-                              enabledBorder: _buildInputBorder(width, height),
-                              errorBorder: _buildInputBorder(width, height, Colors.red),
-                              border: _buildInputBorder(width, height),
-                              suffixIcon:
-                              isClassTextField ? _dropDownWidget(context, height) : null),
-                        )
-                        CustomTextField(
-                          hintText: 'Name',
-                          controller: _nameController,
-                          validator: (value) {
-                            if (value == null || value == '') {
-                              print('name == bull');
-                              return 'Please Enter your Name';
-                            }
-                            return null;
-                          },
-                          // onSubmit: _onSubmit,
+                          validator: (value) => TextUtils.isEmpty(value)
+                              ? 'Please Enter your Name'
+                              : null,
+                          onSaved: (newValue) =>
+                              UserPreferences.setName(newValue!),
+                          decoration: getInputDecoration(width, height, 'Name'),
                         ),
                         SizedBox(
                           // height: 20,
                           height: height * 0.0264,
                         ),
-                        CustomTextField(
-                          hintText: 'Class',
-                          controller: _classController,
-                          textInputType: TextInputType.number,
+                        TextFormField(
                           readOnly: true,
-                          validator: (value) {
-                            if (value == '') {
-                              print('Class == bull');
-                              return 'Please Select your Class';
-                            }
-                            return null;
-                          },
-                          onClassSelected: _onClassSelected,
-                          isClassTextField: true,
+                          keyboardType: TextInputType.number,
+                          controller: _classController,
+                          // onSubmitted: onSubmit,
+                          validator: (value) => TextUtils.isEmpty(value)
+                              ? 'Please Enter your Class'
+                              : null,
+                          onSaved: (newValue) =>
+                              UserPreferences.setClass(int.parse(newValue!)),
+                          decoration: getInputDecoration(width, height, 'Class')
+                              .copyWith(suffixIcon: _dropDownWidget(height)),
                         ),
                         SizedBox(
                           // height: 20,
                           height: height * 0.0264,
                         ),
-                        CustomTextField(
-                          hintText: 'Parent\'s Email',
-                          validator: (value) {
-                            if (value == null) {
-                              print('email == bull');
-                              return 'Please Enter your Parent Email';
-                            } else if (!_isValidEmail(value)) {
-                              print('Email is Not Valid');
-                              return 'Please Enter Valid Email';
-                            }
-                            return null;
-                          },
+                        TextFormField(
+                          keyboardType: TextInputType.name,
                           controller: _parentsEmailController,
-                          // onSubmit: _onSubmit,
+                          // onSubmitted: onSubmit,
+                          validator: (value) =>
+                              TextUtils.isEmpty(value) || !_isValidEmail(value!)
+                                  ? 'Please Enter your Parent\'s Email'
+                                  : null,
+                          onSaved: (newValue) =>
+                              UserPreferences.setParentEmail(newValue!),
+                          decoration: getInputDecoration(
+                              width, height, 'Parent\'s Email'),
                         ),
                       ],
                     ),
@@ -249,6 +215,56 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
+  Widget _dropDownWidget(double height) {
+    return DropdownButton<int>(
+      underline: const SizedBox(),
+      elevation: 0,
+      focusColor: Theme.of(context).colorScheme.background,
+      alignment: Alignment.center,
+      icon: SvgPicture.asset(
+        'assets/images/dropdown.svg',
+        // height: 12
+        // height: height* 0.0158,
+        // width: 10
+        // width: width* 0.028,
+      ),
+      // iconSize: 20,
+      iconSize: height * 0.0264,
+      items: List.generate(
+          DbHelper.totalClass, //totalClass
+          (index) => DropdownMenuItem(
+                value: index + 1,
+                child: Text((index + 1).toString()),
+              )),
+      onChanged: (value) => _classController.text = value.toString(),
+    );
+  }
+
+  InputDecoration getInputDecoration(
+      double width, double height, String hintText) {
+    return InputDecoration(
+        prefix: SizedBox(
+          width: width * 0.0667,
+        ),
+        hintStyle: TextStyle(
+            color: const Color.fromRGBO(189, 195, 199, 1),
+            // fontSize: 20,
+            fontSize: height * 0.0264,
+            fontWeight: FontWeight.w700),
+        hintText: hintText,
+        focusedBorder: _buildInputBorder(width, height),
+        enabledBorder: _buildInputBorder(width, height),
+        errorBorder: _buildInputBorder(width, height, Colors.red),
+        border: _buildInputBorder(width, height));
+  }
+
+  InputBorder _buildInputBorder(double width, double height,
+      [Color color = const Color.fromRGBO(44, 62, 80, 1)]) {
+    return OutlineInputBorder(
+        borderRadius: BorderRadius.circular(height * 0.033),
+        borderSide: BorderSide(color: color, width: width * 0.0084));
+  }
+
   void _disposeAllControllers() {
     _nameController.dispose();
     _classController.dispose();
@@ -261,23 +277,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
     super.dispose();
   }
 
-  void _onClassSelected(int? value) {
-    setState(() {
-      _classController.text = value.toString();
-    });
-  }
-
-  void _saveUserDetails(String name, int userClass, String parentEmail) {
-    UserPreferences.setName(name);
-    UserPreferences.setClass(userClass);
-    UserPreferences.setParentEmail(parentEmail);
-    UserPreferences.setAvatar(_selectedAvatar);
-  }
-
   void _onClick() async {
     if (_formKey.currentState!.validate()) {
-      int classNo = int.parse(cNo);_formKey.currentState!.save();
-      _saveUserDetails(name, classNo, parentEmail);
+      _formKey.currentState!.save();
+      UserPreferences.setAvatar(_selectedAvatar);
+      // _saveUserDetails(name, classNo, parentEmail);
       await Utils.hideSystemNavBar();
       _goToHomePage();
     }
