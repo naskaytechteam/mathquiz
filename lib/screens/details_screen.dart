@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '/widgets/common_widgets/custom_app_bar.dart';
 import '/utils/text_utils.dart';
 
 import '../database/db_helper.dart';
@@ -51,26 +52,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     return Scaffold(
       appBar: type == DetailScreenType.profileScreenType
-          ? AppBar(
-              elevation: 0,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Icon(
-                  Icons.chevron_left,
-                  size: height * 0.05264,
-                  color: const Color.fromRGBO(231, 76, 60, 1),
-                ),
-              ),
-              title: Text(
-                'Your Profile',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: height * 0.02369,
-                    fontWeight: FontWeight.w600),
-              ),
-            )
+          ? CustomAppBar(title: 'Your Profile', height: height * 0.1)
           : null,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.1112),
