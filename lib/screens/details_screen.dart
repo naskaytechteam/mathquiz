@@ -63,13 +63,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   color: const Color.fromRGBO(231, 76, 60, 1),
                 ),
               ),
-              centerTitle: true,
-              title: Text('Your Profile',
-                  style: TextStyle(
-                      color: Colors.black,
-                      // fontSize: 18,
-                      fontSize: height * 0.02369,
-                      fontWeight: FontWeight.w600)),
+              title: Text(
+                'Your Profile',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: height * 0.02369,
+                    fontWeight: FontWeight.w600),
+              ),
             )
           : null,
       body: Padding(
@@ -281,7 +281,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       UserPreferences.setAvatar(_selectedAvatar);
-      // _saveUserDetails(name, classNo, parentEmail);
       await Utils.hideSystemNavBar();
       _goToHomePage();
     }
@@ -293,7 +292,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   void _goToHomePage() {
-    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    if (type == DetailScreenType.userDetailType) {
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   Widget _buildAvatar(
