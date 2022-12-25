@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (_) => const HomeScreen(),
       },
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+        appBarTheme: AppBarTheme(
+            backgroundColor: Colors.transparent, centerTitle: Platform.isIOS),
         fontFamily: primaryFontFamily,
         colorScheme: const ColorScheme.light(
             primary: Color.fromRGBO(227, 90, 158, 1),
