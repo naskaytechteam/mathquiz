@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import '/widgets/on_boarding_screen_widgets/on_boarding_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '/screens/details_screen.dart';
 import '/widgets/common_widgets/custom_button.dart';
-import '/widgets/on_boarding_screen_widgets/on_boarding_page1.dart';
-import '/widgets/on_boarding_screen_widgets/on_boarding_page2.dart';
-import '/widgets/on_boarding_screen_widgets/on_boarding_page3.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   static const String routeName = "/screens/onboarding";
@@ -47,10 +44,38 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onPageChanged: (nextPageIndex) {
                     _pageIndex = nextPageIndex;
                   },
-                  children: const [
-                    OnBoardingPage1(),
-                    OnBoardingPage2(),
-                    OnBoardingPage3()
+                  children: [
+                    OnBoardingPage(
+                        imageNo: 1,
+                        imageHeight: height * 0.4145,
+                        imageWidth: width * 0.7584,
+                        firstGapHeight: height * 0.0593,
+                        secondTextContainerHeight: height * 0.0869,
+                        firstText: 'Learning is fun \nnow',
+                        secondText:
+                            'Lorem ipsum dolor sit amet,\n consectetur adipiscing elit.'),
+                    OnBoardingPage(
+                      imageNo: 2,
+                      imageHeight: height * 0.45265,
+                      imageWidth: width * 0.778,
+                      isSecondPage: true,
+                      firstText: 'Mockup tests for Olympiad',
+                      secondText:
+                          'Lorem ipsum dolor  consectetur  sed do eiusmod  ut labore et dolore aliqua.',
+                      secondTextContainerHeight: height * 0.1158,
+                      firstGapHeight: height * 0.025,
+                    ),
+                    OnBoardingPage(
+                      imageNo: 3,
+                      imageHeight: height * 0.40265,
+                      imageWidth: width * 0.7028,
+                      firstText: 'Custom Math problems',
+                      secondText:
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                      secondTextContainerHeight: height * 0.0869,
+                      firstGapHeight: height * 0.0694,
+                      isThirdScreen: true,
+                    ),
                   ],
                 ),
               ),
@@ -59,7 +84,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               SizedBox(
                 height: height * 0.02,
                 width: width,
-                // alignment: Alignment.center,
                 child: Align(
                   alignment: Alignment.center,
                   child: SmoothPageIndicator(
