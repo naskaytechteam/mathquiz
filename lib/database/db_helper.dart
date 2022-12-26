@@ -58,23 +58,10 @@ class DbHelper {
     db.delete('save_quiz');
   }
 
-  // Future<List<Question>> get getQuestions async {
-  //   Database db = await database;
-  //   List<Map<String, Object?>> getSavedData = await db.query('save_quiz');
-  //   return TemplateParser.questionsList(getSavedData);
-  // }
   Future<List<Map<String, Object?>>> getSavedQuizData() async {
     Database db = await database;
-
     return db.query('save_quiz');
   }
-
-  // Future<int?> get getIndex async {
-  //   Database db = await database;
-  //   List<Map<String, Object?>> list =
-  //       await db.rawQuery('select _index from save_quiz');
-  //   return list.isNotEmpty ? list[0]['_index'] as int : null;
-  // }
 
   Future<String> _getPath() async {
     return join(await getDatabasesPath(), 'sqlite.db');
