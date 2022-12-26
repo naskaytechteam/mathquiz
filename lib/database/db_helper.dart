@@ -18,12 +18,19 @@ class DbHelper {
   static const String selectedIndex = 'selectedOptionIndex';
   static const String answer = 'answer';
   static const String index = '_index';
-  static const String classNo='classNo';
-  static const String quesType='quesType';
+  static const String classNo = 'classNo';
+  static const String quesType = 'quesType';
+  static final DbHelper _dbHelper = DbHelper._();
 
   Future<Database> get database async {
     _database ??= await _getDatabase();
     return _database!;
+  }
+
+  DbHelper._();
+
+  factory DbHelper() {
+    return _dbHelper;
   }
 
   Future<void> saveQuizData(int quesIndex, Question questions,int classNum,int questype) async {
