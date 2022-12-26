@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '/screens/details_screen.dart';
+import '/widgets/common_widgets/custom_button.dart';
 import '/widgets/on_boarding_screen_widgets/on_boarding_page1.dart';
 import '/widgets/on_boarding_screen_widgets/on_boarding_page2.dart';
 import '/widgets/on_boarding_screen_widgets/on_boarding_page3.dart';
-import '/widgets/common_widgets/custom_button.dart';
-import '/screens/details_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-
   static const String routeName = "/screens/onboarding";
+
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -92,10 +93,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void _goToDetailsScreen() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      return const DetailsScreen();
-    }));
+    Navigator.of(context).pushNamed(DetailsScreen.routeName,
+        arguments: DetailScreenType.userDetailType);
   }
 
   void _onButtonPressed() {

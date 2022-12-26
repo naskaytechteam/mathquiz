@@ -14,7 +14,6 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
 
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.transparent,
       leading: InkWell(
         onTap: () {
           Navigator.of(context).pop();
@@ -28,7 +27,6 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       toolbarHeight:
           Platform.isAndroid ? screenHeight * 0.1 : screenHeight * 0.05,
-      centerTitle: true,
       title: Text(
         title,
         style: TextStyle(

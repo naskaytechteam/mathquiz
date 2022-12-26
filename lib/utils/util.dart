@@ -1,9 +1,18 @@
+import 'package:flutter/services.dart';
+
 enum SortOrder {
   ascending,
   descending,
 }
 
-class Util {
+class Utils {
+
+  Utils._();
+
+  static Future<void> hideSystemNavBar() async {
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+        overlays: [SystemUiOverlay.top]);
+  }
   static int hcf(List<int> values) {
     return values.reduce((value, element) => _findGCD(value, element));
   }

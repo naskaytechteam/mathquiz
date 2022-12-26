@@ -2,25 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '/screens/profile_screen.dart';
-import 'package:mathquiz/widgets/common_widgets/custom_button.dart';
-import '../../utils/user_preferences.dart';
-import '/widgets/topics.dart';
-import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
+
 import '/database/db_helper.dart';
 import '/provider/template_factory.dart';
-import 'class_screen_widgets/view_all.dart';
+import '/screens/details_screen.dart';
+import '/widgets/common_widgets/custom_button.dart';
+import '/widgets/topics.dart';
+import '../../utils/user_preferences.dart';
+import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
 import 'class_screen_widgets/today_topic_container.dart';
+import 'class_screen_widgets/view_all.dart';
 
 class ClassScreen extends StatelessWidget {
-  final String name;
   final int userClassNo;
-  final int avatarNo;
 
   ClassScreen({super.key})
-      : userClassNo = UserPreferences.getClass()!,
-        name = UserPreferences.getName()!,
-        avatarNo = UserPreferences.getAvatar()!;
+      : userClassNo = UserPreferences.getClass()!;
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +142,7 @@ class ClassScreen extends StatelessWidget {
   }
 
   Widget _buildNameContainer(
-    double height,
-    double width,
-    BuildContext context,
-  ) {
+      double height, double width, BuildContext context) {
     return SizedBox(
       height: height * 0.1,
       width: width,
@@ -169,7 +163,7 @@ class ClassScreen extends StatelessWidget {
                       color: const Color.fromRGBO(51, 51, 51, 1)),
                   children: [
                     TextSpan(
-                      text: name,
+                      text: UserPreferences.getName(),
                       style: TextStyle(
                         color: const Color.fromRGBO(52, 73, 94, 1),
                         // fontSize: 32,
@@ -183,13 +177,12 @@ class ClassScreen extends StatelessWidget {
           InkWell(
             highlightColor: Theme.of(context).colorScheme.background,
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return const ProfileScreen();
-              }));
+              Navigator.of(context).pushNamed(DetailsScreen.routeName,
+                  arguments: DetailScreenType.profileScreenType);
             },
             // onTap: onProfileButtonClick,
             child: SvgPicture.asset(
-              'assets/images/avatar$avatarNo.svg',
+              'assets/images/avatar${UserPreferences.getAvatar()}.svg',
               // height: 59,
               height: height * 0.07764,
               // width: 59,
