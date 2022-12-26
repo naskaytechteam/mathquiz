@@ -33,21 +33,22 @@ class DbHelper {
     return _dbHelper;
   }
 
-  Future<void> saveQuizData(int quesIndex, Question questions,int classNum,int questype) async {
+  Future<void> saveQuizData(
+      int quesIndex, Question ques, int classNum, int questype) async {
     Database db = await database;
     await db.insert(
       'save_quiz',
       {
         index: quesIndex,
-        question: questions.question,
-        answer: questions.answer,
-        selectedIndex: questions.selectedOptionIndex,
-        option1: questions.options[0],
-        option2: questions.options[1],
-        option3: questions.options[2],
-        option4: questions.options[3],
-        classNo:classNum,
-        quesType:questype
+        question: ques.question,
+        answer: ques.answer,
+        selectedIndex: ques.selectedOptionIndex,
+        option1: ques.options[0],
+        option2: ques.options[1],
+        option3: ques.options[2],
+        option4: ques.options[3],
+        classNo: classNum,
+        quesType: questype
       },
     );
   }
