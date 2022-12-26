@@ -8,7 +8,7 @@ import '/model/question_template.dart';
 import '../provider/template_factory.dart';
 
 class DbHelper {
-  static Database? _database;
+  Database? _database;
   static const int totalClass = 6;
   static const String question = 'question';
   static const String option1 = 'option1';
