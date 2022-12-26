@@ -17,7 +17,7 @@ class ClassScreen extends StatelessWidget {
   final int userClassNo;
 
   ClassScreen({super.key})
-      : userClassNo = UserPreferences.getClass()!
+      : userClassNo = UserPreferences.getClass()!;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,6 @@ class ClassScreen extends StatelessWidget {
           _buildGap(height * 0.0514),
           _buildTakeATextContainer(height, width, context),
           _buildGap(height * 0.01975),
-          GridView.count(crossAxisCount: crossAxisCount)
           for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
             _buildClassRow(height, width, i, context),
           const ResumeYourLesson(),
