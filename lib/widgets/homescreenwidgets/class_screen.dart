@@ -14,14 +14,10 @@ import 'class_screen_widgets/today_topic_container.dart';
 import 'class_screen_widgets/view_all.dart';
 
 class ClassScreen extends StatelessWidget {
-  final String name;
   final int userClassNo;
-  final int avatarNo;
 
   ClassScreen({super.key})
-      : userClassNo = UserPreferences.getClass()!,
-        name = UserPreferences.getName()!,
-        avatarNo = UserPreferences.getAvatar()!;
+      : userClassNo = UserPreferences.getClass()!
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +35,7 @@ class ClassScreen extends StatelessWidget {
           _buildGap(height * 0.0514),
           _buildTakeATextContainer(height, width, context),
           _buildGap(height * 0.01975),
+          GridView.count(crossAxisCount: crossAxisCount)
           for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
             _buildClassRow(height, width, i, context),
           const ResumeYourLesson(),
@@ -167,7 +164,7 @@ class ClassScreen extends StatelessWidget {
                       color: const Color.fromRGBO(51, 51, 51, 1)),
                   children: [
                     TextSpan(
-                      text: name,
+                      text: UserPreferences.getName(),
                       style: TextStyle(
                         color: const Color.fromRGBO(52, 73, 94, 1),
                         // fontSize: 32,
@@ -186,7 +183,7 @@ class ClassScreen extends StatelessWidget {
             },
             // onTap: onProfileButtonClick,
             child: SvgPicture.asset(
-              'assets/images/avatar$avatarNo.svg',
+              'assets/images/avatar${UserPreferences.getAvatar()}.svg',
               // height: 59,
               height: height * 0.07764,
               // width: 59,

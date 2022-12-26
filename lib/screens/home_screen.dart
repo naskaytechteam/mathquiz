@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SingleChildScrollView(child: _screens[_screenIndex]),
       bottomNavigationBar: SizedBox(
-        // height: 100,
         height: height * 0.13158,
         width: width,
         child: BottomNavigationBar(
