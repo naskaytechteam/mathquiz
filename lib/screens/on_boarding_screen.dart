@@ -39,7 +39,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: height * 0.808,
+                height: height * 0.809,
                 width: width,
                 child: PageView(
                   physics: const NeverScrollableScrollPhysics(),
