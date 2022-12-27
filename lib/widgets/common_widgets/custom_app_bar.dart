@@ -13,7 +13,6 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
     double screenHeight = size.height;
 
     return AppBar(
-      elevation: 0,
       leading: InkWell(
         onTap: () {
           Navigator.of(context).pop();
