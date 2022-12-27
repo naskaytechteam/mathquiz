@@ -39,12 +39,10 @@ class ScoreScreen extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: SvgPicture.asset(
-              'assets/images/cross.svg',
-              // height: 22,
-              height: height * 0.029,
-              // width: 22,
-              width: width * 0.0612,
+            child: Icon(
+              Icons.close,
+              color: Colors.red,
+              size: height * 0.05,
             ),
           ),
           SizedBox(
@@ -256,7 +254,7 @@ class ScoreScreen extends StatelessWidget {
     } else {
       image = 3;
     }
-    return 'assets/images/scorescreenimage$image.svg';
+    return 'assets/images/score_screen_image$image.svg';
   }
 
   double _getPercentageValue(int answer) {
