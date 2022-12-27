@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '/screens/details_screen.dart';
+import '/widgets/homescreenwidgets/home_sreen_appbar.dart';
 import '/widgets/common_widgets/custom_button.dart';
+import 'details_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
