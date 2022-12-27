@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '/widgets/homescreenwidgets/home_sreen_appbar.dart';
@@ -16,8 +15,7 @@ import 'class_screen_widgets/view_all.dart';
 class ClassScreen extends StatelessWidget {
   final int userClassNo;
 
-  ClassScreen({super.key})
-      : userClassNo = UserPreferences.getClass()!;
+  ClassScreen({super.key}) : userClassNo = UserPreferences.getClass()!;
 
   @override
   Widget build(BuildContext context) {
