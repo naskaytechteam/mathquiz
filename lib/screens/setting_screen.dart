@@ -13,69 +13,55 @@ class SettingScreen extends StatelessWidget {
     double height = size.height;
     double width = size.width;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.1112),
-      child: Column(
-        children: [
-          _gap(height * 0.03422),
-          SizedBox(
-            height: height * 0.1,
-            width: width,
-            // color: Colors.red,
-            child: Text.rich(
-              TextSpan(
-                  text: 'All Your\n',
-                  style: TextStyle(
-                      // fontSize: 14,
-                      fontSize: height * 0.0185,
-                      fontWeight: FontWeight.w600),
+    return Scaffold(
+      appBar: HomeScreenAppBar(
+        height: height * 0.12,
+        firstText: 'All Yours',
+        secondText: 'Settings',
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: /*40*/ width * 0.1112),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _gap(height * 0.04737),
+              _buildCustomButton(height, width, 'Your Profile', context),
+              _gap(height * 0.03158),
+              _buildCustomButton(height, width, 'App Version', context),
+              _gap(height * 0.03158),
+              _buildCustomButton(height, width, 'Privacy Policy', context),
+              _gap(height * 0.033),
+              SizedBox(
+                // height: 80,
+                height: height * 0.1053,
+                width: width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextSpan(
-                        text: 'Settings',
-                        style: TextStyle(
-                            // fontSize: 32,
-                            fontSize: height * 0.0422,
-                            // color: Colors.black,
-                            fontWeight: FontWeight.bold))
-                  ]),
-            ),
+                    _buildShareContainer(
+                        height,
+                        width,
+                        'instagram',
+                        const Color.fromRGBO(155, 89, 182, 1),
+                        const Color.fromRGBO(142, 68, 173, 1)),
+                    _buildShareContainer(
+                        height,
+                        width,
+                        'facebook',
+                        const Color.fromRGBO(52, 152, 219, 1),
+                        const Color.fromRGBO(41, 128, 185, 1)),
+                    _buildShareContainer(
+                        height,
+                        width,
+                        'whatsapp',
+                        const Color.fromRGBO(46, 204, 113, 1),
+                        const Color.fromRGBO(39, 174, 96, 1))
+                  ],
+                ),
+              )
+            ],
           ),
-          _gap(height * 0.04737),
-          _buildCustomButton(height, width, 'Your Profile', context),
-          _gap(height * 0.03158),
-          _buildCustomButton(height, width, 'App Version', context),
-          _gap(height * 0.03158),
-          _buildCustomButton(height, width, 'Privacy Policy', context),
-          _gap(height * 0.033),
-          SizedBox(
-            // height: 80,
-            height: height * 0.1053,
-            width: width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildShareContainer(
-                    height,
-                    width,
-                    'instagram',
-                    const Color.fromRGBO(155, 89, 182, 1),
-                    const Color.fromRGBO(142, 68, 173, 1)),
-                _buildShareContainer(
-                    height,
-                    width,
-                    'facebook',
-                    const Color.fromRGBO(52, 152, 219, 1),
-                    const Color.fromRGBO(41, 128, 185, 1)),
-                _buildShareContainer(
-                    height,
-                    width,
-                    'whatsapp',
-                    const Color.fromRGBO(46, 204, 113, 1),
-                    const Color.fromRGBO(39, 174, 96, 1))
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

@@ -24,24 +24,50 @@ class ClassScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final double height = size.height;
     final double width = size.width;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
-      child: Column(
-        children: [
-          if (Platform.isIOS) SizedBox(height: height * 0.05),
-          _buildNameContainer(height, width, context),
-          _buildGap(height * 0.0566),
-          const TodayTopicContainer(),
-          _buildGap(height * 0.0514),
-          _buildTakeATextContainer(height, width, context),
-          _buildGap(height * 0.01975),
-          for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
-            _buildClassRow(height, width, i, context),
-          const ResumeYourLesson(),
-          _buildGap(height * 0.03),
-        ],
-      ),
-    );
+    return Scaffold(
+        appBar: HomeScreenAppBar(
+          height: height * 0.12,
+          firstText: 'Good morning',
+          secondText: UserPreferences.getName()!,
+          actions: [
+            SizedBox(
+              width: width * 0.17,
+              child: InkWell(
+                highlightColor: Theme.of(context).colorScheme.background,
+                onTap: () {
+                  Navigator.of(context).pushNamed(DetailsScreen.routeName,
+                      arguments: DetailScreenType.profileScreenType);
+                },
+                child: SvgPicture.asset(
+                  'assets/images/avatar${UserPreferences.getAvatar()}.svg',
+                  height: height * 0.07764,
+                  width: width * 0.164,
+                ),
+              ),
+            ),
+            SizedBox(width: width * 0.1),
+          ],
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                if (Platform.isIOS) SizedBox(height: height * 0.05),
+                _buildGap(height * 0.0566),
+                const TodayTopicContainer(),
+                _buildGap(height * 0.0514),
+                _buildTakeATextContainer(height, width, context),
+                _buildGap(height * 0.01975),
+                for (int i = userClassNo; i <= DbHelper.totalClass; i = i + 2)
+                  _buildClassRow(height, width, i, context),
+                const ResumeYourLesson(),
+                _buildGap(height * 0.03),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _buildClassContainer(
@@ -137,59 +163,6 @@ class ClassScreen extends StatelessWidget {
               _buildClassContainer(height, width, i + 1, context)
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildNameContainer(
-      double height, double width, BuildContext context) {
-    return SizedBox(
-      height: height * 0.1,
-      width: width,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: width * 0.278,
-            height: height * 0.1,
-            alignment: Alignment.bottomLeft,
-            child: Text.rich(
-              TextSpan(
-                  text: 'Good evening\n',
-                  style: TextStyle(
-                      // fontSize: 14,
-                      fontSize: height * 0.0185,
-                      color: const Color.fromRGBO(51, 51, 51, 1)),
-                  children: [
-                    TextSpan(
-                      text: UserPreferences.getName(),
-                      style: TextStyle(
-                        color: const Color.fromRGBO(52, 73, 94, 1),
-                        // fontSize: 32,
-                        fontSize: height * 0.04215,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    )
-                  ]),
-            ),
-          ),
-          InkWell(
-            highlightColor: Theme.of(context).colorScheme.background,
-            onTap: () {
-              Navigator.of(context).pushNamed(DetailsScreen.routeName,
-                  arguments: DetailScreenType.profileScreenType);
-            },
-            // onTap: onProfileButtonClick,
-            child: SvgPicture.asset(
-              'assets/images/avatar${UserPreferences.getAvatar()}.svg',
-              // height: 59,
-              height: height * 0.07764,
-              // width: 59,
-              width: width * 0.164,
-            ),
-          )
-        ],
       ),
     );
   }
