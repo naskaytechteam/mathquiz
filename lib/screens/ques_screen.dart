@@ -70,23 +70,41 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _gap(height * 0.033),
-              SizedBox(
-                // height: height * 0.18,
-                // width: width,
-                // height: 102,
-                // height: height * 0.13422,
-                height: height * 0.16422,
+              Align(
+                child: Container(
+                  // color: Colors.red,
+                  height: height*0.66,
+                  width: width,
+                  child: SingleChildScrollView(
+                    physics:const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          // height: height * 0.18,
+                          // width: width,
+                          // height: 102,
+                          // height: height * 0.13422,
+                          // height: height * 0.16422,
 
-                // width: 295,
-                width: width * 0.81945,
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Text(
-                    question.question,
-                    style: TextStyle(
-                      // fontSize: 20,
-                      fontSize: height * 0.02632,
-                      fontWeight: FontWeight.w600,
+                          // width: 295,
+                          width: width * 0.81945,
+                          child: Text(
+                            question.question,
+                            style: TextStyle(
+                              // fontSize: 20,
+                              fontSize: height * 0.02632,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        _gap(height * 0.02),
+                        Options(
+                          option: widget.questions[_quesIndex].options,
+                          onOptionSelected: _onOptionSelected,
+                          optionSelectedIndex: _optionSelectedIndex,
+                        ),
+                        _gap(height * 0.02),
+                      ],
                     ),
                   ),
                 ),
