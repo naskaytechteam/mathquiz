@@ -15,125 +15,157 @@ class RankingScreen extends StatelessWidget {
     final double width = size.width;
     final TextStyle commonTextStyle = TextStyle(
       fontWeight: FontWeight.w900,
-      // fontSize: 16,
       fontSize: height * 0.0211,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          // height: 59,
-          height: height * 0.07764,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: /*40*/ width * 0.11112),
-          child: SizedBox(
-            // height: 15,
-            height: height * 0.01975,
-            width: width,
-            child: Text(
-              'All Your',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                // fontSize: 14,
-                fontSize: height * 0.0185,
+    return Scaffold(
+      appBar: HomeScreenAppBar(
+        height: height * 0.12,
+        firstText: 'All Yours',
+        secondText: 'Rankings',
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+                // height: 43,
+                height: height * 0.03),
+            Padding(
+              padding: EdgeInsets.only(left: /*40*/ width * 0.11112),
+              child: SizedBox(
+                // height: 22,
+                height: height * 0.029,
+                // width: 139,
+                width: width * 0.3862,
+                child: Text('Summary', style: commonTextStyle),
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: width * 0.11112),
-          child: SizedBox(
-            // height: 44,
-            height: height * 0.0579,
-            // width: 143,
-            width: width * 0.398,
-            child: Text('Rankings',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  // fontSize: 32,
-                  fontSize: height * 0.04215,
-                )),
-          ),
-        ),
-        SizedBox(
-          // height: 43,
-          height: height * 0.0566,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: /*40*/ width * 0.11112),
-          child: SizedBox(
-            // height: 22,
-            height: height * 0.029,
-            // color: Colors.red,
-            // width: 139,
-            width: width * 0.3862,
-            child: Text('Summary', style: commonTextStyle),
-          ),
-        ),
-        SizedBox(
-          // height: 15,
-          height: height * 0.01975,
-        ),
-        SizedBox(
-          // color: Colors.red,
-          // height: 192,
-          height: height * 0.25264,
-          width: width,
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
-            scrollDirection: Axis.horizontal,
-            children: const [
-              RankingContainer(
-                containerColor: Color.fromRGBO(241, 196, 15, 1),
-                shadowColor: Color.fromRGBO(243, 156, 18, 1),
-                detailName: 'Total Test Given',
-                detailNo: '12',
+            SizedBox(
+              // height: 15,
+              height: height * 0.01975,
+            ),
+            SizedBox(
+              // color: Colors.red,
+              // height: 192,
+              height: height * 0.25264,
+              width: width,
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.11112),
+                scrollDirection: Axis.horizontal,
+                children: const [
+                  RankingContainer(
+                    containerColor: Color.fromRGBO(241, 196, 15, 1),
+                    shadowColor: Color.fromRGBO(243, 156, 18, 1),
+                    detailName: 'Total Test Given',
+                    detailNo: '12',
+                  ),
+                  RankingContainer(
+                    containerColor: Color.fromRGBO(46, 204, 113, 1),
+                    shadowColor: Color.fromRGBO(39, 174, 96, 1),
+                    detailName: 'Lessons Completed',
+                    detailNo: '57',
+                  ),
+                  RankingContainer(
+                    containerColor: Color.fromRGBO(52, 152, 219, 1),
+                    shadowColor: Color.fromRGBO(41, 128, 185, 1),
+                    detailName: 'Average Score',
+                    detailNo: '7/10',
+                  )
+                ],
               ),
-              RankingContainer(
-                containerColor: Color.fromRGBO(46, 204, 113, 1),
-                shadowColor: Color.fromRGBO(39, 174, 96, 1),
-                detailName: 'Lessons Completed',
-                detailNo: '57',
-              ),
-              RankingContainer(
-                containerColor: Color.fromRGBO(52, 152, 219, 1),
-                shadowColor: Color.fromRGBO(41, 128, 185, 1),
-                detailName: 'Average Score',
-                detailNo: '7/10',
-              )
-            ],
+            ),
+            SizedBox(
+              // height: 24,
+              height: height * 0.03158,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: /*40*/ width * 0.11112),
+              child: SizedBox(
+                  // height: 22,
+                  height: height * 0.029,
+                  // width: 139,
+                  width: width * 0.3862,
+                  child: Text(
+                    'Scores',
+                    style: commonTextStyle,
+                  )),
+            ),
+            SizedBox(
+              // height: 15,
+              height: height * 0.01975,
+            ),
+            for (int i = 0; i < TemplateType.values.length; i = i + 2)
+              _buildClassRow(height, width, i, context),
+            SizedBox(
+              // height: 30,
+              height: height * 0.0395,
+            ),
+            _buildYouScoredContainer(height, width)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClassRow(
+      double height, double width, int i, BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        // height: 170,
+        height: height * 0.22369,
+        width: width,
+        margin: EdgeInsets.only(
+            /*left: 40,right: 40,*/
+            left: 40,
+            right: 40,
+            bottom: /*20*/ height * 0.02632),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildClassContainer(height, width, i, context),
+            if (i + 1 < TemplateType.values.length)
+              _buildClassContainer(height, width, i + 1, context)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClassContainer(
+      double height, double width, int index, BuildContext context) {
+    return Align(
+      child: SizedBox(
+        // height: 170,
+        height: height * 0.22369,
+        // width: 130,
+        width: width * 0.36112,
+        child: Column(children: [
+          CustomButton(
+            // onButtonPressed: () => _onClassSelected(context, classNo),
+            height: height * 0.1803,
+            width: width * 0.38056,
+            backgroundColor: const Color.fromRGBO(236, 240, 241, 1),
+            shadowColor: const Color.fromRGBO(189, 195, 199, 1),
+            shadowHeight: height * 0.0093,
+            buttonName: '',
+            // buttonName: classNo.toString(),
+            fontSize: height * 0.06316,
+            textColor: Colors.black,
           ),
-        ),
-        SizedBox(
-          // height: 24,
-          height: height * 0.03158,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: /*40*/ width * 0.11112),
-          child: SizedBox(
-              // height: 22,
-              height: height * 0.029,
-              // width: 139,
-              width: width * 0.3862,
+          SizedBox(height: height * 0.01449),
+          SizedBox(
+              width: width,
+              // alignment: Alignment.center,
+              // height: 15,
+              height: height * 0.01975,
               child: Text(
-                'Scores',
-                style: commonTextStyle,
+                TemplateType.values[index].name,
+                textAlign: TextAlign.center,
               )),
-        ),
-        SizedBox(
-          // height: 15,
-          height: height * 0.01975,
-        ),
-        CustomGridView(
-            totalHeight: height * 0.3079, mainAxisExtent: height * 0.2182),
-        SizedBox(
-          // height: 30,
-          height: height * 0.0395,
-        ),
-        _buildYouScoredContainer(height, width)
-      ],
+        ]),
+      ),
     );
   }
 
