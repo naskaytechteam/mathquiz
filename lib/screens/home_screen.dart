@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final double height = size.height;
     final double width = size.width;
     return Scaffold(
-      body: SingleChildScrollView(child: _screens[_screenIndex]),
+      body: _screens[_screenIndex],
       bottomNavigationBar: SizedBox(
           height: height * 0.13158,
           width: width,
