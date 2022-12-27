@@ -22,7 +22,7 @@ class DbHelper {
   // static const String quesType = 'quesType';
   static final DbHelper _dbHelper = DbHelper._();
 
-  Future<Database> get database async {
+  Future<Database> get _dataBase async {
     _database ??= await _getDatabase();
     return _database!;
   }
@@ -93,7 +93,7 @@ class DbHelper {
   }
 
   Future<List<int>> getQuestypeForClass(int classNo) async {
-    Database db = await database;
+    Database db = await _dataBase;
     List<Map<String, Object?>> list =
         await db.rawQuery('select type from questype where class=$classNo');
     return _changeListType(list);
@@ -106,7 +106,7 @@ class DbHelper {
 
   Future<List<QuestionTemplate>> readData(
       TemplateType quesType, int classNo) async {
-    Database db = await database;
+    Database db = await _dataBase;
     List<Map<String, Object?>> map = await db.rawQuery(
         'select * from questemp  where quesType=${quesType.index} and class=$classNo ');
 
