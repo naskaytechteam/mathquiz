@@ -59,13 +59,10 @@ class ResumeYourLesson extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: width * 0.07223,
-              top: height * 0.1087,
-              child: SvgPicture.asset(
-                'assets/images/keyboard_arrow_right.svg',
-                height: height * 0.026,
-                width: width * 0.0314,
-              ),
+              right: width * 0.05,
+              top: height * 0.1,
+              child: Icon(Icons.chevron_right,
+                  color: Colors.white, size: height * 0.05),
             ),
             Positioned(
                 left: width * 0.09167,
