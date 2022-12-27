@@ -37,16 +37,10 @@ dependencies:
   sqflite: ^2.0.3+1
   path_provider: ^2.0.11
   path: ^1.8.1
-  provider: ^6.0.3
   function_tree: ^0.8.13
   flutter_svg: ^1.1.5
   auto_size_text: ^3.0.0
   pdf: ^3.8.3
-  permission_handler: ^10.1.0
-  expandable_text: ^2.3.0
-  filesystem_picker: ^3.1.0
-  flutter_pdfview: ^1.2.5
-  share_plus: ^6.3.0
   smooth_page_indicator: ^1.0.0+2
   shared_preferences: ^2.0.15
   percent_indicator: ^4.2.2
