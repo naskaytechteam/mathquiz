@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '/screens/setting_screen.dart';
 import '../widgets/homescreenwidgets/class_screen.dart';
 import '../widgets/homescreenwidgets/ranking_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-
   static const String routeName = '/screens/home';
 
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,8 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int _screenIndex = 0;
-  static const  _totalHomeScreens=3;
-  late TabController tabController = TabController(length: _totalHomeScreens, vsync: this);
+  static const _totalHomeScreens = 3;
+  late TabController tabController =
+      TabController(length: _totalHomeScreens, vsync: this);
   final List<Widget> _screens = [
     ClassScreen(),
     const RankingScreen(),
@@ -36,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           height: height * 0.13158,
           width: width,
           child: TabBar(
-            overlayColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.background),
+              overlayColor: MaterialStatePropertyAll<Color>(
+                  Theme.of(context).colorScheme.background),
               onTap: (index) {
                 setState(() {
                   _screenIndex = index;
@@ -63,8 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     icon: Icon(Icons.settings_outlined,
                         size: height * 0.04,
                         color: _bottomNavBarIconColor(iconIndex: 2)))
-              ])
-          ),
+              ])),
     );
   }
 
