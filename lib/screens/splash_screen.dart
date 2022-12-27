@@ -40,12 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
               child: SizedBox(
                 width: width,
                 height: height * 0.0356,
-                child: const Text(
-                  'Welcome to',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w700),
-                ),
+                child: const Text('Welcome to',
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               ),
             ),
           ),
