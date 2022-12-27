@@ -23,7 +23,7 @@ class QuesScreen extends StatefulWidget {
   State<QuesScreen> createState() => _QuesScreenState();
 }
 
-class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
+class _QuesScreenState extends State<QuesScreen> /*with WidgetsBindingObserver */{
   static const _noOptionSelectedIndex = -1;
   late int _quesIndex = widget.quesIndex ?? 0;
   late int _optionSelectedIndex =
@@ -33,21 +33,21 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
   late bool _isOptionSelected =
       widget.questions[_quesIndex].selectedOptionIndex != null;
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance.addObserver(this);
+  //   super.initState();
+  // }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    TemplateFactory factory = TemplateFactory();
-    if (AppLifecycleState.paused == state) {
-      await factory.saveQuesDetails(_quesIndex, widget.questions);
-    } else if (AppLifecycleState.resumed == state) {
-      factory.deleteSavedData();
-    }
-  }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) async {
+  //   TemplateFactory factory = TemplateFactory();
+  //   if (AppLifecycleState.paused == state) {
+  //     await factory.saveQuizData(_quesIndex, widget.questions);
+  //   } else if (AppLifecycleState.resumed == state) {
+  //     factory.deleteSavedData();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -197,9 +197,9 @@ class _QuesScreenState extends State<QuesScreen> with WidgetsBindingObserver {
       setState(() {});
       return;
     }
-    if (widget.quesIndex != null) {
-      TemplateFactory().deleteSavedData();
-    }
+    // if (widget.quesIndex != null) {
+    //   TemplateFactory().deleteSavedData();
+    // }
     _showScore();
   }
 

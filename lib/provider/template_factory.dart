@@ -50,27 +50,20 @@ class TemplateFactory {
     _score = 0;
   }
 
-  // Future<List<Question>> get getSavedQuizQuestions {
-  //   return DbHelper().getQuestions;
+
+  // Future<void> saveQuizData(int index, List<Question> questions) async {
+  //   questions.forEach((element) async {
+  //     await DbHelper().saveQuizData(
+  //         index, element, _classNo!, _currentTemplateType!.index);
+  //   });
   // }
 
-  Future<void> saveQuesDetails(int index, List<Question> questions) async {
-    questions.forEach((element) async {
-      await DbHelper().saveQuizData(
-          index, element, _classNo!, _currentTemplateType!.index);
-    });
-  }
+  // void deleteSavedData() {
+  //   DbHelper().deleteSavedData();
+  // }
 
-  void deleteSavedData() {
-    DbHelper().deleteSavedData();
-  }
-
-  Future<List<Map<String, Object?>>> getSavedQuizData() async {
-    return DbHelper().getSavedQuizData();
-  }
-
-  // Future<int?> get getIndex {
-  //   return DbHelper().getIndex;
+  // Future<List<Map<String, Object?>>> getSavedQuizData() async {
+  //   return DbHelper().getSavedQuizData();
   // }
 
   Future<List<Question>> _convertTemplatesToQuestions() async {

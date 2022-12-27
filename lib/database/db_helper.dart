@@ -10,16 +10,16 @@ import '../provider/template_factory.dart';
 class DbHelper {
   Database? _database;
   static const int totalClass = 6;
-  static const String question = 'question';
-  static const String option1 = 'option1';
-  static const String option2 = 'option2';
-  static const String option3 = 'option3';
-  static const String option4 = 'option4';
-  static const String selectedIndex = 'selectedOptionIndex';
-  static const String answer = 'answer';
-  static const String index = '_index';
-  static const String classNo = 'classNo';
-  static const String quesType = 'quesType';
+  // static const String question = 'question';
+  // static const String option1 = 'option1';
+  // static const String option2 = 'option2';
+  // static const String option3 = 'option3';
+  // static const String option4 = 'option4';
+  // static const String selectedIndex = 'selectedOptionIndex';
+  // static const String answer = 'answer';
+  // static const String index = '_index';
+  // static const String classNo = 'classNo';
+  // static const String quesType = 'quesType';
   static final DbHelper _dbHelper = DbHelper._();
 
   Future<Database> get database async {
@@ -33,35 +33,35 @@ class DbHelper {
     return _dbHelper;
   }
 
-  Future<void> saveQuizData(
-      int quesIndex, Question ques, int classNum, int questype) async {
-    Database db = await database;
-    await db.insert(
-      'save_quiz',
-      {
-        index: quesIndex,
-        question: ques.question,
-        answer: ques.answer,
-        selectedIndex: ques.selectedOptionIndex,
-        option1: ques.options[0],
-        option2: ques.options[1],
-        option3: ques.options[2],
-        option4: ques.options[3],
-        classNo: classNum,
-        quesType: questype
-      },
-    );
-  }
+  // Future<void> saveQuizData(
+  //     int quesIndex, Question ques, int classNum, int questype) async {
+  //   Database db = await database;
+  //   await db.insert(
+  //     'save_quiz',
+  //     {
+  //       index: quesIndex,
+  //       question: ques.question,
+  //       answer: ques.answer,
+  //       selectedIndex: ques.selectedOptionIndex,
+  //       option1: ques.options[0],
+  //       option2: ques.options[1],
+  //       option3: ques.options[2],
+  //       option4: ques.options[3],
+  //       classNo: classNum,
+  //       quesType: questype
+  //     },
+  //   );
+  // }
 
-  Future<void> deleteSavedData() async {
-    Database db = await database;
-    db.delete('save_quiz');
-  }
+  // Future<void> deleteSavedData() async {
+  //   Database db = await database;
+  //   db.delete('save_quiz');
+  // }
 
-  Future<List<Map<String, Object?>>> getSavedQuizData() async {
-    Database db = await database;
-    return db.query('save_quiz');
-  }
+  // Future<List<Map<String, Object?>>> getSavedQuizData() async {
+  //   Database db = await database;
+  //   return db.query('save_quiz');
+  // }
 
   Future<String> _getPath() async {
     return join(await getDatabasesPath(), 'sqlite.db');

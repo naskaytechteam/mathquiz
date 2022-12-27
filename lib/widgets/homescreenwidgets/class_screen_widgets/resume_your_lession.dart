@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '/database/db_helper.dart';
-import '/parsers/template_parser.dart';
-import '/provider/template_factory.dart';
-import '/screens/ques_screen.dart';
+// import '/database/db_helper.dart';
+// import '/parsers/template_parser.dart';
+// import '/provider/template_factory.dart';
+// import '/screens/ques_screen.dart';
 
 class ResumeYourLesson extends StatelessWidget {
   const ResumeYourLesson({Key? key}) : super(key: key);
@@ -77,44 +77,45 @@ class ResumeYourLesson extends StatelessWidget {
     );
   }
 
-  void _showProgressIndicator(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (_) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
-  }
+  // void _showProgressIndicator(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (_) {
+  //         return const Center(
+  //           child: CircularProgressIndicator(),
+  //         );
+  //       });
+  // }
 
-  void _setClassNo(TemplateFactory templateFactory, int classNo) {
-    templateFactory.classNo = classNo;
-  }
+  // void _setClassNo(TemplateFactory templateFactory, int classNo) {
+  //   templateFactory.classNo = classNo;
+  // }
 
   void _onResumeLesionClick(BuildContext context) async {
-    NavigatorState state = Navigator.of(context);
-    _showProgressIndicator(context);
-    final TemplateFactory templateFactory = TemplateFactory();
-    List<Map<String, Object?>> savedQuizData =
-        await templateFactory.getSavedQuizData();
-    // TemplateType templateType = TemplateType.simple;
-    state.pop();
-    if (savedQuizData.isNotEmpty) {
-      int? index;
-      // for (var element in savedQuizData) {
-      TemplateType templateType=TemplateType.values[savedQuizData[0][DbHelper.quesType]as int ];
-        index = savedQuizData[0][DbHelper.index] as int;
-        _setClassNo(templateFactory, savedQuizData[0][DbHelper.classNo] as int);
-        // break;
-      // }
-
-      state.push(MaterialPageRoute(builder: (_) {
-        return QuesScreen(
-          templateType: templateType,
-          questions: TemplateParser.questionsList(savedQuizData),
-          quesIndex: index,
-        );
-      }));
-    }
+    // NavigatorState state = Navigator.of(context);
+    // _showProgressIndicator(context);
+    // final TemplateFactory templateFactory = TemplateFactory();
+    // List<Map<String, Object?>> savedQuizData =
+    //     await templateFactory.getSavedQuizData();
+    // // TemplateType templateType = TemplateType.simple;
+    // state.pop();
+    // if (savedQuizData.isNotEmpty) {
+    //   int? index;
+    //   // for (var element in savedQuizData) {
+    //   TemplateType templateType =
+    //       TemplateType.values[savedQuizData[0][DbHelper.quesType] as int];
+    //   index = savedQuizData[0][DbHelper.index] as int;
+    //   _setClassNo(templateFactory, savedQuizData[0][DbHelper.classNo] as int);
+    //   // break;
+    //   // }
+    //
+    //   state.push(MaterialPageRoute(builder: (_) {
+    //     return QuesScreen(
+    //       templateType: templateType,
+    //       questions: TemplateParser.questionsList(savedQuizData),
+    //       quesIndex: index,
+    //     );
+    //   }));
+    // }
   }
 }

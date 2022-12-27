@@ -1,4 +1,4 @@
-import '../model/question.dart';
+// import '../model/question.dart';
 import '../model/question_template.dart';
 
 class TemplateParser {
@@ -7,7 +7,7 @@ class TemplateParser {
     return map.map((e) => QuestionTemplate.fromMap(e)).toList();
   }
 
-  static List<Question> questionsList(List<Map<String, Object?>> map) {
-    return map.map((e) => Question.fromMap(e)).toList();
-  }
+  // static List<Question> questionsList(List<Map<String, Object?>> map) {
+  //   return map.map((e) => Question.fromMap(e)).toList();
+  // }
 }
