@@ -15,9 +15,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int _screenIndex = 0;
-
+  static const  _totalHomeScreens=3;
+  late TabController tabController = TabController(length: _totalHomeScreens, vsync: this);
   final List<Widget> _screens = [
     ClassScreen(),
     const RankingScreen(),
@@ -32,33 +33,38 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SingleChildScrollView(child: _screens[_screenIndex]),
       bottomNavigationBar: SizedBox(
-        height: height * 0.13158,
-        width: width,
-        child: BottomNavigationBar(
-          currentIndex: _screenIndex,
-          onTap: (index) {
-            setState(() {
-              _screenIndex = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/firsticon.svg',
-                    color: _bottomNavBarIconColor(iconIndex: 0)),
-                label: ''),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/images/thirdicon.svg',
-                    color: _bottomNavBarIconColor(iconIndex: 1)),
-                label: ''),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/images/setting.svg',
-                  color: _bottomNavBarIconColor(iconIndex: 2),
+          height: height * 0.13158,
+          width: width,
+          child: TabBar(
+            overlayColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.background),
+              onTap: (index) {
+                setState(() {
+                  _screenIndex = index;
+                });
+              },
+              controller: tabController,
+              //todo how to make indicator circular
+              indicator: UnderlineTabIndicator(
+                  borderSide: const BorderSide(
+                    width: 9,
+                    color: Colors.red,
+                  ),
+                  insets: EdgeInsets.symmetric(horizontal: width * 0.07)),
+              tabs: [
+                Tab(
+                  icon: SvgPicture.asset('assets/images/first_nav_icon.svg',
+                      color: _bottomNavBarIconColor(iconIndex: 0)),
                 ),
-                label: '')
-          ],
-        ),
-      ),
+                Tab(
+                  icon: SvgPicture.asset('assets/images/second_nav_icon.svg',
+                      color: _bottomNavBarIconColor(iconIndex: 1)),
+                ),
+                Tab(
+                    icon: Icon(Icons.settings_outlined,
+                        size: height * 0.04,
+                        color: _bottomNavBarIconColor(iconIndex: 2)))
+              ])
+          ),
     );
   }
 
