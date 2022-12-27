@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '/database/db_helper.dart';
-import '/provider/template_factory.dart';
-import '/screens/details_screen.dart';
+import '/widgets/homescreenwidgets/home_sreen_appbar.dart';
+import '../../database/db_helper.dart';
+import '../../provider/template_factory.dart';
+import '../../screens/details_screen.dart';
+import '../topics.dart';
 import '/widgets/common_widgets/custom_button.dart';
-import '/widgets/topics.dart';
 import '../../utils/user_preferences.dart';
 import '../homescreenwidgets/class_screen_widgets/resume_your_lession.dart';
 import 'class_screen_widgets/today_topic_container.dart';
