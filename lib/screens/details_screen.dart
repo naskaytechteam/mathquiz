@@ -153,20 +153,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           // height: 20,
                           height: height * 0.0264,
                         ),
-                        TextFormField(
-                          keyboardType: TextInputType.name,
-                          controller: _passwordController,
-                          obscureText: true,
-                          // onSubmitted: onSubmit,
-                          validator: (value) =>
-                              TextUtils.isEmpty(value)
-                              ? 'Please Enter your Password'
-                              : null,
-                          // onSaved: (newValue) =>
-                              // UserPreferences.setParentEmail(newValue!),
-                          decoration: getInputDecoration(
-                              width, height, 'Parent\'s Email'),
-                        ),
+                        if (type == DetailScreenType.userDetailType)
+                          TextFormField(
+                            keyboardType: TextInputType.name,
+                            controller: _passwordController,
+                            obscureText: true,
+                            // onSubmitted: onSubmit,
+                            validator: (value) => TextUtils.isEmpty(value)
+                                ? 'Please Enter your Password'
+                                : null,
+                            // onSaved: (newValue) =>
+                            // UserPreferences.setParentEmail(newValue!),
+                            decoration: getInputDecoration(
+                                width, height, 'Parent\'s Email'),
+                          ),
                       ],
                     ),
                   ),
