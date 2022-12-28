@@ -1,4 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '/widgets/common_widgets/custom_divider.dart';
@@ -34,7 +34,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
     final double width = size.width;
     final Question question = widget.questions[_quesIndex];
     final bool isFirstQuestion = _quesIndex == 0;
-    final bool isLastQuestion=_quesIndex==widget.questions.length-1;
+    final bool isLastQuestion = _quesIndex == widget.questions.length - 1;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -51,29 +51,36 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                 // height: 25,
                 height: height * 0.033,
               ),
-              SizedBox(
-                // height: height * 0.18,
-                // width: width,
-                // height: 102,
-                height: height * 0.13422,
-                // width: 295,
-                width: width * 0.81945,
-                child: AutoSizeText(
-                  question.question,
-                  style: TextStyle(
-                      // fontSize: 20,
-                      fontSize: height * 0.0264,
-                      fontWeight: FontWeight.w600),
+              Align(
+                child: SizedBox(
+                  height: Platform.isIOS ? height * 0.6 : height * 0.67,
+                  width: width,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: width * 0.81945,
+                          child: Text(
+                            question.question,
+                            style: TextStyle(
+                              // fontSize: 20,
+                              fontSize: height * 0.02632,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        _gap(height * 0.02),
+                        _buildOption(height, width),
+                        _gap(height * 0.02),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(
-                // height: 40,
-                height: height * 0.05264,
-              ),
-              _buildOption(height, width),
-              _gap(/*90*/ height * 0.11843),
+              _gap(height * 0.02),
               const CustomDivider(),
-              _gap(/*25*/ height * 0.033),
+              _gap(height * 0.033),
               SizedBox(
                 // height: 80,
                 height: height * 0.1053,
@@ -100,7 +107,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                         ),
                       ),
                     CustomButton(
-                      buttonName:isLastQuestion? 'FINISH':'NEXT',
+                      buttonName: isLastQuestion ? 'FINISH' : 'NEXT',
                       // height: 70,
                       height: height * 0.0922,
                       // width: 130,
