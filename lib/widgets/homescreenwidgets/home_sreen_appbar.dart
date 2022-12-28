@@ -24,6 +24,7 @@ class HomeScreenAppBar extends StatelessWidget with PreferredSizeWidget {
       toolbarHeight: height,
       leadingWidth: 0,
       titleSpacing: width * 0.1,
+      centerTitle: false,
       title: SizedBox(
         width: width * 0.6,
         child: Text.rich(
