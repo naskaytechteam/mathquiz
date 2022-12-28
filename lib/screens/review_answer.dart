@@ -216,7 +216,10 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                       bottom: 15,
                       left: 0,
                       right: 0,
-                      child: SvgPicture.asset('assets/images/$image.svg'))
+                      child: SvgPicture.asset(
+                        'assets/images/$image.svg',
+                        color: !isAnswerCorrect ? Colors.white : null,
+                      ))
               ],
             ),
           );
