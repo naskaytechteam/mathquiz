@@ -156,25 +156,9 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
             // childAspectRatio: 137 / 137
             mainAxisExtent: /*140*/ height * 0.18422),
         itemBuilder: (_, index) {
-          Color backgroundColor = const Color.fromRGBO(236, 240, 241, 1);
-          Color shadowColor = const Color.fromRGBO(189, 195, 199, 1);
-          String? image;
-
-          if (widget.questions[_quesIndex].selectedOptionIndex == index) {
-            if (widget.questions[_quesIndex].options[index] ==
-                widget.questions[_quesIndex].answer) {
-              backgroundColor = const Color.fromRGBO(46, 204, 113, 1);
-              shadowColor = const Color.fromRGBO(39, 174, 96, 1);
-            } else {
-              backgroundColor = const Color.fromRGBO(231, 76, 60, 1);
-              shadowColor = const Color.fromRGBO(192, 57, 43, 1);
-              image = 'wrong_answer2';
-            }
-          } else if (widget.questions[_quesIndex].answer ==
-              widget.questions[_quesIndex].options[index]) {
-            shadowColor = const Color.fromRGBO(39, 174, 96, 1);
-            image = 'selected';
-          }
+          Color backgroundColor = _getBackgroundColor(index);
+          Color shadowColor = _getShadowColor(index);
+          String? image = _getImageName(index);
 
           num option = widget.questions[_quesIndex].options[index];
 
@@ -218,7 +202,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
                       right: 0,
                       child: SvgPicture.asset(
                         'assets/images/$image.svg',
-                        color: !isAnswerCorrect ? Colors.white : null,
+                        color: !_isAnswerCorrect(index) ? Colors.white : null,
                       ))
               ],
             ),
@@ -226,6 +210,49 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
         },
       ),
     );
+  }
+
+  Color _getBackgroundColor(int index) {
+    Color backgroundColor = const Color.fromRGBO(236, 240, 241, 1);
+    if (widget.questions[_quesIndex].selectedOptionIndex == index) {
+      if (_isAnswerCorrect(index)) {
+        backgroundColor = const Color.fromRGBO(46, 204, 113, 1);
+      } else {
+        backgroundColor = const Color.fromRGBO(231, 76, 60, 1);
+      }
+    }
+    return backgroundColor;
+  }
+
+  Color _getShadowColor(int index) {
+    Color shadowColor = const Color.fromRGBO(189, 195, 199, 1);
+    if (widget.questions[_quesIndex].selectedOptionIndex == index) {
+      if (_isAnswerCorrect(index)) {
+        shadowColor = const Color.fromRGBO(39, 174, 96, 1);
+      } else {
+        shadowColor = const Color.fromRGBO(192, 57, 43, 1);
+      }
+    } else if (_isAnswerCorrect(index)) {
+      shadowColor = const Color.fromRGBO(39, 174, 96, 1);
+    }
+    return shadowColor;
+  }
+
+  bool _isAnswerCorrect(int index) {
+    return widget.questions[_quesIndex].options[index] ==
+        widget.questions[_quesIndex].answer;
+  }
+
+  String? _getImageName(int index) {
+    String? image;
+    if (widget.questions[_quesIndex].selectedOptionIndex == index) {
+      if (!_isAnswerCorrect(index)) {
+        image = 'wrong_answer';
+      }
+    } else if (_isAnswerCorrect(index)) {
+      image = 'selected';
+    }
+    return image;
   }
 
   Widget _gap(double height) {
