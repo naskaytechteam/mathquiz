@@ -81,7 +81,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               // height: isSystemBarShowing ? height * 0.05 : height * 0.0,
               // ),
               SizedBox(
-                height: height * 0.01449,
+                height: height * 0.03,
               ),
               SizedBox(
                 height: height * 0.029,
@@ -173,7 +173,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
               SizedBox(
-                height: height * 0.0395,
+                // height: height * 0.0395,
+                height: height * 0.02,
               ),
               SizedBox(
                 height: height * 0.029,
@@ -199,7 +200,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
               SizedBox(
-                height: height * 0.0659,
+                // height: height * 0.0659,
+                height: height * 0.03,
               ),
               CustomButton(
                 onButtonPressed: _onClick,
