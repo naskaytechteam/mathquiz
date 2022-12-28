@@ -65,18 +65,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 height: isSystemBarShowing ? height * 0.05 : height * 0.1106,
               ),
               if (type == DetailScreenType.userDetailType)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.014),
-                  child: SizedBox(
-                    height: height * 0.1158,
-                    width: width,
-                    child: Text(
-                      'Lorem Ipsum Dolar',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: height * 0.04215),
-                    ),
+                SizedBox(
+                  height: height * 0.055,
+                  width: width,
+                  child: Text(
+                    'Lorem Ipsum',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        // fontSize: 32
+                        fontSize: height * 0.04215),
                   ),
                 ),
               SizedBox(
