@@ -318,7 +318,10 @@ class ScoreScreen extends StatelessWidget {
             backgroundColor: backgroundColor,
             shadowColor: shadowColor,
             shadowHeight: height * 0.0093,
-            child: SvgPicture.asset('assets/images/$imageName.svg'),
+            child: SvgPicture.asset(
+              'assets/images/$imageName.svg',
+              height: height * 0.044,
+            ),
           ),
           SizedBox(height: height * 0.02),
           Container(
