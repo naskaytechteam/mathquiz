@@ -117,18 +117,17 @@ class ScoreScreen extends StatelessWidget {
               bottom: height * 0.642,
               right: 0,
               left: 0,
-              child: Align(
-                child: SizedBox(
-                  width: width * 0.35,
-                  // color: Colors.red,
-                  child: Text(
-                    'You answered',
-                    style: TextStyle(
-                      // fontSize: 18,
-                      fontSize: height * 0.0237,
-                      fontWeight: FontWeight.w600,
-                    ),
+              child: SizedBox(
+                width: width,
+                height: height * 0.033,
+                child: Text(
+                  'You answered',
+                  style: TextStyle(
+                    // fontSize: 18,
+                    fontSize: height * 0.0237,
+                    fontWeight: FontWeight.w600,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               )),
           Positioned(
