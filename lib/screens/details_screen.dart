@@ -205,7 +205,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               CustomButton(
                 onButtonPressed: _onClick,
-                buttonName: 'CONTINUE',
+                buttonName: type == DetailScreenType.userDetailType
+                    ? 'CONTINUE'
+                    : 'SAVE',
                 height: height * 0.0922,
                 width: width * 0.817,
               ),
