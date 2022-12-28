@@ -49,8 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final Color backgroundColor = Theme.of(context).colorScheme.background;
     final TextStyle textStyle =
         TextStyle(fontSize: height * 0.0211, fontWeight: FontWeight.w900);
-    final bool isSystemBarShowing = mediaQueryData.viewPadding.bottom > 0;
-
+    // final bool isSystemBarShowing = mediaQueryData.viewPadding.bottom > 0;
     return Scaffold(
       appBar: type == DetailScreenType.profileScreenType
           ? CustomAppBar(title: 'Your Profile', height: height * 0.1)
@@ -61,9 +60,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: isSystemBarShowing ? height * 0.05 : height * 0.1106,
-              ),
+              // SizedBox(
+                  // height: height * 0.05,
+                  // ),
               if (type == DetailScreenType.userDetailType)
                 SizedBox(
                   height: height * 0.055,
@@ -77,6 +76,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         fontSize: height * 0.04215),
                   ),
                 ),
+              // if (type == DetailScreenType.userDetailType)
+              // SizedBox(
+              // height: isSystemBarShowing ? height * 0.05 : height * 0.0,
+              // ),
               SizedBox(
                 height: height * 0.01449,
               ),
