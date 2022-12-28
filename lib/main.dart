@@ -10,7 +10,7 @@ import 'utils/user_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  UserPreferences.initSharedPrefs();
+  await UserPreferences.initSharedPrefs();
   //this line is here because of stop unwanted rebuilding widget from MediaQery class
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
       overlays: [SystemUiOverlay.top]);
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (_) => const HomeScreen(),
       },
       theme: ThemeData(
+        highlightColor: const Color.fromRGBO(255, 250, 240, 1),
         appBarTheme: AppBarTheme(
             backgroundColor: Colors.transparent,
             centerTitle: Platform.isIOS,
