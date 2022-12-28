@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '/screens/score_screen.dart';
 import '/widgets/common_widgets/custom_divider.dart';
@@ -72,7 +74,7 @@ class _QuesScreenState extends State<QuesScreen> /*with WidgetsBindingObserver *
               _gap(height * 0.033),
               Align(
                 child: Container(
-                  height: height*0.66,
+                  height:Platform.isIOS?height*0.6: height*0.67,
                   width: width,
                   child: SingleChildScrollView(
                     physics:const BouncingScrollPhysics(),
@@ -101,6 +103,7 @@ class _QuesScreenState extends State<QuesScreen> /*with WidgetsBindingObserver *
                   ),
                 ),
               ),
+              _gap(height*0.02),
               const CustomDivider(),
               _gap(height * 0.033),
               SizedBox(
