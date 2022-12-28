@@ -24,7 +24,7 @@ class Options extends StatelessWidget {
       width: width,
       child: GridView.builder(
         itemCount: 4,
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             // mainAxisSpacing: 20,
