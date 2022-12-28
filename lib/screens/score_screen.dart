@@ -212,7 +212,8 @@ class ScoreScreen extends StatelessWidget {
                         const Color.fromRGBO(41, 128, 185, 1),
                         'review',
                         2,
-                        context),
+                        context,
+                        correctAnswer: correctAnswer),
                     _buildCustomContainer(
                         'Generate PDF',
                         height,
@@ -290,7 +291,8 @@ class ScoreScreen extends StatelessWidget {
       Color shadowColor,
       String imageName,
       int containerNo,
-      BuildContext context) {
+      BuildContext context,
+      {int? correctAnswer}) {
     return SizedBox(
         height: height * 0.2014,
         // width: 93,
@@ -303,11 +305,14 @@ class ScoreScreen extends StatelessWidget {
             onButtonPressed: () {
               switch (containerNo) {
                 case 1:
-                  _showTryAgainDialog(context);
+                  _showTryAgainDialog(context, height, width);
                   break;
                 case 2:
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                    return ReviewAnswerScreen(questions: questions);
+                    return ReviewAnswerScreen(
+                      questions: questions,
+                      totalCorrectAnswer: correctAnswer!,
+                    );
                   }));
                   break;
                 case 3:
@@ -366,12 +371,16 @@ class ScoreScreen extends StatelessWidget {
     final NavigatorState navigatorState = Navigator.of(context);
     final String pdfPath = await PdfDesign.makePdf(questions);
     final File file = File(pdfPath);
-    const String username = 'email';
-    const String password = 'email-pass';
+    const String username = 'testg9889@gmail.com';
+    const String password = 'ivbdfxezijtwdlsu';
+    // const String accessToken='976763470554-j74n271gjft2pajl62pp07srl5bq19c0.apps.googleusercontent.com';
+    // final smtpServer =gmailSaslXoauth2(username, accessToken);
     final smtpServer = gmail(username, password);
-    final Message message = buildMessage(username, file, 'parentEmail');
+    final Message message =
+        buildMessage(username, file, 'nikirana1983@gmail.com');
+    SendReport? rep;
     try {
-      await send(message, smtpServer);
+      rep = await send(message, smtpServer);
       navigatorState.pop();
       _showSnackBar(state, 'pdf has successfully sent to your parent Email ');
     } on MailerException catch (e) {
@@ -414,50 +423,47 @@ class ScoreScreen extends StatelessWidget {
     navigatorState.pop();
   }
 
-  void _showTryAgainDialog(BuildContext context) {
+  void _showTryAgainDialog(BuildContext context, double height, double width) {
     showDialog(
         context: context,
         builder: (_) {
           return Card(
-            // height: 228,
-            // width: 295,
             color: Colors.white10,
-            // alignment: Alignment.center,
             child: Align(
               alignment: Alignment.center,
               child: Container(
-                height: 228,
-                width: 295,
+                height: height * 0.2845,
+                width: width * 0.7512,
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(255, 255, 255, 1),
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(height * 0.0352),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const SizedBox(
-                      height: 54,
-                      width: 226,
+                    SizedBox(
+                      height: height * 0.0674,
+                      width: width * 0.5755,
                       child: Text(
                         'Are you sure you want to try again?',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: height * 0.025,
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    // SizedBox(height: 39,),
                     SizedBox(
-                      height: 80,
-                      width: 254,
-                      // color: Colors.red,
+                      height: height * 0.09982,
+                      width: width * 0.6468,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildDialogButton(_buttonTextNo, context),
-                          _buildDialogButton(_buttonTextYes, context)
+                          _buildDialogButton(
+                              _buttonTextNo, context, height, width),
+                          _buildDialogButton(
+                              _buttonTextYes, context, height, width)
                         ],
                       ),
                     )
@@ -469,11 +475,12 @@ class ScoreScreen extends StatelessWidget {
         });
   }
 
-  Widget _buildDialogButton(String buttonText, BuildContext context) {
+  Widget _buildDialogButton(
+      String buttonText, BuildContext context, double height, double width) {
     return CustomButton(
         buttonName: buttonText,
-        height: 70,
-        width: 122,
+        height: height * 0.0874,
+        width: width * 0.3107,
         backgroundColor: buttonText == _buttonTextYes
             ? const Color.fromRGBO(46, 204, 113, 1)
             : const Color.fromRGBO(231, 76, 60, 1),

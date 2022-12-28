@@ -8,8 +8,10 @@ import '../model/question.dart';
 
 class ReviewAnswerScreen extends StatelessWidget {
   final List<Question> questions;
+  final int totalCorrectAnswer;
 
-  const ReviewAnswerScreen({required this.questions, Key? key})
+  const ReviewAnswerScreen({required this.questions,
+    required this.totalCorrectAnswer,Key? key})
       : super(key: key);
 
   @override
