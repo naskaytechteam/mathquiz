@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import '/utils/user_preferences.dart';
 import '/provider/template_factory.dart';
 import '/screens/ques_screen.dart';
 import '/widgets/score_screen_widgets/pdf_design.dart';
@@ -377,10 +378,9 @@ class ScoreScreen extends StatelessWidget {
     // final smtpServer =gmailSaslXoauth2(username, accessToken);
     final smtpServer = gmail(username, password);
     final Message message =
-        buildMessage(username, file, 'nikirana1983@gmail.com');
-    SendReport? rep;
+        buildMessage(username, file, UserPreferences.getParentEmail()!);
     try {
-      rep = await send(message, smtpServer);
+      await send(message, smtpServer);
       navigatorState.pop();
       _showSnackBar(state, 'pdf has successfully sent to your parent Email ');
     } on MailerException catch (e) {
