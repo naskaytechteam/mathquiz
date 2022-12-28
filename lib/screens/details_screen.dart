@@ -34,6 +34,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       TextEditingController(text: UserPreferences.getName());
   final TextEditingController _parentsEmailController =
       TextEditingController(text: UserPreferences.getParentEmail());
+  final TextEditingController _passwordController=TextEditingController();
 
   late DetailScreenType type;
   int _selectedAvatar = UserPreferences.getAvatar() ?? _defaultSelectedAvatar;
@@ -147,6 +148,24 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           decoration: getInputDecoration(
                               width, height, 'Parent\'s Email'),
                         ),
+                        SizedBox(
+                          // height: 20,
+                          height: height * 0.0264,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: _passwordController,
+                          obscureText: true,
+                          // onSubmitted: onSubmit,
+                          validator: (value) =>
+                              TextUtils.isEmpty(value)
+                              ? 'Please Enter your Password'
+                              : null,
+                          // onSaved: (newValue) =>
+                              // UserPreferences.setParentEmail(newValue!),
+                          decoration: getInputDecoration(
+                              width, height, 'Parent\'s Email'),
+                        ),
                       ],
                     ),
                   ),
@@ -251,6 +270,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     _nameController.dispose();
     _classController.dispose();
     _parentsEmailController.dispose();
+    _passwordController.dispose();
   }
 
   @override
