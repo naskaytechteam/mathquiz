@@ -4,8 +4,6 @@ import '/widgets/on_boarding_screen_widgets/skip_button.dart';
 
 class OnBoardingPage extends StatelessWidget {
   final int imageNo;
-  final double imageHeight;
-  final double imageWidth;
   final String firstText;
   final String secondText;
   final bool isSecondPage;
@@ -39,10 +37,13 @@ class OnBoardingPage extends StatelessWidget {
             //height: 23.58
             height: height * 0.031,
           ),
-        SvgPicture.asset(
-          'assets/images/on_boarding_image$imageNo.svg',
-          height: imageHeight,
-          width: imageWidth,
+        Flexible(
+          fit: FlexFit.tight,
+          child: SvgPicture.asset(
+            'assets/images/on_boarding_image$imageNo.svg',
+            // height: imageHeight,
+            // width: imageWidth,
+          ),
         ),
         SizedBox(
             // height: 45,
