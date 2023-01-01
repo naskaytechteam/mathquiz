@@ -73,7 +73,8 @@ class _QuesScreenState extends State<QuesScreen> /*with WidgetsBindingObserver *
             children: [
               _gap(height * 0.033),
               Align(
-                child: Container(
+                child: SizedBox(
+                  // height: height*0.67,
                   height:Platform.isIOS?height*0.6: height*0.67,
                   width: width,
                   child: SingleChildScrollView(
