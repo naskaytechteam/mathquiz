@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -24,8 +23,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
           color: const Color.fromRGBO(231, 76, 60, 1),
         ),
       ),
-      toolbarHeight:
-          Platform.isAndroid ? screenHeight * 0.1 : screenHeight * 0.05,
+      toolbarHeight: height,
       title: Text(
         title,
         style: TextStyle(
