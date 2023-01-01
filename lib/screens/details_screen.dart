@@ -94,7 +94,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(
                 height: height * 0.01975,
               ),
-              Center(
+              Align(
                 child: SizedBox(
                   // height: height * 0.33,
                   // height: height*0.4,
@@ -193,9 +193,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildAvatar(1, height, width, backgroundColor),
-                    _buildAvatar(2, height, width, backgroundColor),
-                    _buildAvatar(3, height, width, backgroundColor),
+                    _buildAvatar(1, height, width),
+                    _buildAvatar(2, height, width),
+                    _buildAvatar(3, height, width),
                   ],
                 ),
               ),
@@ -306,38 +306,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
     }
   }
 
-  Widget _buildAvatar(
-      int avatarNo, double height, double width, Color backgroundColor) {
+  Widget _buildAvatar(int avatarNo, double height, double width) {
     bool isAvatarSelected = _selectedAvatar == avatarNo;
-    return Stack(
-      children: [
-        Container(
-          height: height * 0.0922,
-          width: width * 0.1945,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: isAvatarSelected
-                  ? Border.all(
-                      color: const Color.fromRGBO(46, 204, 113, 1),
-                      width: width * 0.0112)
-                  : null),
-          child: InkWell(
-              highlightColor: backgroundColor,
-              onTap: () {
-                setState(() {
-                  _selectedAvatar = avatarNo;
-                });
-              },
-              child: SvgPicture.asset('assets/images/avatar$avatarNo.svg')),
-        ),
-        Visibility(
-          visible: isAvatarSelected,
-          child: Positioned(
-              top: 0,
-              right: 0,
-              child: SvgPicture.asset('assets/images/selected.svg')),
-        )
-      ],
+    String avatar = isAvatarSelected ? 'selected_avatar' : 'avatar';
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _selectedAvatar = avatarNo;
+        });
+      },
+      child: SvgPicture.asset(
+        'assets/images/$avatar$avatarNo.svg',
+        height: height * 0.095,
+        width: width * 0.1945,
+      ),
     );
   }
 }
