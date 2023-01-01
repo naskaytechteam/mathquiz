@@ -34,8 +34,7 @@ class OnBoardingPage extends StatelessWidget {
         isThirdScreen ? SizedBox(height: height * 0.05) : const SkipButton(),
         if (isSecondPage)
           SizedBox(
-            //height: 23.58
-            height: height * 0.031,
+            height :height *0.03
           ),
         Flexible(
           fit: FlexFit.tight,
