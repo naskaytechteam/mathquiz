@@ -52,8 +52,8 @@ class ClassScreen extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
-                if (Platform.isIOS) SizedBox(height: height * 0.05),
-                _buildGap(height * 0.0566),
+                // if (Platform.isIOS) SizedBox(height: height * 0.05),
+                // _buildGap(height * 0.0566),
                 const TodayTopicContainer(),
                 _buildGap(height * 0.0514),
                 _buildTakeATextContainer(height, width, context),
