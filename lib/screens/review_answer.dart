@@ -147,7 +147,7 @@ class _ReviewAnswerState extends State<ReviewAnswer> {
       width: width,
       child: GridView.builder(
         itemCount: 4,
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: height * 0.02632,
