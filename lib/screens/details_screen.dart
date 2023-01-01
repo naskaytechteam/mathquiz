@@ -46,7 +46,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final Size size = mediaQueryData.size;
     final double height = size.height;
     final double width = size.width;
-    final Color backgroundColor = Theme.of(context).colorScheme.background;
     final TextStyle textStyle =
         TextStyle(fontSize: height * 0.0211, fontWeight: FontWeight.w900);
     // final bool isSystemBarShowing = mediaQueryData.viewPadding.bottom > 0;
@@ -99,7 +98,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   // height: height * 0.33,
                   // height: height*0.4,
                   width: width,
-                  // color: Colors.red,
                   child: Form(
                     key: _formKey,
                     child: Column(
