@@ -43,6 +43,10 @@ class Topics extends StatelessWidget {
             CustomGridView(
               totalHeight: height * 0.75,
               mainAxisExtent: height * 0.218,
+              getName: (index){
+                return TemplateType.values[quesTypeList[index]].name;
+              },
+
               onButtonClick: (index) {
                 _onButtonClick(
                     context, TemplateType.values[quesTypeList[index]]);

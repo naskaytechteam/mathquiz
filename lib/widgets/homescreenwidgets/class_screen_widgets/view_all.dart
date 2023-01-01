@@ -43,6 +43,9 @@ class ViewAll extends StatelessWidget {
               totalHeight: height * 0.75,
               mainAxisExtent: height * 0.24606,
               isTopicScreen: false,
+              getName: (index){
+                return 'class $index';
+              },
               containerHeight: height * 0.1803,
               containerWidth: width * 0.38056,
               fontSize: height * 0.06316,

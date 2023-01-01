@@ -12,11 +12,13 @@ class CustomGridView extends StatelessWidget {
   final double? containerHeight;
   final double? containerWidth;
   final double? fontSize;
+  final String Function(int index)getName;
 
   const CustomGridView(
       {this.itemCount,
       required this.totalHeight,
       required this.mainAxisExtent,
+        required this.getName,
       this.onButtonClick,
       this.buttonName,
       this.containerHeight,
@@ -82,9 +84,7 @@ class CustomGridView extends StatelessWidget {
                 // height: 15,
                 height: height * 0.026,
                 child: Text(
-                    isTopicScreen
-                        ? TemplateType.values[index].name
-                        : 'Class ${index + 1}',
+                      getName(index),
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         // fontSize: 14,
