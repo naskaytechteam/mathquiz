@@ -13,8 +13,6 @@ class OnBoardingPage extends StatelessWidget {
 
   const OnBoardingPage(
       {required this.imageNo,
-      required this.imageHeight,
-      required this.imageWidth,
       required this.secondTextContainerHeight,
       required this.firstText,
       this.isSecondPage = false,
