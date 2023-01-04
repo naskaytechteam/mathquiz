@@ -27,32 +27,36 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double height = size.height;
     double width = size.width;
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: height * 0.809,
-                width: width,
-                child: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  onPageChanged: (nextPageIndex) {
-                    _pageIndex = nextPageIndex;
-                  },
-                  children: [
-                    OnBoardingPage(
-                        imageNo: 1,
-                        imageHeight: height * 0.4145,
-                        imageWidth: width * 0.7584,
-                        firstGapHeight: height * 0.0593,
-                        secondTextContainerHeight: height * 0.0869,
-                        firstText: 'Learning is fun \nnow',
-                        secondText:
+        child: LayoutBuilder(
+          builder: (_,constraints){
+            double height =constraints.maxHeight;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: height * 0.809,
+                    width: width,
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: _pageController,
+                      onPageChanged: (nextPageIndex) {
+                        setState(() {
+                          _pageIndex = nextPageIndex;
+                        });
+                      },
+                      children: [
+                        OnBoardingPage(
+                            imageNo: 1,
+                            // imageHeight: height * 0.4145,
+                            // imageWidth: width * 0.7584,
+                            firstGapHeight: height * 0.0593,
+                            secondTextContainerHeight: height * 0.0869,
+                            firstText: 'Learning is fun \nnow',
+                            secondText:
                             'Lorem ipsum dolor sit amet,\n consectetur adipiscing elit.'),
                     OnBoardingPage(
                       imageNo: 2,
