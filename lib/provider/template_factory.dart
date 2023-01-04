@@ -54,7 +54,6 @@ class TemplateFactory {
     _score = 0;
   }
 
-
   // Future<void> saveQuizData(int index, List<Question> questions) async {
   //   questions.forEach((element) async {
   //     await DbHelper().saveQuizData(
@@ -174,15 +173,13 @@ class TemplateFactory {
           .replaceFirst('value', Utils.getPlaceHolder(randomIndex));
       formula = formula.replaceFirst(
           'value', template.values.reversed.toList()[randomIndex].toString());
-    }
-    else if(_currentTemplateType == TemplateType.wordToNumbers){
-      String values=template.values.join();
-      String words=Utils.changeNumbersToWords(int.parse(values));
+    } else if (_currentTemplateType == TemplateType.wordToNumbers) {
+      String values = template.values.join();
+      String words = Utils.changeNumbersToWords(int.parse(values));
       print('your words is ${words}');
-      template.ques=template.ques.replaceFirst('V1', words);
-      formula=formula.replaceFirst('value', values);
-    }
-    else {
+      template.ques = template.ques.replaceFirst('V1', words);
+      formula = formula.replaceFirst('value', values);
+    } else {
       for (int i = 1; i <= template.valuePlaceholdersCount; i++) {
         var placeHolderValue = template.values[i - 1].toString();
         formula = formula.replaceAll('V$i', placeHolderValue);
