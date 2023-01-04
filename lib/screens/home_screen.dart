@@ -53,10 +53,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               tabs: [
                 Tab(
                   icon: SvgPicture.asset('assets/images/first_nav_icon.svg',
+                      height: height*0.03,
                       color: _bottomNavBarIconColor(iconIndex: 0)),
                 ),
                 Tab(
                   icon: SvgPicture.asset('assets/images/second_nav_icon.svg',
+                      height: height*0.03,
                       color: _bottomNavBarIconColor(iconIndex: 1)),
                 ),
                 Tab(
