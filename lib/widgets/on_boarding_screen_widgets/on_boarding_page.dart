@@ -36,10 +36,13 @@ class OnBoardingPage extends StatelessWidget {
           ),
         Flexible(
           fit: FlexFit.tight,
-          child: SvgPicture.asset(
-            'assets/images/on_boarding_image$imageNo.svg',
-            // height: imageHeight,
-            // width: imageWidth,
+          child: SizedBox(
+            width: width,
+            child: SvgPicture.asset(
+              'assets/images/on_boarding_image$imageNo.svg',
+              // height: imageHeight,
+              // width: imageWidth,
+            ),
           ),
         ),
         SizedBox(
