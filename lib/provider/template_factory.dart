@@ -3,7 +3,7 @@ import 'package:function_tree/function_tree.dart';
 import '../database/db_helper.dart';
 import '../model/question.dart';
 import '../model/question_template.dart';
-import '../utils/util.dart';
+import '../utils/utils.dart';
 
 /// Init random values first, get answer from formula but just use the formula
 /// to calculate answer, don't initialize it or anything, for simple questions
@@ -15,6 +15,10 @@ enum TemplateType {
   fraction,
   ratio,
   ascendingdescendingdifference,
+  placeHolderToValue,
+  valueToPlaceholder,
+  wordToNumbers,
+  numberToWords
 }
 
 class TemplateFactory {
@@ -162,7 +166,23 @@ class TemplateFactory {
       formula = formula
           .replaceAll('ascending', asc.toString())
           .replaceAll('descending', des.toString());
-    } else {
+    } else if (_currentTemplateType == TemplateType.placeHolderToValue) {
+      //In 5685, what digit is in the ones place?
+      //1
+      int randomIndex = _random.nextInt(template.values.length);
+      template.ques = template.ques
+          .replaceFirst('value', Utils.getPlaceHolder(randomIndex));
+      formula = formula.replaceFirst(
+          'value', template.values.reversed.toList()[randomIndex].toString());
+    }
+    else if(_currentTemplateType == TemplateType.wordToNumbers){
+      String values=template.values.join();
+      String words=Utils.changeNumbersToWords(int.parse(values));
+      print('your words is ${words}');
+      template.ques=template.ques.replaceFirst('V1', words);
+      formula=formula.replaceFirst('value', values);
+    }
+    else {
       for (int i = 1; i <= template.valuePlaceholdersCount; i++) {
         var placeHolderValue = template.values[i - 1].toString();
         formula = formula.replaceAll('V$i', placeHolderValue);
