@@ -6,7 +6,7 @@ import '/utils/text_utils.dart';
 import '../database/db_helper.dart';
 import '/screens/home_screen.dart';
 import '/utils/user_preferences.dart';
-import '/utils/util.dart';
+import '/utils/utils.dart';
 import '/widgets/common_widgets/custom_button.dart';
 
 enum DetailScreenType {
