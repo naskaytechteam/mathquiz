@@ -118,8 +118,8 @@ class RankingScreen extends StatelessWidget {
         width: width,
         margin: EdgeInsets.only(
             /*left: 40,right: 40,*/
-            left: 40,
-            right: 40,
+            left: width*0.102,
+            right: width*0.102,
             bottom: /*20*/ height * 0.02632),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
