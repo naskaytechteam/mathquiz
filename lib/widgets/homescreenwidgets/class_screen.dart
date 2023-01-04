@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '/widgets/homescreenwidgets/home_sreen_appbar.dart';
@@ -28,19 +27,16 @@ class ClassScreen extends StatelessWidget {
           firstText: 'Good morning',
           secondText: UserPreferences.getName()!,
           actions: [
-            SizedBox(
-              width: width * 0.17,
-              child: InkWell(
-                highlightColor: Theme.of(context).colorScheme.background,
-                onTap: () {
-                  Navigator.of(context).pushNamed(DetailsScreen.routeName,
-                      arguments: DetailScreenType.profileScreenType);
-                },
-                child: SvgPicture.asset(
-                  'assets/images/avatar${UserPreferences.getAvatar()}.svg',
-                  height: height * 0.07764,
-                  width: width * 0.164,
-                ),
+            InkWell(
+              highlightColor: Theme.of(context).colorScheme.background,
+              onTap: () {
+                Navigator.of(context).pushNamed(DetailsScreen.routeName,
+                    arguments: DetailScreenType.profileScreenType);
+              },
+              child: SvgPicture.asset(
+                'assets/images/avatar${UserPreferences.getAvatar()}.svg',
+                height: height * 0.07764,
+                width: width * 0.164,
               ),
             ),
             SizedBox(width: width * 0.1),
